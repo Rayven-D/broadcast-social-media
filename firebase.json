@@ -1,10 +1,18 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/broadcast-social-media",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
+
 }
+
