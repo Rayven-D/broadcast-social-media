@@ -1,0 +1,31 @@
+.whole{
+    display:grid;
+    grid-template-columns: 1fr 25vw;
+    grid-template-rows: 70px calc(100vh - 70px);
+}
+
+.toolbar{
+    grid-row: 1 / 1;
+    grid-column: 1 / -1;
+    margin: 0;
+    height: 70px;
+    background-color: #313131;
+    display: flex;
+    .icon{
+        height: 70%;
+        aspect-ratio: 1 / 1;
+        align-self: center;
+        margin-left: 20px;
+    }
+}
+
+.content{
+    grid-row: 2 / 2;
+    grid-column: 1 / 1;
+    background-color: #414141;
+}
+.side{
+    grid-row: 2/ 2;
+    grid-column: 2 / 2;
+    background-color: #262626;
+}
