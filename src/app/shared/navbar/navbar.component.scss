@@ -1,0 +1,26 @@
+.navbar-wrapper{
+    height:70px;
+    width:100%;
+    display:flex;
+    align-items: center;
+    padding-left: 35px;
+}
+
+.navbar-pages{
+    display:flex;
+    color:black;
+    align-items: center;
+    justify-content: center;
+    
+    button{
+        background-color: transparent;
+        font-size: 15px;
+        color:white;
+        font-weight: 600;
+    }
+
+    button.active{
+        background-color: white;
+        color:black
+    }
+}

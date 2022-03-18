@@ -1,1 +1,7 @@
-<p>navbar works!</p>
+<div class="navbar-wrapper">
+    <div class="navbar-pages">
+        <button mat-button routerLink="feed" [ngClass]=" activeIndex === 0 ? 'active' : ''" (click)="setActiveTab(0)">Feed</button>
+        <button mat-button routerLink="search" [ngClass]=" activeIndex === 1 ? 'active' : ''" (click)="setActiveTab(1)">Search</button>
+    </div>
+</div>
+
