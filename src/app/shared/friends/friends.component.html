@@ -1,0 +1,12 @@
+<div class="friends-wrapper">
+    <mat-list role="list" *ngIf="friendsLoaded else friendsLoadingSpinner">
+        <mat-list-item role="listitem"></mat-list-item>
+    </mat-list>
+</div>
+<ng-template #friendsLoadingSpinner>
+    <div class="loading">
+        <mat-progress-spinner class="loading-spinner" mode="indeterminate" color="white"></mat-progress-spinner>
+        <h4>Loading Friends...</h4>
+    </div>
+</ng-template>
+
