@@ -1,1 +1,9 @@
-<p>feed works!</p>
+<div class="feed-wrapper" *ngIf="postsLoaded else feedLoading">
+    <h1 style="color:white">FEEDS</h1>
+</div>
+
+<ng-template #feedLoading>
+    <div class="feed-loading">
+        <app-spinner [componentName]="'Feed'"></app-spinner>
+    </div>
+</ng-template>

@@ -12,6 +12,7 @@ import { FeedComponent } from './views/feed/feed.component';
 import { SearchComponent } from './views/search/search.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FriendsComponent } from './shared/friends/friends.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FriendsComponent } from './shared/friends/friends.component';
     FeedComponent,
     SearchComponent,
     NavbarComponent,
-    FriendsComponent
+    FriendsComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
