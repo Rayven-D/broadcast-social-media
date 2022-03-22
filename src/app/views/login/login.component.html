@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+    <div class="login-header">
+        <h3>Broadcast</h3>
+    </div>
+    <div class="login-input">
+        <mat-form-field class="login-username">
+            <mat-label style="color:white">Username</mat-label>
+            <input matInput #username id="username-input" (keyup.enter)="checkLogin()">
+        </mat-form-field>
+        <mat-form-field class="login-password">
+            <mat-label style="color:white">Password</mat-label>
+            <input matInput #password type="password" id="password-input" (keyup.enter)="checkLogin()">
+        </mat-form-field>
+    </div>
+    <div class="login-buttons">
+        <button mat-raised-button (click)="checkLogin()">
+            Login
+        </button>
+    </div>
+</div>
