@@ -39,10 +39,11 @@
     height:10vh;
     display:flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: space-evenly;
+
     button{
         font-weight: 600;
-        width: 50%;
+        width: 40%;
     }
 }
 

@@ -4,7 +4,7 @@
     </div>
     <div class="login-input">
         <mat-form-field class="login-username">
-            <mat-label style="color:white">Username</mat-label>
+            <mat-label style="color:white">Email</mat-label>
             <input matInput #username id="username-input" (keyup.enter)="checkLogin()">
         </mat-form-field>
         <mat-form-field class="login-password">
@@ -13,8 +13,15 @@
         </mat-form-field>
     </div>
     <div class="login-buttons">
+        <button mat-raised-button (click)="createNewUser()">
+            Create Account
+        </button>
         <button mat-raised-button (click)="checkLogin()">
             Login
         </button>
     </div>
 </div>
+
+<ng-template #invalid>
+    <span>Invalid email or password</span>
+</ng-template>
