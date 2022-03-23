@@ -1,7 +1,8 @@
-<div class="whole">
+<div class="whole" *ngIf="currRoute !== '/login' else login">
   <div class="toolbar">
     <img class="icon" src="assets/icons/broadcast_logo.png">
     <app-navbar></app-navbar>
+    <p>{{currRoute}}</p>
   </div>
   <div class="content">
     <router-outlet></router-outlet>
@@ -9,5 +10,11 @@
   <div class="side">
     <app-friends></app-friends>
   </div>
-
 </div>
+<ng-template #login>
+  <div class="login-screen">
+    <div class="outlet">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-template>
