@@ -20,4 +20,10 @@ export class LoginService {
     return login.toPromise();
   }
 
+  isLoggedIn(): Promise<boolean>{
+    const login = this.http.post<boolean>(GlobalVars.LOGIN_URL_BASE + "isLoggedIn", {});
+    console.log(login)
+    return login.toPromise();
+  }
+  
 }

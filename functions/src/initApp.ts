@@ -9,9 +9,8 @@ const firebaseConfig = {
     messagingSenderId: functions.config().fb_config.messaging_sender_id,
     appId: functions.config().fb_config.app_id,
     measurementId: functions.config().fb_config.measurement_id
-  };
-
+};
+let app = application.initializeApp(firebaseConfig);
 export const initApp = () => {
-    const app = application.initializeApp(firebaseConfig)
     return app;
 }

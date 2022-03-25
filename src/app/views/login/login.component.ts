@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { LoginService } from 'src/app/shared/services/login.service';
+import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/models/user';
 import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -34,8 +34,10 @@ export class LoginComponent implements OnInit {
     let password = document.getElementById("password-input") as HTMLInputElement;
     if( username.value.length > 0 && password.value.length > 0){
       this.user = await this._login.loginUser(username.value, password.value) as User
-      if(this.user.uid)
+      if(this.user.uid){
+        console.log("success!", this.user)
         this._router.navigate(['/feed'])
+      }
       else
         this.showToast();
     }
