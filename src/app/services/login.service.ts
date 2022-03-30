@@ -2,17 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GlobalVars } from './global-vars';
 import { User } from 'src/app/models/user';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private _auth: AngularFireAuth
+    ) { }
 
-  loginUser( u: string, p: string ): Promise<User>{
-    const login = this.http.post<User>(GlobalVars.LOGIN_URL_BASE + "loginUser", {username: u, password: p});
-    return login.toPromise();
+  async loginUser( u: string, p: string ){
+    try{
+      await this._auth.signInWithEmailAndPassword(u,p)
+      return true;
+    }
+    catch(e){
+      return false;
+    }
   }
 
   createNewUser( u: string, p: string): Promise<User>{
@@ -20,10 +30,8 @@ export class LoginService {
     return login.toPromise();
   }
 
-  isLoggedIn(): Promise<boolean>{
-    const login = this.http.post<boolean>(GlobalVars.LOGIN_URL_BASE + "isLoggedIn", {});
-    console.log(login)
-    return login.toPromise();
+  async isLoggedIn(){
+    return (await this._auth.currentUser) !== null;
   }
   
 }

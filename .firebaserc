@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "broadcast-seniorcapstone"
+  },
+  "targets": {
+    "broadcast-seniorcapstone": {
+      "hosting": {
+        "broadcast-social-media": [
+          "broadcast-seniorcapstone"
+        ]
+      }
+    }
   }
 }

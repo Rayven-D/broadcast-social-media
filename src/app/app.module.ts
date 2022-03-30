@@ -18,7 +18,15 @@ import { FriendsComponent } from './shared/friends/friends.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { LoginComponent } from './views/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
+
+
+const firebaseConfig = {
+
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +49,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     FormsModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]

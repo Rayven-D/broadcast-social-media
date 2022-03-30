@@ -3,6 +3,10 @@ import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/models/user';
 import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { getAuth } from '@angular/fire/auth';
+import { getApp } from '@angular/fire/app';
+import { signInWithEmailAndPassword } from '@firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +19,12 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 })
 export class LoginComponent implements OnInit {
   @ViewChild('invalid') public invalid!: TemplateRef<any>;
-  private user:User | null = null;
-
+  private user: boolean = false;
   constructor(
     private _login: LoginService,
     private _router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _auth: AngularFireAuth
     ) { }
 
   ngOnInit(): void {
@@ -33,9 +37,9 @@ export class LoginComponent implements OnInit {
     let username = document.getElementById("username-input") as HTMLInputElement;
     let password = document.getElementById("password-input") as HTMLInputElement;
     if( username.value.length > 0 && password.value.length > 0){
-      this.user = await this._login.loginUser(username.value, password.value) as User
-      if(this.user.uid){
-        console.log("success!", this.user)
+  
+      let userCreds = await this._login.loginUser(username.value, password.value);
+      if(userCreds){
         this._router.navigate(['/feed'])
       }
       else
@@ -49,9 +53,9 @@ export class LoginComponent implements OnInit {
     let username = document.getElementById("username-input") as HTMLInputElement;
     let password = document.getElementById("password-input") as HTMLInputElement;
     if( username.value.length > 0 && password.value.length > 0){
-      this.user = await this._login.createNewUser(username.value, password.value)
+      const user = await this._login.createNewUser(username.value, password.value)
       console.log(this.user);
-      if(this.user.uid)
+      if(user.uid)
         this._router.navigate(['/feed'])
       else
         this.showToast();
