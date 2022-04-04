@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
@@ -21,16 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCQ6kYYPEB4tEDuK_pEgzS14b3DGrYzfWg",
-  authDomain: "broadcast-seniorcapstone.firebaseapp.com",
-  projectId: "broadcast-seniorcapstone",
-  storageBucket: "broadcast-seniorcapstone.appspot.com",
-  messagingSenderId: "420519206079",
-  appId: "1:420519206079:web:d5d56438d783b208063a0a",
-  measurementId: "G-Y1MRCFKF4P"
-};
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,11 +45,15 @@ const firebaseConfig = {
     MatInputModule,
     FormsModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule { 
+
+}
