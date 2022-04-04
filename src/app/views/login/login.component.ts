@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { User } from 'src/app/models/user';
 import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { getAuth } from '@angular/fire/auth';
@@ -19,7 +18,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('invalid') public invalid!: TemplateRef<any>;
-  private user: boolean = false;
   constructor(
     private _login: LoginService,
     private _router: Router,

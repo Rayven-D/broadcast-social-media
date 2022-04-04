@@ -1,5 +1,7 @@
-export interface User{
-    uid: string;
-    email: string | null;
-    createdAt: string | undefined;
+export interface UserAccounts{
+    userId: string,
+    firstName: string,
+    lastName: string,
+    dob: string,
+    accountName: string;
 }

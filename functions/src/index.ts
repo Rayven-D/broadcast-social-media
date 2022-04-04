@@ -1,3 +1,3 @@
-import * as config from './config';
+import * as accounts from './accounts';
 
-export { config } 
+export { accounts } 
