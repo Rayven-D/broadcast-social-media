@@ -1,3 +1,3 @@
-import * as login from './login';
+import * as config from './config';
 
-export { login } 
+export { config } 

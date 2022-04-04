@@ -54,8 +54,7 @@ export class LoginComponent implements OnInit {
     let password = document.getElementById("password-input") as HTMLInputElement;
     if( username.value.length > 0 && password.value.length > 0){
       const user = await this._login.createNewUser(username.value, password.value)
-      console.log(this.user);
-      if(user.uid)
+      if(user)
         this._router.navigate(['/feed'])
       else
         this.showToast();

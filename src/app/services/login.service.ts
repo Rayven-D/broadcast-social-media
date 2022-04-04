@@ -25,9 +25,14 @@ export class LoginService {
     }
   }
 
-  createNewUser( u: string, p: string): Promise<User>{
-    const login = this.http.post<User>(GlobalVars.LOGIN_URL_BASE + "createNewUser", {username: u, password: p});
-    return login.toPromise();
+  async createNewUser( u: string, p: string){
+    try{
+      await this._auth.createUserWithEmailAndPassword(u,p)
+      return true;
+    }
+    catch(e){
+      return false;
+    }
   }
 
   async isLoggedIn(){
