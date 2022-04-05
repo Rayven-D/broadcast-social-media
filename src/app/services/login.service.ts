@@ -37,10 +37,12 @@ export class LoginService {
         accountName: "hehe",
         dob: "100000"
       }
-      this.http.post(GlobalVars.ACCOUNTS_BASE_URL + "createNewAccount",{newAccount})
+      console.log(user, newAccount)
+      await this.http.post(GlobalVars.ACCOUNTS_BASE_URL + "createNewAccount",{account: newAccount}).toPromise()
       return true;
     }
     catch(e){
+      console.log(e);
       return false;
     }
   }
