@@ -22,6 +22,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
+import { NewUserComponent } from './views/login/new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { environment } from 'src/environments/environment';
     NavbarComponent,
     FriendsComponent,
     SpinnerComponent,
-    LoginComponent
+    LoginComponent,
+    NewUserComponent
   ],
   imports: [
     HttpClientModule,
