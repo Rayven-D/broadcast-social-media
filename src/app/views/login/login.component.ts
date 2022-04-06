@@ -65,7 +65,6 @@ export class LoginComponent implements OnInit {
   }
 
   public async toggleNewUser(creating: boolean){
-    console.log(creating)
     this.newUser = creating;
   }
 
