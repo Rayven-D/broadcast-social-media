@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
+import { MatIconModule } from '@angular/material/icon'
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +28,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { NewUserComponent } from './views/login/new-user/new-user.component';
 import { DatePipe } from '@angular/common';
+import { PERSISTENCE } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
@@ -57,10 +59,12 @@ import { DatePipe } from '@angular/common';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    {provide: PERSISTENCE, useValue: 'local'}
   ],
   bootstrap: [AppComponent]
 })

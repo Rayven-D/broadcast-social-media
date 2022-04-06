@@ -15,7 +15,7 @@ export class LoginService {
     private http: HttpClient,
     private _auth: AngularFireAuth,
     private _firestore: AngularFireStorage
-    ) { }
+  ) { }
 
   async loginUser( u: string, p: string ){
     try{

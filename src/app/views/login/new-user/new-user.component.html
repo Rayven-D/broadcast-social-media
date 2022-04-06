@@ -1,6 +1,9 @@
 <div class="new-user-wrapper">
     <div class="new-user-header">
-        <h3>Broadcast</h3>
+        <button mat-icon-button style="color:white" class="new-user-close" (click)="closeCreateAccount()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <h3>Welcome to Broadcast!</h3>
     </div>
     <div class="forms">
         <form [formGroup]="createAccountFormGroup" #newUserForm="ngForm" class="forms-wrapper" (ngSubmit)="createAccount(newUserForm)">
@@ -36,10 +39,7 @@
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Please enter a date</mat-error>
             </mat-form-field>
-            <div class="new-user-buttons">
-                <button mat-raised-button (click)="closeCreateAccount()" >
-                    Cancel
-                </button>
+            <div class="new-user-button">
                 <button mat-raised-button type="submit">
                     {{loading ? 'Loading...' : 'Create Account'}}
                 </button>

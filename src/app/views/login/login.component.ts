@@ -7,6 +7,7 @@ import { getApp } from '@angular/fire/app';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
 
 @Component({
   selector: 'app-login',
@@ -41,13 +42,12 @@ export class LoginComponent implements OnInit {
     private _auth: AngularFireAuth
     ) { }
 
-  ngOnInit(): void {
-    
+  async ngOnInit() {    
   }
 
 
   public async checkLogin(form: FormGroupDirective){
-
+    console.log('hitting')
     if(this.loginFormControlGroup.invalid){
       this.showToast();
       return;

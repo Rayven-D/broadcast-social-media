@@ -13,12 +13,15 @@
 .new-user-header{
     display:flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 10%;
+    justify-content: flex-start;
+    width:90%;
+    height: 9%;
+    margin: 0 auto;
     h3{
-        font-size:50px;
+        font-size:35px;
+        margin:auto;
     }
+
 }
 
 .forms{
@@ -46,15 +49,15 @@
     }
 }
 
-.new-user-buttons{
-    width: 80%;
-    
+.new-user-button{
+    width: 100%;
+
     display:flex;
     align-items: center;
     justify-content: space-evenly;
 
     button{
         font-weight: 600;
-        width: 40%;
+        width: 80%;
     }
 }
