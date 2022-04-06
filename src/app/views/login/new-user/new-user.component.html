@@ -3,36 +3,48 @@
         <h3>Broadcast</h3>
     </div>
     <div class="forms">
-        <mat-form-field>
-            <mat-label>First Name</mat-label>
-            <input matInput id="first-name-input">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input matInput id="first-name-input">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput id="first-name-input">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Username</mat-label>
-            <input matInput id="first-name-input">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Birthday</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </div>
-    <div class="new-user-buttons">
-        <button mat-raised-button (click)="closeCreateAccount()" >
-            Cancel
-        </button>
-        <button mat-raised-button >
-            Create Account
-        </button>
+        <form [formGroup]="createAccountFormGroup" #newUserForm="ngForm" class="forms-wrapper" (ngSubmit)="createAccount(newUserForm)">
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput id="first-name-input" type="text" name="firstName" formControlName="firstNameControl">
+                <mat-error *ngIf="createAccountFormGroup.get('firstNameControl')!.invalid">Only alphabet letters are allowed</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput id="last-name-input" type="text" name="lastName" formControlName="lastNameControl" >
+                <mat-error *ngIf="createAccountFormGroup.get('lastNameControl')!.invalid">Only alphabet letters are allowed</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput id="email-input" type="email" formControlName="emailControl">
+                <mat-error *ngIf="createAccountFormGroup.get('emailControl')!.invalid">Please enter a valid email. Ex: example@email.com</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input matInput id="username-input" type="text" formControlName="usernameControl">
+                <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Usernames cannot have special characters</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput id="password-input" type="password" formControlName="passwordControl">
+                <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Password needs to be at least 6 characters long</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Birthday</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dateControl">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Please enter a date</mat-error>
+            </mat-form-field>
+            <div class="new-user-buttons">
+                <button mat-raised-button (click)="closeCreateAccount()" >
+                    Cancel
+                </button>
+                <button mat-raised-button [disabled]="createAccountButtonDisabled" type="submit">
+                    {{loading ? 'Loading...' : 'Create Account'}}
+                </button>
+            </div>
+        </form>
     </div>
 
 </div>

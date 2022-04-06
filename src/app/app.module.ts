@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
@@ -26,6 +26,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { NewUserComponent } from './views/login/new-user/new-user.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -54,9 +55,12 @@ import { NewUserComponent } from './views/login/new-user/new-user.component';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

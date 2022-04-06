@@ -3,5 +3,6 @@ export interface UserAccounts{
     firstName: string,
     lastName: string,
     dob: string,
-    accountName: string;
+    accountName: string,
+    email: string,
 }

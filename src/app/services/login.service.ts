@@ -27,18 +27,11 @@ export class LoginService {
     }
   }
 
-  async createNewUser( u: string, p: string){
+  async createNewUser(newUser: UserAccounts, password:string){
     try{
-      let user = await this._auth.createUserWithEmailAndPassword(u,p)
-      const newAccount: UserAccounts = {
-        userId: user.user?.uid ?? "aaaa",
-        firstName: "testing",
-        lastName: "storage",
-        accountName: "hehe",
-        dob: "100000"
-      }
-      console.log(user, newAccount)
-      await this.http.post(GlobalVars.ACCOUNTS_BASE_URL + "createNewAccount",{account: newAccount}).toPromise()
+      let user = await this._auth.createUserWithEmailAndPassword(newUser.email,password)
+      newUser.userId = user.user!.uid
+      await this.http.post(GlobalVars.ACCOUNTS_BASE_URL + "createNewAccount",{account: newUser}).toPromise()
       return true;
     }
     catch(e){
