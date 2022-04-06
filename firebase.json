@@ -13,21 +13,6 @@
           "destination": "/index.html"
         }
       ]
-    },
-    {
-      "target": "projectName",
-      "public": "dist/projectName",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
     }
   ],
   "functions": {
