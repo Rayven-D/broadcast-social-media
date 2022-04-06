@@ -6,6 +6,7 @@ import { getAuth } from '@angular/fire/auth';
 import { getApp } from '@angular/fire/app';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,20 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('invalid') public invalid!: TemplateRef<any>;
+
+  loginFormControlGroup: FormGroup = new FormGroup( {
+    emailControl: new FormControl("", [
+      Validators.required,
+      Validators.email
+    ]),
+    passwordControl: new FormControl("",[
+      Validators.required,
+      Validators.minLength(6)
+    ])
+  })
+
+
+
   public newUser: boolean = false;
   constructor(
     private _login: LoginService,
@@ -31,21 +46,22 @@ export class LoginComponent implements OnInit {
   }
 
 
-  public async checkLogin(){
+  public async checkLogin(form: FormGroupDirective){
 
-    let username = document.getElementById("username-input") as HTMLInputElement;
-    let password = document.getElementById("password-input") as HTMLInputElement;
-    if( username.value.length > 0 && password.value.length > 0){
-  
-      let userCreds = await this._login.loginUser(username.value, password.value);
-      if(userCreds){
-        this._router.navigate(['/feed'])
-      }
-      else
-        this.showToast();
+    if(this.loginFormControlGroup.invalid){
+      this.showToast();
+      return;
     }
-    username.value = "";
-    password.value = "";
+
+    let username = form.value.emailControl;
+    let password = form.value.passwordControl;
+
+    let userCreds = await this._login.loginUser(username, password);
+    if(userCreds){
+      this._router.navigate(['/feed'])
+    }
+    else
+      this.showToast();
   }
 
   public async toggleNewUser(creating: boolean){

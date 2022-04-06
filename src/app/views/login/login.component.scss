@@ -11,14 +11,14 @@
     align-items: center;
     justify-content: flex-end;
     flex-direction: column;
-    height:10vh;
+    height:20%;
     h3{
         font-size:50px;
     }
 }
 
 .login-input{
-    height: 30vh;
+    height: 80%;
     width:100%;
     display:flex;
     align-items: center;
@@ -31,16 +31,15 @@
         color:white;
         background-color: rgba(77,77,77, 50);
         border-radius: 20px;
-        padding: 10px 10px 0 10px;
+        padding: 10px 20px 5px 20px;
     }
 }
 
 .login-buttons{
-    height:10vh;
     display:flex;
     align-items: flex-start;
     justify-content: space-evenly;
-
+    width:100%;
     button{
         font-weight: 600;
         width: 40%;

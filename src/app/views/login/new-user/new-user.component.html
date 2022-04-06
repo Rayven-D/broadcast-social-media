@@ -7,12 +7,12 @@
             <mat-form-field>
                 <mat-label>First Name</mat-label>
                 <input matInput id="first-name-input" type="text" name="firstName" formControlName="firstNameControl">
-                <mat-error *ngIf="createAccountFormGroup.get('firstNameControl')!.invalid">Only alphabet letters are allowed</mat-error>
+                <mat-error *ngIf="createAccountFormGroup.get('firstNameControl')!.invalid">{{createAccountFormGroup.get('firstNameControl')?.value ? "Only alphabetical characters allowed" : "Please enter in your first name"}}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Last Name</mat-label>
                 <input matInput id="last-name-input" type="text" name="lastName" formControlName="lastNameControl" >
-                <mat-error *ngIf="createAccountFormGroup.get('lastNameControl')!.invalid">Only alphabet letters are allowed</mat-error>
+                <mat-error *ngIf="createAccountFormGroup.get('lastNameControl')!.invalid">{{createAccountFormGroup.get('lastNameControl')?.value ? "Only alphabetical characters allowed" : "Please enter in your last name"}}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Email</mat-label>
@@ -22,7 +22,7 @@
             <mat-form-field>
                 <mat-label>Username</mat-label>
                 <input matInput id="username-input" type="text" formControlName="usernameControl">
-                <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Usernames cannot have special characters</mat-error>
+                <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">{{createAccountFormGroup.get('usernameControl')?.value ? "No special characters allowed" : "Please enter in a username"}}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Password</mat-label>
@@ -40,7 +40,7 @@
                 <button mat-raised-button (click)="closeCreateAccount()" >
                     Cancel
                 </button>
-                <button mat-raised-button [disabled]="createAccountButtonDisabled" type="submit">
+                <button mat-raised-button type="submit">
                     {{loading ? 'Loading...' : 'Create Account'}}
                 </button>
             </div>

@@ -43,10 +43,6 @@ export class NewUserComponent implements OnInit {
 
   loading = false;
 
-  get createAccountButtonDisabled(): boolean{
-    return !this.createAccountFormGroup.valid
-  }
-
   constructor(
     private _login: LoginService,
     private _datePipe: DatePipe,
@@ -61,6 +57,8 @@ export class NewUserComponent implements OnInit {
   }
 
   async createAccount(form: FormGroupDirective){
+    if(this.createAccountFormGroup.invalid)
+      return;
     this.loading = true;
     const newUser: UserAccounts = {
       firstName: form.value.firstNameControl,
@@ -74,6 +72,7 @@ export class NewUserComponent implements OnInit {
     await this._login.createNewUser(newUser, form.value.passwordControl)
     this.loading = false;
     this._router.navigate(['/feed'])
+
   }
 
 }
