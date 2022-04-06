@@ -1,5 +1,5 @@
 {
-  "hosting": {
+  "hosting":{
     "public": "dist/broadcast-social-media",
     "ignore": [
       "firebase.json",

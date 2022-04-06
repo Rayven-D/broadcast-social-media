@@ -1,26 +1,35 @@
-<div class="login-wrapper">
+<div class="login-wrapper" *ngIf="!newUser">
     <div class="login-header">
         <h3>Broadcast</h3>
     </div>
-    <div class="login-input">
+    <form class="login-input" [formGroup]="loginFormControlGroup" #loginForm="ngForm" (ngSubmit)="checkLogin(loginForm)"> 
         <mat-form-field class="login-username">
             <mat-label style="color:white">Email</mat-label>
-            <input matInput #username id="username-input" (keyup.enter)="checkLogin()">
+            <input matInput #username id="username-input" (submit)="checkLogin(loginForm)" type="text" name="email" formControlName="emailControl">
+            <mat-error *ngIf="loginFormControlGroup.get('emailControl')!.invalid">Please enter a valid email. Ex: example@email.com</mat-error>
         </mat-form-field>
         <mat-form-field class="login-password">
             <mat-label style="color:white">Password</mat-label>
-            <input matInput #password type="password" id="password-input" (keyup.enter)="checkLogin()">
+            <input matInput #password type="password" id="password-input" (submit)="checkLogin(loginForm)" formControlName="passwordControl">
+            <mat-error *ngIf="loginFormControlGroup.get('passwordControl')!.invalid">Password needs to be at least 6 characters long</mat-error>
         </mat-form-field>
-    </div>
-    <div class="login-buttons">
-        <button mat-raised-button (click)="createNewUser()">
+        <div class="login-buttons">
+            <button mat-raised-button type="submit">
+                Login
+            </button>
+        </div>
+    </form>
+    <div class="create-new-account">
+        <button mat-button style="color:white" (click)="toggleNewUser(true)">
             Create Account
-        </button>
-        <button mat-raised-button (click)="checkLogin()">
-            Login
         </button>
     </div>
 </div>
+
+<div class="new-user" *ngIf="newUser">
+    <app-new-user (close)="toggleNewUser($event)"></app-new-user>
+</div>
+
 
 <ng-template #invalid>
     <span>Invalid email or password</span>

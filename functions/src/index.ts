@@ -1,3 +1,3 @@
-import * as login from './login';
+import * as accounts from './accounts';
 
-export { login } 
+export { accounts } 
