@@ -1,1 +1,38 @@
-<p>new-user works!</p>
+<div class="new-user-wrapper">
+    <div class="new-user-header">
+        <h3>Broadcast</h3>
+    </div>
+    <div class="forms">
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput id="first-name-input">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput id="first-name-input">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput id="first-name-input">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput id="first-name-input">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Birthday</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="new-user-buttons">
+        <button mat-raised-button (click)="closeCreateAccount()" >
+            Cancel
+        </button>
+        <button mat-raised-button >
+            Create Account
+        </button>
+    </div>
+
+</div>

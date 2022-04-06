@@ -1,0 +1,52 @@
+.new-user-wrapper{
+    background-color: #222222;
+    height: 75vh;
+    aspect-ratio: 3/4 ;
+    border-radius: 25px;
+    margin: 0 auto;
+    color:white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.new-user-header{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 15%;
+    h3{
+        font-size:50px;
+    }
+}
+
+.forms{
+    width:100%;
+    height:70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+
+    mat-form-field{
+        width:80%;
+        color:white;
+        background-color: rgba(77,77,77, 50);
+        border-radius: 20px;
+        padding: 10px 10px 0 10px;
+    }
+}
+
+.new-user-buttons{
+    width: 80%;
+    height:10vh;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    button{
+        font-weight: 600;
+        width: 40%;
+    }
+}

@@ -1,4 +1,4 @@
-<div class="login-wrapper">
+<div class="login-wrapper" *ngIf="!newUser">
     <div class="login-header">
         <h3>Broadcast</h3>
     </div>
@@ -13,7 +13,7 @@
         </mat-form-field>
     </div>
     <div class="login-buttons">
-        <button mat-raised-button (click)="createNewUser()">
+        <button mat-raised-button (click)="toggleNewUser(true)">
             Create Account
         </button>
         <button mat-raised-button (click)="checkLogin()">
@@ -21,6 +21,11 @@
         </button>
     </div>
 </div>
+
+<div class="new-user" *ngIf="newUser">
+    <app-new-user (close)="toggleNewUser($event)"></app-new-user>
+</div>
+
 
 <ng-template #invalid>
     <span>Invalid email or password</span>

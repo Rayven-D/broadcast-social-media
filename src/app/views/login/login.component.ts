@@ -18,6 +18,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('invalid') public invalid!: TemplateRef<any>;
+  public newUser: boolean = false;
   constructor(
     private _login: LoginService,
     private _router: Router,
@@ -47,18 +48,9 @@ export class LoginComponent implements OnInit {
     password.value = "";
   }
 
-  public async createNewUser(){
-    let username = document.getElementById("username-input") as HTMLInputElement;
-    let password = document.getElementById("password-input") as HTMLInputElement;
-    if( username.value.length > 0 && password.value.length > 0){
-      const user = await this._login.createNewUser(username.value, password.value)
-      if(user)
-        this._router.navigate(['/feed'])
-      else
-        this.showToast();
-    }
-    username.value = "";
-    password.value = "";
+  public async toggleNewUser(creating: boolean){
+    console.log(creating)
+    this.newUser = creating;
   }
 
   public showToast(){
