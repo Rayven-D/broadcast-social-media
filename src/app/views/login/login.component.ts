@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
 
 
   public async checkLogin(form: FormGroupDirective){
-    console.log('hitting')
     if(this.loginFormControlGroup.invalid){
       this.showToast();
       return;
