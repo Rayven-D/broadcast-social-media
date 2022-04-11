@@ -15,6 +15,6 @@ export class AccountService {
 
   getAccount(uid: string): Promise<UserAccounts>{
     let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
-    return account;
+    return account
   }
 }

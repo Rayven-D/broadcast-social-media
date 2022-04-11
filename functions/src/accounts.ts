@@ -27,17 +27,17 @@ export const getAccount = functions.https.onRequest( (req, res) =>{
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const userId = req.body.userId;
-        console.log(userId)
-        try{
-            console.log(userId)
-            const docSnap = await getDoc( doc(db, "Accounts", userId ));
-            console.log(docSnap, docSnap.data());
+        
+        const docSnap = await getDoc( doc(db, "Account", userId ));
+        if(docSnap.exists()){
+            console.log("docSnap exists!");
             const user:UserAccounts = docSnap.data() as UserAccounts;
             console.log(user);
             res.send(user);
-        }catch(error){
-            console.log(error);
-            res.send(error)
+        }
+        else{
+            console.log("Document does not exists")
+            res.sendStatus(500);
         }
     })
 })

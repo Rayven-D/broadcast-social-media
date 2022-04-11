@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserAccounts } from 'functions/src/models/user';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class ProfileComponent implements OnInit {
 
+  public currentUser: UserAccounts;
 
   constructor(
     private _auth: AngularFireAuth,
@@ -17,8 +19,7 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() {
     const cu =  await this._auth.currentUser
-    console.log(cu?.uid)
-    console.log(await this._accounts.getAccount(cu!.uid))
+    this.currentUser = await this._accounts.getAccount(cu!.uid);
   }
 
 }
