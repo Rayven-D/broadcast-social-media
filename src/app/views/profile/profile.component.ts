@@ -11,6 +11,7 @@ import { AccountService } from 'src/app/services/account.service';
 export class ProfileComponent implements OnInit {
 
   public currentUser: UserAccounts;
+  public loading: boolean = true;
 
   constructor(
     private _auth: AngularFireAuth,
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   async ngOnInit() {
     const cu =  await this._auth.currentUser
     this.currentUser = await this._accounts.getAccount(cu!.uid);
+    this.loading = false;
   }
 
 }

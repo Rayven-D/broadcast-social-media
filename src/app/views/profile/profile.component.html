@@ -1,1 +1,10 @@
-<p>profile works!</p>
+<div class="profile-wrapper" *ngIf="loading else loading">
+
+</div>
+
+<ng-template #loading>
+    <div class="profile-wrapper">
+        <app-spinner [componentName]="'Profile'"></app-spinner>
+    </div>
+
+</ng-template>
