@@ -5,4 +5,5 @@ export interface UserAccounts{
     dob: string,
     accountName: string,
     email: string,
+    imageURL?: string
 }

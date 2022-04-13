@@ -1,0 +1,25 @@
+.profile-loading{
+    height:100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-wrapper{
+    height:100%;
+    width: 80%;
+    margin: 0 auto;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.profile-info-forms{
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
