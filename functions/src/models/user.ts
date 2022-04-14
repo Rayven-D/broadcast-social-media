@@ -1,3 +1,5 @@
+import { Friend } from "./friends";
+
 export interface UserAccounts{
     userId: string,
     firstName: string,
@@ -5,5 +7,6 @@ export interface UserAccounts{
     dob: string,
     accountName: string,
     email: string,
-    imageURL?: string
+    imageURL?: string,
+    friends?: Friend[]
 }

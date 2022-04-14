@@ -2,7 +2,7 @@ import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserAccounts } from 'functions/src/models/user';
+import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -26,8 +26,13 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    const cu =  await this._auth.currentUser
-    this.currentUser = await this._accounts.getAccount(cu!.uid);
+    if(this._accounts.loggedInAccount){
+      this.currentUser = this._accounts.loggedInAccount;
+      console.log('got from saved account')
+    }else{
+      const cu =  await this._auth.currentUser
+      this.currentUser = await this._accounts.getAccount(cu!.uid);
+    }
     const dob = this.currentUser.dob.split('-')
     this.birthday = `${dob[2]}-${dob[0]}-${dob[1]}`
     this.infoForms = new FormGroup({

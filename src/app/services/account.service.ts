@@ -9,12 +9,16 @@ import { GlobalVars } from './global-vars';
 })
 export class AccountService {
 
+  public loggedInAccount: UserAccounts
+
   constructor(
     private _http: HttpClient
   ) { }
 
-  getAccount(uid: string): Promise<UserAccounts>{
+  async getAccount(uid: string): Promise<UserAccounts>{
     let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
+    if(!this.loggedInAccount)
+      this.loggedInAccount = await account;
     return account
   }
 }
