@@ -29,6 +29,7 @@ import { environment } from 'src/environments/environment';
 import { NewUserComponent } from './views/login/new-user/new-user.component';
 import { DatePipe } from '@angular/common';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
+import { ProfileComponent } from './views/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PERSISTENCE } from '@angular/fire/compat/auth';
     FriendsComponent,
     SpinnerComponent,
     LoginComponent,
-    NewUserComponent
+    NewUserComponent,
+    ProfileComponent
   ],
   imports: [
     HttpClientModule,

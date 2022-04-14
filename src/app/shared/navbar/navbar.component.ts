@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Navigation, NavigationEnd, Router, RouterEvent, Event } from '@angular/router';
+import { filter } from "rxjs/operators"
 
 @Component({
   selector: 'app-navbar',
@@ -7,11 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  public activeIndex: number = 0;
-
-  constructor() { }
+  private routes = ['/feed', '/search', '/profile']
+  public activeIndex: number = -1;
+  constructor(
+    private _router: Router
+  ) {
+    this._router.events.pipe(
+      filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
+   ).subscribe((e: RouterEvent) => {
+      this.activeIndex = this.routes.indexOf(e.url)
+   });
+   }
 
   ngOnInit(): void {
+
   }
 
   public setActiveTab(tabNum: number){

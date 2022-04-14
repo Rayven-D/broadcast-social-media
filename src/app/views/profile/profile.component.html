@@ -1,0 +1,43 @@
+<div class="profile-wrapper" *ngIf="currentUser else loading">
+    <div class="profile-account-top">
+        <div class="profile-account-img">
+            <img *ngIf="currentUser.imageURL" height="100" width="100" [src]="currentUser.imageURL">
+        </div>
+        <h3>
+            {{currentUser.accountName}}
+        </h3>
+
+        <div class="profile-account-edit">
+            <button mat-icon-button color="accent" (click)="startEditing()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="profile-account-info">
+        <form class="profile-info-forms" [formGroup]="infoForms">
+            <mat-form-field hideRequiredMarker>
+                <mat-label >First Name</mat-label>
+                <input matInput style="color:white" type="text" formControlName="firstName">
+            </mat-form-field>
+            <mat-form-field hideRequiredMarker>
+                <mat-label >Last Name</mat-label> 
+                <input matInput style="color:white" type="text" formControlName="lastName">
+            </mat-form-field>
+            <mat-form-field hideRequiredMarker>
+                <mat-label >Date of Birth</mat-label>
+                <input matInput style="color:white" type="date" formControlName="dob" >
+            </mat-form-field>
+            <mat-form-field hideRequiredMarker>
+                <mat-label >Email</mat-label>
+                <input matInput style="color:white" type="text" formControlName="email">
+            </mat-form-field>
+        </form>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="profile-loading">
+        <app-spinner [componentName]="'Profile'"></app-spinner>
+    </div>
+
+</ng-template>

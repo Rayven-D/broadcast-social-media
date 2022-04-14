@@ -1,0 +1,57 @@
+.profile-loading{
+    height:100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-wrapper{
+    height:100%;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 20px;
+    display:flex;
+    flex-direction: column;
+}
+
+.profile-account-top{
+    width:100%;
+    display:flex;
+    align-items: center;
+    .profile-account-img{
+        img{
+            border-radius: 100px;
+        }
+        padding-right: 15px;
+    }
+
+    h3{
+        font-size: 45px;
+        color: white;
+        margin: 0;
+    }
+
+    .profile-account-edit{
+        margin-right: 0;
+        margin-left: auto;
+    }
+}
+
+.profile-account-info{
+
+    width:100%;
+
+
+    .profile-info-forms{
+        width:100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        mat-form-field{
+            flex: 1 0 35%;
+            margin: 2%;
+        }
+    }
+}
+

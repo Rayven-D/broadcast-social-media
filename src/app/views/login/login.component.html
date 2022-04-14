@@ -3,12 +3,12 @@
         <h3>Broadcast</h3>
     </div>
     <form class="login-input" [formGroup]="loginFormControlGroup" #loginForm="ngForm" (ngSubmit)="checkLogin(loginForm)"> 
-        <mat-form-field class="login-username">
+        <mat-form-field class="login-username" hideRequiredMarker>
             <mat-label style="color:white">Email</mat-label>
             <input matInput #username id="username-input" (submit)="checkLogin(loginForm)" type="text" name="email" formControlName="emailControl">
             <mat-error *ngIf="loginFormControlGroup.get('emailControl')!.invalid">Please enter a valid email. Ex: example@email.com</mat-error>
         </mat-form-field>
-        <mat-form-field class="login-password">
+        <mat-form-field class="login-password" hideRequiredMarker>
             <mat-label style="color:white">Password</mat-label>
             <input matInput #password type="password" id="password-input" (submit)="checkLogin(loginForm)" formControlName="passwordControl">
             <mat-error *ngIf="loginFormControlGroup.get('passwordControl')!.invalid">Password needs to be at least 6 characters long</mat-error>
