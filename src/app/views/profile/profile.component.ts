@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   public currentUser: UserAccounts;
 
   public infoForms: FormGroup;
+  public accountFormControl: FormControl;
   public editting: boolean = false;
   private birthday: string = "";
 
@@ -35,7 +36,7 @@ export class ProfileComponent implements OnInit {
       dob: new FormControl({value: this.birthday, disabled: !this.editting}),
       email: new FormControl({value: this.currentUser.email, disabled: !this.editting})
     })
-
+    this.accountFormControl = new FormControl({value:this.currentUser.accountName, disabled: !this.editting})
 
   }
 
@@ -56,6 +57,12 @@ export class ProfileComponent implements OnInit {
         Validators.required
       ])
     })
+    this.accountFormControl = new FormControl({value:this.currentUser.accountName, disabled: !this.editting},[
+      Validators.required,
+      Validators.maxLength(15),
+      Validators.pattern(/^[A-Za-z 0-9._]+$/)
+    ])
+
   }
 
 }

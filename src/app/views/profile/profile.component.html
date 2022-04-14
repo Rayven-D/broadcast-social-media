@@ -1,7 +1,17 @@
 <div class="profile-wrapper" *ngIf="currentUser else loading">
-    <div class="profie-account-top">
-        <img *ngIf="currentUser.imageURL" height="100" width="100" [src]="currentUser.imageURL">
-        {{currentUser.accountName}}
+    <div class="profile-account-top">
+        <div class="profile-account-img">
+            <img *ngIf="currentUser.imageURL" height="100" width="100" [src]="currentUser.imageURL">
+        </div>
+        <h3>
+            {{currentUser.accountName}}
+        </h3>
+
+        <div class="profile-account-edit">
+            <button mat-icon-button color="accent" (click)="startEditing()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
     </div>
     <div class="profile-account-info">
         <form class="profile-info-forms" [formGroup]="infoForms">
@@ -22,11 +32,6 @@
                 <input matInput style="color:white" type="text" formControlName="email">
             </mat-form-field>
         </form>
-    </div>
-    <div class="profie-account-edit">
-        <button (click)="startEditing()">
-            Edit
-        </button>
     </div>
 </div>
 
