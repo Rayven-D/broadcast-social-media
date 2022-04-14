@@ -1,5 +1,3 @@
-import { Friend } from "./friends";
-
 export interface UserAccounts{
     userId: string,
     firstName: string,
@@ -8,5 +6,4 @@ export interface UserAccounts{
     accountName: string,
     email: string,
     imageURL?: string,
-    friends?: Friend[]
 }

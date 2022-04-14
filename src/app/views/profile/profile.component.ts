@@ -26,13 +26,9 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if(this._accounts.loggedInAccount){
-      this.currentUser = this._accounts.loggedInAccount;
-      console.log('got from saved account')
-    }else{
-      const cu =  await this._auth.currentUser
-      this.currentUser = await this._accounts.getAccount(cu!.uid);
-    }
+    const cu =  await this._auth.currentUser
+    this.currentUser = await this._accounts.getAccount(cu!.uid);
+
     const dob = this.currentUser.dob.split('-')
     this.birthday = `${dob[2]}-${dob[0]}-${dob[1]}`
     this.infoForms = new FormGroup({

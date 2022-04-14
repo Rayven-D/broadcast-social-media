@@ -16,9 +16,11 @@ export class AccountService {
   ) { }
 
   async getAccount(uid: string): Promise<UserAccounts>{
+    if(this.loggedInAccount){
+      return this.loggedInAccount;
+    }
     let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
-    if(!this.loggedInAccount)
-      this.loggedInAccount = await account;
+    this.loggedInAccount = await account
     return account
   }
 }

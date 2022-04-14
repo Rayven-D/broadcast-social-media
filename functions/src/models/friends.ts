@@ -7,7 +7,7 @@ export interface Friend {
 }
 
 export interface FriendRequest{
-    username: string
-    accountID: string
+    fromID: string
+    toID: string
     created: string
 }
