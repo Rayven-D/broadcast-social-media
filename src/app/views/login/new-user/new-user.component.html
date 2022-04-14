@@ -7,32 +7,32 @@
     </div>
     <div class="forms">
         <form [formGroup]="createAccountFormGroup" #newUserForm="ngForm" class="forms-wrapper" (ngSubmit)="createAccount(newUserForm)">
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>First Name</mat-label>
                 <input matInput id="first-name-input" type="text" name="firstName" formControlName="firstNameControl">
                 <mat-error *ngIf="createAccountFormGroup.get('firstNameControl')!.invalid">{{createAccountFormGroup.get('firstNameControl')?.value ? "Only alphabetical characters allowed" : "Please enter in your first name"}}</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>Last Name</mat-label>
                 <input matInput id="last-name-input" type="text" name="lastName" formControlName="lastNameControl" >
                 <mat-error *ngIf="createAccountFormGroup.get('lastNameControl')!.invalid">{{createAccountFormGroup.get('lastNameControl')?.value ? "Only alphabetical characters allowed" : "Please enter in your last name"}}</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>Email</mat-label>
                 <input matInput id="email-input" type="email" formControlName="emailControl">
                 <mat-error *ngIf="createAccountFormGroup.get('emailControl')!.invalid">Please enter a valid email. Ex: example@email.com</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>Username</mat-label>
                 <input matInput id="username-input" type="text" formControlName="usernameControl">
                 <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">{{createAccountFormGroup.get('usernameControl')?.value ? "No special characters allowed" : "Please enter in a username"}}</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>Password</mat-label>
                 <input matInput id="password-input" type="password" formControlName="passwordControl">
                 <mat-error *ngIf="createAccountFormGroup.get('usernameControl')!.invalid">Password needs to be at least 6 characters long</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field hideRequiredMarker>
                 <mat-label>Birthday</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="dateControl">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

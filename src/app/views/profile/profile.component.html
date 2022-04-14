@@ -1,27 +1,25 @@
 <div class="profile-wrapper" *ngIf="currentUser else loading">
-    <div class="profile-account-cover">
-        <img *ngIf="currentUser.imageURL" [src]="currentUser.imageURL">
-    </div>
     <div class="profie-account-top">
+        <img *ngIf="currentUser.imageURL" height="100" width="100" [src]="currentUser.imageURL">
         {{currentUser.accountName}}
     </div>
     <div class="profile-account-info">
         <form class="profile-info-forms" [formGroup]="infoForms">
-            <mat-form-field class="login-first">
+            <mat-form-field hideRequiredMarker>
                 <mat-label >First Name</mat-label>
-                <input matInput style="color:white" type="text" name="email" formControlName="firstName">
+                <input matInput style="color:white" type="text" formControlName="firstName">
             </mat-form-field>
-            <mat-form-field class="login-last">
-                <mat-label >Last Name</mat-label>
-                <input matInput style="color:white" type="text" name="email" formControlName="lastName">
+            <mat-form-field hideRequiredMarker>
+                <mat-label >Last Name</mat-label> 
+                <input matInput style="color:white" type="text" formControlName="lastName">
             </mat-form-field>
-            <mat-form-field class="login-last">
+            <mat-form-field hideRequiredMarker>
                 <mat-label >Date of Birth</mat-label>
-                <input matInput style="color:white" type="date" name="email" formControlName="dob" >
+                <input matInput style="color:white" type="date" formControlName="dob" >
             </mat-form-field>
-            <mat-form-field class="login-last">
+            <mat-form-field hideRequiredMarker>
                 <mat-label >Email</mat-label>
-                <input matInput style="color:white" type="text" name="email" formControlName="email">
+                <input matInput style="color:white" type="text" formControlName="email">
             </mat-form-field>
         </form>
     </div>

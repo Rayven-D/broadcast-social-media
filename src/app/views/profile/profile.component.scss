@@ -10,16 +10,25 @@
     height:100%;
     width: 80%;
     margin: 0 auto;
+    padding-top: 20px;
     display:flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
 }
 
-.profile-info-forms{
+.profile-account-info{
+
     width:100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
+
+
+    .profile-info-forms{
+        width:100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        mat-form-field{
+            flex: 1 0 35%;
+            margin: 2%;
+        }
+    }
 }
+

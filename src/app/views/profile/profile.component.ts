@@ -42,10 +42,19 @@ export class ProfileComponent implements OnInit {
   startEditing(){
     this.editting = !this.editting
     this.infoForms = new FormGroup({
-      firstName: new FormControl({value: this.currentUser.firstName, disabled: !this.editting}),
-      lastName: new FormControl({value: this.currentUser.lastName, disabled: !this.editting}),
+      firstName: new FormControl({value: this.currentUser.firstName, disabled: !this.editting},[
+        Validators.required,
+        Validators.pattern(/^[A-Za-z ]+$/)
+      ]),
+      lastName: new FormControl({value: this.currentUser.lastName, disabled: !this.editting},[
+        Validators.required,
+        Validators.pattern(/^[A-Za-z ]+$/)
+      ]),
       dob: new FormControl({value: this.birthday, disabled: !this.editting}, ),
-      email: new FormControl({value: this.currentUser.email, disabled: !this.editting})
+      email: new FormControl({value: this.currentUser.email, disabled: !this.editting},[
+        Validators.email,
+        Validators.required
+      ])
     })
   }
 
