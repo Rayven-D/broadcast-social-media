@@ -14,8 +14,8 @@ export class FriendsService {
     private _auth: AngularFireAuth
   ) { }
 
-  async sendFriendRequest(toId: string, fromId: string){
-    let resposne = this._http.post(GlobalVars.FRIENDS_BASE_URL + "sendFriendRequest", {toId: toId, fromId: fromId}).toPromise();
+  async sendFriendRequest(toId: string, fromId: string): Promise<boolean>{
+    let resposne = this._http.post<boolean>(GlobalVars.FRIENDS_BASE_URL + "sendFriendRequest", {toId: toId, fromId: fromId}).toPromise();
     return resposne;
   }
 

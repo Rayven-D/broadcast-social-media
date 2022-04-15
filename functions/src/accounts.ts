@@ -38,6 +38,7 @@ export const getAccount = functions.https.onRequest( (req, res) =>{
             const user:UserAccounts = docSnap.data() as UserAccounts;
             if(user.imageURL === undefined){
                 user.imageURL = await getDownloadURL(ref(storage, "default.jpeg"))
+                await setDoc(doc(db, "Account", user.userId), user)
             }
             res.send(user);
         }

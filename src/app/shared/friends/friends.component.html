@@ -1,4 +1,10 @@
 <div class="friends-wrapper" *ngIf="friendsLoaded else friendsLoadingSpinner">
+    <div class="friends-search" *ngIf="friendsList.length > 0">
+        <mat-form-field class="friends-list-search" color="accent">
+            <mat-label style="color:white">Search friends list</mat-label>
+            <input matInput type="text" >
+        </mat-form-field>
+    </div>
     <mat-list role="list" *ngIf="friendsList.length > 0 else allAlone">
         <mat-list-item role="listitem"></mat-list-item>
     </mat-list>
@@ -8,9 +14,9 @@
 </ng-template>
 
 <ng-template #allAlone>
-    <div class="friends-nah">
+    <div class="friends-nah" (click)="openAddFriendDialog()">
         <div class="friends-icon">
-            <mat-icon>person_outline</mat-icon>
+            <mat-icon>person_add</mat-icon>
         </div>
         <div class="friends-text">
             <span class="text">Sorry, you have no friends.</span>

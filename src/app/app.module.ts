@@ -10,7 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog'
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +32,7 @@ import { NewUserComponent } from './views/login/new-user/new-user.component';
 import { DatePipe } from '@angular/common';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
 import { ProfileComponent } from './views/profile/profile.component';
+import { AddFriendComponent } from './shared/friends/add-friend/add-friend.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { ProfileComponent } from './views/profile/profile.component';
     SpinnerComponent,
     LoginComponent,
     NewUserComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddFriendComponent
   ],
   imports: [
     HttpClientModule,
@@ -62,7 +66,9 @@ import { ProfileComponent } from './views/profile/profile.component';
     MatNativeDateModule,
     ReactiveFormsModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule,
+    MatDialogModule
   ],
   providers: [
     DatePipe,

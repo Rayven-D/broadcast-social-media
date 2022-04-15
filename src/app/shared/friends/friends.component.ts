@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {collection, query, where, getFirestore } from '@angular/fire/firestore/'
+import { MatDialog } from '@angular/material/dialog';
 import { Friend } from 'src/app/models/friend';
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { FriendsService } from 'src/app/services/friends.service';
+import { AddFriendComponent } from './add-friend/add-friend.component';
 
 @Component({
   selector: 'app-friends',
@@ -15,13 +17,17 @@ import { FriendsService } from 'src/app/services/friends.service';
 })
 export class FriendsComponent implements OnInit {
 
+  @ViewChild('addFriend') addFriendTemplate: TemplateRef<any>;
+
   public friendsList: Friend[] = [];
+  public autoList: UserAccounts[] = [];
   public friendsLoaded: boolean = false;
-  public currentUser : UserAccounts
+  public currentUser : UserAccounts;
   constructor(
     private _auth: AngularFireAuth,
     private _account: AccountService,
-    private _friends: FriendsService
+    private _friends: FriendsService,
+    private _dialog: MatDialog
   ) { 
     this._auth.onAuthStateChanged( async (user) =>{
       if(user){
@@ -34,13 +40,18 @@ export class FriendsComponent implements OnInit {
 
   async ngOnInit() {
     if(this.currentUser){
-      let accounts = await this._account.getAllAccounts(this.currentUser.userId)
       this.friendsList = await this._friends.getFriendRequestList();
-      console.log(this.friendsList)
-      console.log(accounts)
       this.friendsLoaded = true;
     }
     
+  }
+
+  openAddFriendDialog(){
+    this._dialog.open(AddFriendComponent, {
+      panelClass: 'dialogStyles',
+      data: {autoList: this.autoList}
+    })
+
   }
 
 }
