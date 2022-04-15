@@ -1,9 +1,21 @@
-<div class="friends-wrapper">
-    <mat-list role="list" *ngIf="friendsLoaded else friendsLoadingSpinner">
+<div class="friends-wrapper" *ngIf="friendsLoaded else friendsLoadingSpinner">
+    <mat-list role="list" *ngIf="friendsList.length > 0 else allAlone">
         <mat-list-item role="listitem"></mat-list-item>
     </mat-list>
 </div>
 <ng-template #friendsLoadingSpinner>
     <app-spinner [componentName]="'Friends'"></app-spinner>
 </ng-template>
+
+<ng-template #allAlone>
+    <div class="friends-nah">
+        <div class="friends-icon">
+            <mat-icon>person_outline</mat-icon>
+        </div>
+        <div class="friends-text">
+            <span class="text">Sorry, you have no friends.</span>
+            <span class="text">Add some friends today!</span>
+        </div>
+    </div>
+</ng-template>  
 

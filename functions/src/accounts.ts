@@ -6,7 +6,7 @@ import { firebaseConfig } from './config'
 import { UserAccounts } from "./models/user";
 import { getStorage, getDownloadURL, ref } from 'firebase/storage'
 
-const cors = cor({origin: true});
+const cors = cor();
 
 export const createNewAccount = functions.https.onRequest( (req, res) => {
     cors( req, res, async () =>{
@@ -35,7 +35,6 @@ export const getAccount = functions.https.onRequest( (req, res) =>{
         
         const docSnap = await getDoc( doc(db, "Account", userId ));
         if(docSnap.exists()){
-            console.log("docSnap exists!");
             const user:UserAccounts = docSnap.data() as UserAccounts;
             if(user.imageURL === undefined){
                 user.imageURL = await getDownloadURL(ref(storage, "default.jpeg"))
@@ -53,7 +52,6 @@ export const getAllAccounts = functions.https.onRequest( (req, res) =>{
     cors( req, res, async () => {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         const userId = req.body.userId;
         let accounts: UserAccounts[] = [];

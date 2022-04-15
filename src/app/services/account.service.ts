@@ -23,4 +23,9 @@ export class AccountService {
     this.loggedInAccount = await account
     return account
   }
+
+  async getAllAccounts(uid: string): Promise<UserAccounts[]>{
+    let account = this._http.post<UserAccounts[]>(GlobalVars.ACCOUNTS_BASE_URL + "getAllAccounts", {userId: uid}).toPromise();
+    return account;
+  }
 }
