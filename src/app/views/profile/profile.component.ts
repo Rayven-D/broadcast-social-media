@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
         let temp = this._router.getCurrentNavigation()
         if(temp !== null){
           this.currentUser = temp.extras.state!.account as UserAccounts
+          this.ngOnInit();
         }
       }
     })

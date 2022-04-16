@@ -46,10 +46,6 @@ export class FriendsComponent implements OnInit {
 
   async ngOnInit() {
     if(this.currentUser){
-      this.friendsList = await this._friends.getFriendsList();
-      this.outgoingFriendRequests = await this._friends.getOutgoingFriendRequestList();
-      this.getOutgoingRequestUser();
-      this.friendsLoaded = true;
       this._firestore.collection(`Account/${this.currentUser.userId}/FriendRequests`).stateChanges(['added', 'removed']).subscribe( async (data) => {
         this.incomingFriendRequests = await this._friends.getIncomingFriendRequestList();
         let tempOutgoing = await this._friends.getOutgoingFriendRequestList();
@@ -63,7 +59,9 @@ export class FriendsComponent implements OnInit {
         }
       })
       this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async (data) => {
+        data.forEach( _ => console.log(_.payload.doc.data()));
         this.friendsList = await this._friends.getFriendsList();
+        this.friendsLoaded = true;
       })
     } 
   }
