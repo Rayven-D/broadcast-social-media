@@ -1,6 +1,6 @@
 <div class="friends-wrapper" *ngIf="friendsLoaded else friendsLoadingSpinner">
     <div class="friends-search">
-        <mat-form-field class="friends-list-search" color="accent" >
+        <mat-form-field class="friends-list-search" color="accent" floatLabel="never">
             <mat-label style="color:white">Search friends list</mat-label>
             <input matInput type="text" id="friends-search-bar" (input)="searchFriends()">
         </mat-form-field>

@@ -2,6 +2,21 @@
 height: 35vw;
 aspect-ratio: 3 / 4;
 " >
+    <div style="
+        max-height:100%;
+        color:white;
+        display:flex;
+        align-items: center;
+        gap: 10px;
+    ">
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+        <span style="
+            font-size:30px;
+            font-weight: 600;
+        ">Friend Requests</span>
+    </div>
     <mat-list style="width:100%;">
         <mat-list-item *ngFor="let req of requestsAccount" style="
             width: 100%;

@@ -93,11 +93,12 @@ export class FriendsComponent implements OnInit {
   searchFriends(){
     let elem = document.getElementById('friends-search-bar') as HTMLInputElement
     if(elem.value.length > 0){
+      console.log(elem.value)
       this.friendsList.forEach( (friend) => {
         if(friend.accountName.includes(elem.value) && this.friendsListFiltered.indexOf(friend) < 0){
           this.friendsListFiltered.push(friend)
         }
-        if(this.friendsListFiltered.indexOf(friend) > 0 && !friend.accountName.includes(elem.value)){
+        else if(this.friendsListFiltered.indexOf(friend) >= 0 && !friend.accountName.includes(elem.value)){
           this.friendsListFiltered.splice(this.friendsListFiltered.indexOf(friend),1)
         }
       })

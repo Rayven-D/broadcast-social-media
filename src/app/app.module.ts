@@ -75,7 +75,8 @@ import { FriendRequestsComponent } from './shared/friends/friend-requests/friend
     MatDialogModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    
   ],
   providers: [
     DatePipe,

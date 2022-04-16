@@ -6,8 +6,12 @@
         <button mat-button routerLink="feed" [ngClass]=" activeIndex === 0 ? 'active' : ''" (click)="setActiveTab(0)">Feed</button>
         <button mat-button routerLink="search" [ngClass]=" activeIndex === 1 ? 'active' : ''" (click)="setActiveTab(1)">Search</button>
     </div>
-    <div class="navbar-account" *ngIf="currentUser" [routerLink]="['/profile', currentUser.accountName]" [state]="{account: currentUser}">
+    <div class="navbar-account" *ngIf="currentUser" [matMenuTriggerFor]="menu" [routerLink]="['/profile', currentUser.accountName]" [state]="{account: currentUser}">
         <img [src]="currentUser.imageURL">
     </div>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>View Profile</button>
+        <button mat-menu-item>Logout</button>
+    </mat-menu>
 </div>
 

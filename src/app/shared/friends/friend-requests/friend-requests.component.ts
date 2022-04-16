@@ -41,6 +41,11 @@ export class FriendRequestsComponent implements OnInit {
     await this._friend.acceptFriendRequest(request);
   }
 
+  async denyFriendRequest(user: UserAccounts){
+    let request: FriendRequest = this.data.requests.find( (_) => _.fromID === user.userId) as FriendRequest;
+    await this._friend.denyFriendRequest(request)
+  }
+
   private async updateRequestsAccounts(){
     this.requestsAccount = [];
     let requests = await this._friend.getIncomingFriendRequestList();

@@ -40,10 +40,22 @@
 .friends-search{
     width:80%;
     margin: 0 auto;
+    margin-top: 10px;
+
 
     .friends-list-search{
         width: 100%;
         padding: 0;
+
+        ::ng-deep .mat-form-field-flex{
+            background-color: rgba(77,77,77, 50);
+            border-radius: 20px;
+            padding: 0 20px 0 20px;
+        }
+
+        ::ng-deep .mat-form-field-underline{
+            display:none;
+        }
     }
 }
 
