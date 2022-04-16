@@ -12,6 +12,7 @@ import { FriendsService } from 'src/app/services/friends.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { FriendRequest } from 'functions/src/models/friends';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
+import { friends } from 'functions/src';
 
 @Component({
   selector: 'app-friends',
@@ -20,6 +21,7 @@ import { FriendRequestsComponent } from './friend-requests/friend-requests.compo
 })
 export class FriendsComponent implements OnInit {
   public friendsList: Friend[] = [];
+  public friendsListFiltered: Friend[] = [];
   public incomingFriendRequests: FriendRequest[] = [];
   private outgoingFriendRequests: FriendRequest[] = [];
   public requestsSent: UserAccounts[] = [];
@@ -88,6 +90,22 @@ export class FriendsComponent implements OnInit {
       if(!this.requestsSent.some( (user) => user.userId === _.toID))
         this.requestsSent.push(await this._account.getOtherAccount(_.toID) as UserAccounts);
     })
+  }
+
+  searchFriends(){
+    let elem = document.getElementById('friends-search-bar') as HTMLInputElement
+    if(elem.value.length > 0){
+      this.friendsList.forEach( (friend) => {
+        if(friend.accountName.includes(elem.value) && this.friendsListFiltered.indexOf(friend) < 0){
+          this.friendsListFiltered.push(friend)
+        }
+        if(this.friendsListFiltered.indexOf(friend) > 0 && !friend.accountName.includes(elem.value)){
+          this.friendsListFiltered.splice(this.friendsListFiltered.indexOf(friend),1)
+        }
+      })
+    }else{
+      this.friendsListFiltered = []
+    }
   }
 
 }

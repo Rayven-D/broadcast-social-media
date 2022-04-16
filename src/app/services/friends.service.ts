@@ -54,7 +54,6 @@ export class FriendsService {
 
   async acceptFriendRequest( request: FriendRequest){
     await this._http.post(GlobalVars.FRIENDS_BASE_URL + "addFriend", {friendRequest: request}).toPromise();
-    console.log('finished sending request')
     return;
   }
   async denyFriendRequest( request: FriendRequest){

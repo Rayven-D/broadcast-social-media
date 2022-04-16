@@ -1,8 +1,8 @@
 <div class="friends-wrapper" *ngIf="friendsLoaded else friendsLoadingSpinner">
     <div class="friends-search">
-        <mat-form-field class="friends-list-search" color="accent">
+        <mat-form-field class="friends-list-search" color="accent" >
             <mat-label style="color:white">Search friends list</mat-label>
-            <input matInput type="text" >
+            <input matInput type="text" id="friends-search-bar" (input)="searchFriends()">
         </mat-form-field>
     </div>
     <div class="friends-managing">
@@ -14,7 +14,7 @@
         </button>
     </div>
     <div class="friends-yay" *ngIf="friendsList.length > 0 || requestsSent.length > 0 else allAlone">
-        <mat-list>
+        <mat-list *ngIf="friendsListFiltered.length === 0 else searching">
             <mat-list-item [routerLink]="['/profile', friend.accountName]" [state]="{account: friend}" class="friends-list friends" *ngFor="let friend of friendsList" >
                 <img [src]="friend.imageURL">
                 <span>{{friend.accountName}}</span>
@@ -52,4 +52,21 @@
         </div>
     </div>
 </ng-template>  
+
+<ng-template #searching>
+    <mat-list>
+            <mat-list-item [routerLink]="['/profile', friend.accountName]" [state]="{account: friend}" class="friends-list friends" *ngFor="let friend of friendsListFiltered" >
+                <img [src]="friend.imageURL">
+                <span>{{friend.accountName}}</span>
+                <div class="friends-since">
+                    <span class="header">
+                        Friends Since
+                    </span>
+                    <span class="date">
+                        {{friend.since}}
+                    </span>
+                </div>
+            </mat-list-item> 
+        </mat-list>
+</ng-template>
 
