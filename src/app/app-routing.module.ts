@@ -11,7 +11,10 @@ const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: 'feed', component: FeedComponent, canActivate: [AngularFireAuthGuard], canLoad: [AngularFireAuthGuard]},
   {path: 'search', component: SearchComponent, canActivate: [AngularFireAuthGuard], canLoad: [AngularFireAuthGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [AngularFireAuthGuard], canLoad: [AngularFireAuthGuard]},
+  {path: 'profile/:accountName', component: ProfileComponent, canActivate: [AngularFireAuthGuard], canLoad: [AngularFireAuthGuard],
+    children:[
+      { path: ':accountName', component: ProfileComponent}
+  ]},
   {path: 'login', component: LoginComponent}
 ];
 

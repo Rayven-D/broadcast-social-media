@@ -1,8 +1,8 @@
 .friends-wrapper{
     height: 100%;
-    width:80%;
+    width:100%;
     overflow-x: hidden;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .friends-nah{
@@ -34,5 +34,96 @@
         align-items: center;
         font-size: 15px;
         color: white;
+    }
+}
+
+.friends-search{
+    width:80%;
+    margin: 0 auto;
+
+    .friends-list-search{
+        width: 100%;
+        padding: 0;
+    }
+}
+
+.friends-managing{
+    width:80%;
+    margin: 0 auto;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -10px;
+
+    button {
+        color:white;
+    }
+
+    .friends-requests{
+
+        mat-icon{
+            transform: scale(1.1);
+        }
+    }
+}
+
+.friends-yay{
+    width: 90%;
+    margin: 0 auto;
+
+    mat-list{
+        display: flex;
+        flex-direction: column;
+        width:100%;
+    }
+
+    .friends-list{
+        display: flex;
+        align-items: center;
+        width:100%;
+        gap: 10px;
+
+        ::ng-deep .mat-list-item-content{
+            width: 100%;
+            gap: 10px;
+        }
+
+        img{
+            height: 40px;
+            aspect-ratio: 1 / 1;
+            border-radius: 25px;
+        }
+
+        span{
+            color:white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        button{
+            color:white;
+            border-color: white;
+            margin-right:0;
+            margin-left: auto;
+        }
+    }
+
+    .friends{
+
+        .friends-since{
+            margin-left:auto;
+            display:flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+
+            .header{
+                font-size:9px;
+            }
+            .date{
+                font-size:13px;
+            }
+        }
+
     }
 }

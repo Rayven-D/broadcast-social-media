@@ -34,7 +34,6 @@ export class NavbarComponent implements OnInit {
    }
 
   async ngOnInit() {
-    
   }
 
   public setActiveTab(tabNum: number){

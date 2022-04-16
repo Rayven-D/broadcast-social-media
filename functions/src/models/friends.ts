@@ -1,8 +1,6 @@
-export interface Friend {
-    name: string
-    username: string
-    imgURL: string
-    accountID: string
+import { UserAccounts } from "./user"
+
+export interface Friend extends UserAccounts {
     since: string
 }
 

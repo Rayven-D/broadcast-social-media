@@ -13,7 +13,7 @@ gap:10px;
     </form>
     <mat-list style="
         overflow: auto;
-    ">
+    " *ngIf="autoList else loading">
         <mat-list-item *ngFor="let user of filteredList" style="
             width: 100%;
             color:white;
@@ -47,4 +47,8 @@ gap:10px;
 </ng-template>
 <ng-template #sendRequestFail>
     <span>Successfully send friend request</span>
+</ng-template>
+
+<ng-template #loading>
+    <app-spinner></app-spinner>
 </ng-template>

@@ -28,4 +28,13 @@ export class AccountService {
     let account = this._http.post<UserAccounts[]>(GlobalVars.ACCOUNTS_BASE_URL + "getAllAccounts", {userId: uid}).toPromise();
     return account;
   }
+
+  async getOtherAccount(uid: string): Promise<UserAccounts | boolean>{
+    if(uid !== this.loggedInAccount.userId)
+    {
+      let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
+      return account
+    }
+    return false;
+  }
 }
