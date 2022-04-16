@@ -5,12 +5,11 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {collection, query, where, getFirestore, Firestore, collectionData } from '@angular/fire/firestore/'
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFirestore } from '@angular/fire/compat/firestore'
-import { Friend } from 'src/app/models/friend';
+import { Friend, FriendRequest } from 'src/app/models/friend';
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
-import { FriendRequest } from 'functions/src/models/friends';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
 import { friends } from 'functions/src';
 
