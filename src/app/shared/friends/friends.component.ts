@@ -11,8 +11,6 @@ import { AccountService } from 'src/app/services/account.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
-import { friends } from 'functions/src';
-
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
