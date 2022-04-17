@@ -1,0 +1,62 @@
+<div style="
+height: 35vw;
+aspect-ratio: 3 / 4;
+" >
+    <div style="
+        max-height:100%;
+        color:white;
+        display:flex;
+        align-items: center;
+        gap: 10px;
+    ">
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+        <span style="
+            font-size:30px;
+            font-weight: 600;
+        ">Friend Requests</span>
+    </div>
+    <mat-list style="width:100%;">
+        <mat-list-item *ngFor="let req of requestsAccount" style="
+            width: 100%;
+            display:flex;
+            align-items: center;
+            gap: 10px;
+        ">
+            <img [src]="req.imageURL" style="
+                height: 30px;
+                aspect-ratio: 1 / 1;
+                border-radius: 20px;
+                margin-right: 10px;
+            ">
+            <span style="
+                color:white;
+                font-size: 20px;
+                font-weight: 600;
+            ">{{req.accountName}}</span>
+            <mat-button-toggle-group name="request-options"  style="
+                height: 20px;
+                align-items: center;
+                padding-bottom:3px;
+                margin-left: auto;
+                margin-right: 0;
+                border-color: #313131;
+                border-width: 3px;
+            ">
+                <mat-button-toggle (change)="acceptFriendRequest(req)" style="
+                    background-color: #262626;
+                    border-color: #313131;
+                    border-width: 3px;
+                "><mat-icon style="color:green">check</mat-icon></mat-button-toggle>
+                <mat-button-toggle style="
+                    background-color: #262626;
+                    border-color: #313131;
+                    border-width: 3px;
+                "><mat-icon style="color:red">close</mat-icon></mat-button-toggle>
+            </mat-button-toggle-group>
+        </mat-list-item>
+
+    </mat-list>
+</div>
+

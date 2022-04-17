@@ -10,8 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
-import { MatIconModule } from '@angular/material/icon'
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,13 +27,15 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { LoginComponent } from './views/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { NewUserComponent } from './views/login/new-user/new-user.component';
 import { DatePipe } from '@angular/common';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
 import { ProfileComponent } from './views/profile/profile.component';
+import { AddFriendComponent } from './shared/friends/add-friend/add-friend.component';
+import { FriendRequestsComponent } from './shared/friends/friend-requests/friend-requests.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +47,9 @@ import { ProfileComponent } from './views/profile/profile.component';
     SpinnerComponent,
     LoginComponent,
     NewUserComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddFriendComponent,
+    FriendRequestsComponent
   ],
   imports: [
     HttpClientModule,
@@ -57,12 +65,18 @@ import { ProfileComponent } from './views/profile/profile.component';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    AngularFirestoreModule,
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatBadgeModule,
+    MatButtonToggleModule,
+    
   ],
   providers: [
     DatePipe,

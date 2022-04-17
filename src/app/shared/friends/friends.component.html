@@ -1,9 +1,79 @@
-<div class="friends-wrapper">
-    <mat-list role="list" *ngIf="friendsLoaded else friendsLoadingSpinner">
-        <mat-list-item role="listitem"></mat-list-item>
-    </mat-list>
+<div class="friends-wrapper" *ngIf="friendsLoaded else friendsLoadingSpinner">
+    <div class="friends-search">
+        <mat-form-field class="friends-list-search" color="accent" floatLabel="never">
+            <mat-label style="color:white">Search friends list</mat-label>
+            <input matInput type="search" id="friends-search-bar">
+        </mat-form-field>
+    </div>
+    <div class="friends-managing">
+        <button class="friends-add" mat-icon-button  (click)="openAddFriendDialog()">
+            <mat-icon matTooltip="Add Friends" matTooltipPosition="below" >person_add</mat-icon>
+        </button>
+        <button class="friends-requests" *ngIf="incomingFriendRequests.length > 0" mat-icon-button (click)="openFriendRequestsDialog()">
+            <mat-icon [matBadge]="incomingFriendRequests.length" matBadgeSize="small" matBadgeColor="warn" matTooltip="Friend Requests" matTooltipPosition="below">people_icon</mat-icon>
+        </button>
+    </div>
+    <div class="friends-yay" *ngIf="friendsList.length > 0 || requestsSent.length > 0 else allAlone">
+        <mat-list *ngIf=" !searchingActive else searching">
+            <mat-list-item class="friends-list friends" *ngFor="let friend of friendsList" [matMenuTriggerFor]="friendMenu">
+                <img [src]="friend.imageURL">
+                <span>{{friend.accountName}}</span>
+                <div class="friends-since">
+                    <span class="header">
+                        Friends Since
+                    </span>
+                    <span class="date">
+                        {{friend.since}}
+                    </span>
+                </div>
+                <mat-menu #friendMenu="matMenu">
+                    <button mat-menu-item [routerLink]="['/profile', friend.accountName]" [state]="{account: friend}">View Profile</button>
+                    <button mat-menu-item (click)="deleteFriend(friend.userId)">Remove Friend</button>
+                </mat-menu>
+            </mat-list-item>
+            <mat-list-item class="friends-list outgoing" *ngFor="let request of requestsSent" [matMenuTriggerFor]="requestMenu">
+                <img [src]="request.imageURL">
+                <span>{{request.accountName}}</span>
+                <button mat-button disableRipple > 
+                    Pending...
+                </button>
+                <mat-menu #requestMenu="matMenu">
+                    <button mat-menu-item (click)="cancelRequest(request.userId)">Cancel Friend Request</button>
+                </mat-menu>
+            </mat-list-item>  
+        </mat-list>
+    </div>
 </div>
 <ng-template #friendsLoadingSpinner>
     <app-spinner [componentName]="'Friends'"></app-spinner>
+</ng-template>
+
+<ng-template #allAlone>
+    <div class="friends-nah" (click)="openAddFriendDialog()">
+        <div class="friends-icon">
+            <mat-icon>person_add</mat-icon>
+        </div>
+        <div class="friends-text">
+            <span class="text">Sorry, you have no friends.</span>
+            <span class="text">Add some friends today!</span>
+        </div>
+    </div>
+</ng-template>  
+
+<ng-template #searching>
+    <mat-list>
+            <mat-list-item [routerLink]="['/profile', friend.accountName]" [state]="{account: friend}" class="friends-list friends" *ngFor="let friend of friendsListFiltered" >
+                <img [src]="friend.imageURL">
+                <span>{{friend.accountName}}</span>
+                <div class="friends-since">
+                    <span class="header">
+                        Friends Since
+                    </span>
+                    <span class="date">
+                        {{friend.since}}
+                    </span>
+                </div>
+            </mat-list-item> 
+        </mat-list>
 </ng-template>
 

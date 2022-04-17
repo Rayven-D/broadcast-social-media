@@ -12,11 +12,9 @@
     height: 70px;
     background-color: #313131;
     display: flex;
-    .icon{
-        height: 70%;
-        aspect-ratio: 1 / 1;
-        align-self: center;
-        margin-left: 20px;
+    width: 100%;
+    app-navbar{
+        width: 100%;
     }
 }
 
