@@ -2,8 +2,7 @@ import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserAccounts } from 'src/app/models/user';
+import { UserAccounts } from 'functions/src/models/user';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -18,33 +17,17 @@ export class ProfileComponent implements OnInit {
   public infoForms: FormGroup;
   public accountFormControl: FormControl;
   public editting: boolean = false;
-  public canEdit: boolean = true;
   private birthday: string = "";
 
   constructor(
     private _auth: AngularFireAuth,
     private _accounts: AccountService,
-    private _datePipe: DatePipe,
-    private _router: Router,
-    private _activeRoute: ActivatedRoute
-  ) {
-    this._activeRoute.params.subscribe( () =>{
-      if(this._router.getCurrentNavigation()?.extras.state){
-        let temp = this._router.getCurrentNavigation()
-        if(temp !== null){
-          this.currentUser = temp.extras.state!.account as UserAccounts
-          this.ngOnInit();
-        }
-      }
-    })
-   }
+    private _datePipe: DatePipe
+  ) { }
 
   async ngOnInit() {
     const cu =  await this._auth.currentUser
-    if(!this.currentUser){
-      this.currentUser = await this._accounts.getAccount(cu!.uid);
-    }
-    this.canEdit = cu!.uid === this.currentUser.userId;
+    this.currentUser = await this._accounts.getAccount(cu!.uid);
     const dob = this.currentUser.dob.split('-')
     this.birthday = `${dob[2]}-${dob[0]}-${dob[1]}`
     this.infoForms = new FormGroup({

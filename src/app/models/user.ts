@@ -6,4 +6,5 @@ export interface UserAccounts{
     accountName: string,
     email: string,
     imageURL?: string
+
 }

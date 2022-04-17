@@ -9,32 +9,12 @@ import { GlobalVars } from './global-vars';
 })
 export class AccountService {
 
-  public loggedInAccount: UserAccounts
-
   constructor(
     private _http: HttpClient
   ) { }
 
-  async getAccount(uid: string): Promise<UserAccounts>{
-    if(this.loggedInAccount){
-      return this.loggedInAccount;
-    }
+  getAccount(uid: string): Promise<UserAccounts>{
     let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
-    this.loggedInAccount = await account
     return account
-  }
-
-  async getAllAccounts(uid: string): Promise<UserAccounts[]>{
-    let account = this._http.post<UserAccounts[]>(GlobalVars.ACCOUNTS_BASE_URL + "getAllAccounts", {userId: uid}).toPromise();
-    return account;
-  }
-
-  async getOtherAccount(uid: string): Promise<UserAccounts | boolean>{
-    if(uid !== this.loggedInAccount.userId)
-    {
-      let account = this._http.post<UserAccounts>(GlobalVars.ACCOUNTS_BASE_URL + "getAccount", {userId: uid}).toPromise();
-      return account
-    }
-    return false;
   }
 }
