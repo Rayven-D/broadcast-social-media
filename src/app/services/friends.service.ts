@@ -56,6 +56,12 @@ export class FriendsService {
     await this._http.post(GlobalVars.FRIENDS_BASE_URL + "addFriend", {friendRequest: request}).toPromise();
     return;
   }
+
+  async deleteFriend( user: string, other: string){
+    await this._http.post(GlobalVars.FRIENDS_BASE_URL + "deleteFriend", {userID: user, otherID: other}).toPromise();
+    return;
+  }
+
   async denyFriendRequest( request: FriendRequest){
     await this._http.post(GlobalVars.FRIENDS_BASE_URL + "denyFriendRequest", {friendRequest: request}).toPromise();
     return;

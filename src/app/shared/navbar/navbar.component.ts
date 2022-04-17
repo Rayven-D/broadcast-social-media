@@ -36,6 +36,10 @@ export class NavbarComponent implements OnInit {
   async ngOnInit() {
   }
 
+  navigateToProfile(){
+    this._router.navigate(['/profile', this.currentUser.accountName], {state: this.currentUser})
+  }
+
   public setActiveTab(tabNum: number){
     this.activeIndex = tabNum;
   }

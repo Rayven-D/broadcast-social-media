@@ -125,6 +125,24 @@ export const addFriend = functions.https.onRequest( (req, res) =>{
     })
 })
 
+export const deleteFriend = functions.https.onRequest( (req, res) => {
+    cors( req, res, async () => {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);        
+        const userID = req.body.userID;
+        const otherID = req.body.otherID;
+        try{
+            await deleteDoc( doc(db, "Account", userID, "Friends", otherID));
+            await deleteDoc( doc(db, "Account", otherID, "Friends", userID));
+            res.send(true)
+        }catch(error){
+            console.log("Failed to delete friend")
+            console.log(error);
+            res.send(error)
+        }
+    });
+})
+
 export const denyFriendRequest = functions.https.onRequest( (req, res) =>{
     cors( req, res, async () => {
         const app = initializeApp(firebaseConfig);

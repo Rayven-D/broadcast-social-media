@@ -87,6 +87,10 @@ export class FriendsComponent implements OnInit {
     })
   }
 
+  deleteFriend(friendID: string){
+    this._friends.deleteFriend(this.currentUser.userId, friendID);
+  }
+
   searchFriends(){
     let elem = document.getElementById('friends-search-bar') as HTMLInputElement
     if(elem.value.length > 0){
