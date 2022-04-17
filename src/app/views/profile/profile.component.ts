@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   public infoForms: FormGroup;
   public accountFormControl: FormControl;
   public editting: boolean = false;
+  public canEdit: boolean = true;
   private birthday: string = "";
 
   constructor(
@@ -39,10 +40,11 @@ export class ProfileComponent implements OnInit {
    }
 
   async ngOnInit() {
+    const cu =  await this._auth.currentUser
     if(!this.currentUser){
-      const cu =  await this._auth.currentUser
       this.currentUser = await this._accounts.getAccount(cu!.uid);
     }
+    this.canEdit = cu!.uid === this.currentUser.userId;
     const dob = this.currentUser.dob.split('-')
     this.birthday = `${dob[2]}-${dob[0]}-${dob[1]}`
     this.infoForms = new FormGroup({

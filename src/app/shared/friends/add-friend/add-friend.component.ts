@@ -20,7 +20,7 @@ export class AddFriendComponent implements OnInit {
   @ViewChild('sendRequestSuccess') public succToast: TemplateRef<any>;
   @ViewChild('sendRequestFail') public failToast: TemplateRef<any>;
   public filteredList: UserAccounts[] = [];
-  public autoList: UserAccounts[] = [];
+  public autoList: UserAccounts[];
   private curUser:string;
 
   constructor(
@@ -35,7 +35,8 @@ export class AddFriendComponent implements OnInit {
   async ngOnInit() {
     this.curUser = (await this._auth.currentUser)!.uid
     this._firestore.collection(`Account/${this.curUser}/FriendRequests`).stateChanges(['added', 'removed']).subscribe( async (data) => {
-      this.getList();
+      await this.getList();
+      this.searchList();
     })
 
   }
@@ -59,6 +60,7 @@ export class AddFriendComponent implements OnInit {
   async getList(){
     let outgoing = await this._friendsService.getOutgoingFriendRequestList();
     let friends = await this._friendsService.getFriendsList();
+    this.autoList = [];
     this._account.getAllAccounts(this.curUser).then( (accounts) => {
       accounts.forEach( (acc) => {
         if(!outgoing.find( (req) => req.toID === acc.userId) && !friends.find( (frnd) => frnd.userId === acc.userId)){

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -25,6 +25,7 @@ export class FriendsComponent implements OnInit {
   public autoList: UserAccounts[] = [];
   public friendsLoaded: boolean = false;
   public currentUser : UserAccounts;
+  public searchingActive: boolean = false;
   constructor(
     private _auth: AngularFireAuth,
     private _account: AccountService,
@@ -55,11 +56,22 @@ export class FriendsComponent implements OnInit {
           this.getOutgoingRequestUser();
         }
       })
-      this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async (data) => {
-        data.forEach( _ => console.log(_.payload.doc.data()));
+      this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async () => {
         this.friendsList = await this._friends.getFriendsList();
-        this.friendsLoaded = true;
       })
+      this.friendsLoaded = true;
+      setTimeout( () =>{
+
+        (document.getElementById('friends-search-bar') as HTMLInputElement).addEventListener( 'input',  (event) =>{
+          let text = (event.target as HTMLInputElement).value
+          if(text.length > 0){
+            this.searchingActive = true;
+            this.searchFriends(text)
+          }else{
+            this.searchingActive = false;
+          }
+        })
+      },500)
     } 
   }
 
@@ -91,20 +103,20 @@ export class FriendsComponent implements OnInit {
     this._friends.deleteFriend(this.currentUser.userId, friendID);
   }
 
-  searchFriends(){
-    let elem = document.getElementById('friends-search-bar') as HTMLInputElement
-    if(elem.value.length > 0){
-      console.log(elem.value)
+  cancelRequest(friendID:string){
+    this._friends.denyFriendRequest({fromID:this.currentUser.userId, toID: friendID, created: ""})
+  }
+
+  searchFriends(search: string){
+    if(search.length > 0){
       this.friendsList.forEach( (friend) => {
-        if(friend.accountName.includes(elem.value) && this.friendsListFiltered.indexOf(friend) < 0){
+        if(friend.accountName.includes(search) && this.friendsListFiltered.indexOf(friend) < 0){
           this.friendsListFiltered.push(friend)
         }
-        else if(this.friendsListFiltered.indexOf(friend) >= 0 && !friend.accountName.includes(elem.value)){
+        else if(this.friendsListFiltered.indexOf(friend) >= 0 && !friend.accountName.includes(search)){
           this.friendsListFiltered.splice(this.friendsListFiltered.indexOf(friend),1)
         }
       })
-    }else{
-      this.friendsListFiltered = []
     }
   }
 
