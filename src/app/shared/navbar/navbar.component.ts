@@ -4,6 +4,7 @@ import { Navigation, NavigationEnd, Router, RouterEvent, Event } from '@angular/
 import { filter } from "rxjs/operators"
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
     private _router: Router,
     private _account: AccountService,
     private _auth: AngularFireAuth,
+    private _login: LoginService
   ) {
     this._router.events.pipe(
       filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
@@ -42,6 +44,10 @@ export class NavbarComponent implements OnInit {
 
   public setActiveTab(tabNum: number){
     this.activeIndex = tabNum;
+  }
+
+  logoutUser(){
+    this._login.logoutUser();
   }
 
 }

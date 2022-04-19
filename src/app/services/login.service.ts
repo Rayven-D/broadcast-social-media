@@ -4,6 +4,7 @@ import { GlobalVars } from './global-vars';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from'@angular/fire/compat/storage'
 import { UserAccounts } from '../models/user';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private _auth: AngularFireAuth,
+    private _router: Router,
   ) { }
 
   async loginUser( u: string, p: string ){
@@ -24,6 +26,11 @@ export class LoginService {
     catch(e){
       return false;
     }
+  }
+
+  async logoutUser(){
+    await this._auth.signOut();
+    this._router.navigate(['/login'])
   }
 
   async createNewUser(newUser: UserAccounts, password:string){
@@ -42,5 +49,6 @@ export class LoginService {
   async isLoggedIn(){
     return (await this._auth.currentUser) !== null;
   }
+
   
 }
