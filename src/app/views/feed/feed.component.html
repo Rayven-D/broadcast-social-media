@@ -1,5 +1,16 @@
-<div class="feed-wrapper" *ngIf="postsLoaded else feedLoading">
-    <h1 style="color:white">FEEDS</h1>
+<div class="feed-wrapper" *ngIf="posts else feedLoading">
+   <div class="feed-posts" *ngFor="let post of posts">
+        <div class="post-account">
+            {{[post.userAccountName]}}
+        </div>
+        <div class="post-image" *ngIf="post.imageURL"></div>
+        <div class="post-caption" *ngIf="post.caption"></div>
+   </div>
+   <div class="feed-create-post">
+        <button mat-fab class="feed-create-button" color="accent">
+            <mat-icon class="button-icon">add</mat-icon>
+        </button>
+   </div>
 </div>
 
 <ng-template #feedLoading>
