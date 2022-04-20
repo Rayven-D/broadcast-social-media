@@ -15,11 +15,17 @@ body{
 }
 
 .button-icon{
-  animation: 5s ease-in;  
+  
+  mat-icon{
+    transition: .5s;  
+  }
 }
 
 .button-icon:hover{
-  transform: scale(5);
+
+  mat-icon{
+    transform: scale(1.25);
+  }
 }
 
 
