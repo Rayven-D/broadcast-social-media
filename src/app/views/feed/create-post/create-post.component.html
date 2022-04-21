@@ -1,1 +1,17 @@
-<p>create-post works!</p>
+<div class="wrapper">
+    <div class="header">
+
+    </div>
+    <div class="image">
+        <div class="image-upload" (click)="fileUpload.click()">
+            <img *ngIf="imageURL" [src]="imageURL">
+            <input #fileUpload type="file" (change)="uploadImage($event)" [style.display]="'none'">
+        </div>
+    </div>
+    <div class="caption">
+
+    </div>
+    <div class="buttons">
+
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Posts } from 'src/app/models/posts';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @Component({
   selector: 'app-feed',
@@ -18,15 +19,12 @@ export class FeedComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  async uploadImage(event: any){
-    console.log(event);
-    console.log(event.target.value)
-    this.imageFile = event.target.files[0] as File;
-  }
+  
 
   openAddPostDialog(){
-    this._dialog.open(this.addPost)
+    this._dialog.open(CreatePostComponent, {
+      panelClass: 'dialogStyles'
+    })
   }
 
 }
