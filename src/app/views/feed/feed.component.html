@@ -3,11 +3,17 @@
         <div class="post-account">
             {{[post.userAccountName]}}
         </div>
-        <div class="post-image" *ngIf="post.imageURL"></div>
-        <div class="post-caption" *ngIf="post.caption"></div>
+        <div class="post-image" *ngIf="post.imageURL">
+            <img [src]="post.imageURL">
+        </div>
+        <div class="post-caption" *ngIf="post.caption">
+            <span class="post-caption-span">
+                {{post.caption}}
+            </span>
+        </div>
    </div>
    <div class="feed-create-post">
-        <button mat-fab class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above">
+        <button mat-fab class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above" (click)="openAddPostDialog()">
             <mat-icon>add</mat-icon>
         </button>
    </div>
@@ -16,5 +22,12 @@
 <ng-template #feedLoading>
     <div class="feed-loading">
         <app-spinner [componentName]="'Feed'"></app-spinner>
+    </div>
+</ng-template>
+
+<ng-template #addPost>
+    <div>
+
+        <input type="file" (change)="uploadImage($event)">
     </div>
 </ng-template>

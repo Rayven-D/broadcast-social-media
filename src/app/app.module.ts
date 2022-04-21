@@ -36,6 +36,7 @@ import { PERSISTENCE } from '@angular/fire/compat/auth';
 import { ProfileComponent } from './views/profile/profile.component';
 import { AddFriendComponent } from './shared/friends/add-friend/add-friend.component';
 import { FriendRequestsComponent } from './shared/friends/friend-requests/friend-requests.component';
+import { CreatePostComponent } from './views/feed/create-post/create-post.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FriendRequestsComponent } from './shared/friends/friend-requests/friend
     NewUserComponent,
     ProfileComponent,
     AddFriendComponent,
-    FriendRequestsComponent
+    FriendRequestsComponent,
+    CreatePostComponent
   ],
   imports: [
     HttpClientModule,
