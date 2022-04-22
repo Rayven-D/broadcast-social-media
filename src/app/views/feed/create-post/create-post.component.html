@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="header">
-        <span>Create an image post</span>
+        <span>Create an {{postType === 'img' ? "image" : "text"}} post</span>
         <mat-button-toggle-group [(ngModel)]="postType">
             <mat-button-toggle value="img">Image</mat-button-toggle>
             <mat-button-toggle value="txt">Text</mat-button-toggle>
