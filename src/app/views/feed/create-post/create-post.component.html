@@ -1,11 +1,26 @@
 <div class="wrapper">
     <div class="header">
-
+        <span>Create an image post</span>
+        <mat-button-toggle-group [(ngModel)]="postType">
+            <mat-button-toggle value="img">Image</mat-button-toggle>
+            <mat-button-toggle value="txt">Text</mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
-    <div class="image">
-        <div class="image-upload" (click)="fileUpload.click()">
-            <img *ngIf="imageURL" [src]="imageURL">
-            <input #fileUpload type="file" (change)="uploadImage($event)" [style.display]="'none'">
+    <div class="image" *ngIf="postType === 'img'">
+        <div class="image-upload">
+            <div *ngIf="imageURL" class="image-preview" >
+                <button mat-icon-button (click)="removeImage()" matTooltip="Remove Photo">
+                    <mat-icon>delete</mat-icon>    
+                </button>
+                <img [src]="imageURL">
+            </div>
+            <div *ngIf="!imageURL" class="image-upload" (click)="fileUpload.click()">
+                <div class="image-upload-text">
+                    <mat-icon>add_photo_alternate</mat-icon>
+                    <p>Upload Image</p>
+                </div>
+                <input #fileUpload type="file" (change)="uploadImage($event)" [style.display]="'none'">
+            </div>
         </div>
     </div>
     <div class="caption">
@@ -15,3 +30,11 @@
 
     </div>
 </div>
+
+<ng-template #uploadMoreThan1>
+    <span>Only 1 Image can be uploaded per post</span>
+</ng-template>
+
+<ng-template #uploadIncorrectFileType>
+    <span>Only image types can be uploaded. (Jpeg/jpg, png, gif)</span>
+</ng-template>

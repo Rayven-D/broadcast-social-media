@@ -5,22 +5,63 @@
 
 .header{
     height: 10%;
-    background-color: pink;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .image{
-    height: 60%;
-    background-color: green;
-    
+    height: 60%;    
     .image-upload{
-        height:100%;
-        background-color:purple;
+        height:99%;
         display: flex;
         align-content: center;
         justify-content: center;
-        img{
-            max-height: 100%;
-            max-width: 100%;
+        .image-preview{
+            height:100%;
+            width:100%;
+            display:flex;
+            flex-direction: column;
+
+            button{
+                color:white;
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            img{
+                margin: 0 auto;
+                max-height: 85%;
+                max-width: 100%;
+            }
+        }
+
+        .image-upload{
+            border: 2px dashed white;
+            border-radius: 25px;
+            height:90%;
+            width:100%;
+            margin: auto;
+            cursor: pointer;
+            
+            .image-upload-text{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 50px;
+
+                mat-icon{
+                    transform: scale(7);
+                    margin-top:40%;
+                    color:white;
+                }
+
+                p{
+                    color:white;
+                    font-size: 25px;
+                }
+            }
         }
     }
 }
