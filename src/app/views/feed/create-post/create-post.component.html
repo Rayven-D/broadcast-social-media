@@ -23,11 +23,15 @@
             </div>
         </div>
     </div>
-    <div class="caption">
-
+    <div class="caption" [ngClass]="postType === 'txt' ? 'text-only' :''">
+        <textarea id="caption-textarea" [placeholder]="postType === 'txt' ? 'Post about it here!' : 'Caption...'"></textarea>
     </div>
     <div class="buttons">
-
+        <mat-slide-toggle [(ngModel)]="isPublic">{{isPublic ? "Public" : 'Private'}}</mat-slide-toggle>
+        <div class="buttons-end">
+            <button mat-stroked-button class="button-cancel" matDialogClose>Cancel</button>
+            <button mat-raised-button class="button-create" (click)="createPost()">Create Post</button>
+        </div>
     </div>
 </div>
 

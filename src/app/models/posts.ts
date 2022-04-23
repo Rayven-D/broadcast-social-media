@@ -1,7 +1,8 @@
 export interface Posts{
     userID: string,
     userAccountName: string,
-    imageURL: string,
+    imageFile?: File,
+    imageURL?: string,
     caption: string,
     public: boolean,
 }

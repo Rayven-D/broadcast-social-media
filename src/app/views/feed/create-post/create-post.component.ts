@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Posts } from 'src/app/models/posts';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-create-post',
@@ -17,10 +19,11 @@ export class CreatePostComponent implements OnInit {
   public textOnly: boolean = false;
   public imageURL: SafeUrl | null;
   public postType: 'img' | 'txt' = 'img';
-
+  public isPublic: boolean = true;
   constructor(
     private _sanitizer: DomSanitizer,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private _account: AccountService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +38,8 @@ export class CreatePostComponent implements OnInit {
       return;
     }
     if(!tempImageFile.type.includes('image')){
-      this._snackbar.openFromTemplate(this.incorectTypeUploadTemplate, {duration: 5000})
+      this._snackbar.openFromTemplate(this.incorectTypeUploadTemplate, {duration: 5000});
+      return;
     }
     this.imageFile = tempImageFile;
     this.imageURL = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.imageFile));
@@ -44,6 +48,27 @@ export class CreatePostComponent implements OnInit {
   removeImage(){
     this.imageURL = null;
     this.imageFile = null;
+  }
+
+  createPost(){
+    let newPost: Posts;
+    let textElem = document.getElementById('caption-textarea') as HTMLTextAreaElement
+    if(this.postType === 'img'){
+     newPost = {
+        imageFile: this.imageFile as File,
+        userAccountName: this._account.loggedInAccount.accountName,
+        userID: this._account.loggedInAccount.userId,
+        caption: textElem.value,
+        public: this.isPublic
+     }
+    }else{
+      newPost = {
+        userAccountName: this._account.loggedInAccount.accountName,
+        userID: this._account.loggedInAccount.userId,
+        caption: textElem.value,
+        public: this.isPublic
+     }
+    }
   }
 
 }

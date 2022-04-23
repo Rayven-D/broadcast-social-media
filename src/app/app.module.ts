@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -78,7 +79,7 @@ import { CreatePostComponent } from './views/feed/create-post/create-post.compon
     MatTooltipModule,
     MatBadgeModule,
     MatButtonToggleModule,
-    
+    MatSlideToggleModule
   ],
   providers: [
     DatePipe,
