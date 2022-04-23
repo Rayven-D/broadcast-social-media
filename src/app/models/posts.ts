@@ -5,4 +5,5 @@ export interface Posts{
     imageURL?: string,
     caption: string,
     public: boolean,
+    dateCreated?: Date
 }
