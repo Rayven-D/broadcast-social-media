@@ -2,6 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Posts } from 'src/app/models/posts';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { PostsService } from 'src/app/services/posts.service';
+import { AccountService } from 'src/app/services/account.service';
+import { UserAccounts } from 'src/app/models/user';
 
 @Component({
   selector: 'app-feed',
@@ -10,14 +13,19 @@ import { CreatePostComponent } from './create-post/create-post.component';
 })
 export class FeedComponent implements OnInit {
   @ViewChild('addPost') addPost: TemplateRef<any>;
-  public posts: Posts[] = [];
+  public posts: Posts[];
   public postsLoaded: boolean = false;
   public imageFile: File;
+  public currentUser: UserAccounts
   constructor(
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _posts: PostsService,
+    private _account: AccountService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.currentUser = this._account.loggedInAccount;
+    this.posts = await this._posts.getFeedPostsForUserId(this.currentUser.userId);
   }
   
 
