@@ -16,6 +16,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 import { NewUserComponent } from './views/login/new-user/new-user.component';
 import { DatePipe } from '@angular/common';
@@ -36,6 +39,8 @@ import { PERSISTENCE } from '@angular/fire/compat/auth';
 import { ProfileComponent } from './views/profile/profile.component';
 import { AddFriendComponent } from './shared/friends/add-friend/add-friend.component';
 import { FriendRequestsComponent } from './shared/friends/friend-requests/friend-requests.component';
+import { CreatePostComponent } from './views/feed/create-post/create-post.component';
+import { PostsCardsComponent } from './shared/posts-cards/posts-cards.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,9 @@ import { FriendRequestsComponent } from './shared/friends/friend-requests/friend
     NewUserComponent,
     ProfileComponent,
     AddFriendComponent,
-    FriendRequestsComponent
+    FriendRequestsComponent,
+    CreatePostComponent,
+    PostsCardsComponent
   ],
   imports: [
     HttpClientModule,
@@ -66,6 +73,7 @@ import { FriendRequestsComponent } from './shared/friends/friend-requests/friend
     AngularFireModule.initializeApp(environment.firebaseConfig),
     provideAuth(() => getAuth()),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
@@ -76,7 +84,8 @@ import { FriendRequestsComponent } from './shared/friends/friend-requests/friend
     MatTooltipModule,
     MatBadgeModule,
     MatButtonToggleModule,
-    
+    MatSlideToggleModule,
+    MatCardModule
   ],
   providers: [
     DatePipe,

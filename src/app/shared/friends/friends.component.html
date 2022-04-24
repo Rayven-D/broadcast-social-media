@@ -6,10 +6,10 @@
         </mat-form-field>
     </div>
     <div class="friends-managing">
-        <button class="friends-add" mat-icon-button  (click)="openAddFriendDialog()">
+        <button class="friends-add button-icon" mat-icon-button  (click)="openAddFriendDialog()">
             <mat-icon matTooltip="Add Friends" matTooltipPosition="below" >person_add</mat-icon>
         </button>
-        <button class="friends-requests" *ngIf="incomingFriendRequests.length > 0" mat-icon-button (click)="openFriendRequestsDialog()">
+        <button class="friends-requests  button-icon" *ngIf="incomingFriendRequests.length > 0" mat-icon-button (click)="openFriendRequestsDialog()">
             <mat-icon [matBadge]="incomingFriendRequests.length" matBadgeSize="small" matBadgeColor="warn" matTooltip="Friend Requests" matTooltipPosition="below">people_icon</mat-icon>
         </button>
     </div>

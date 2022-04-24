@@ -1,0 +1,132 @@
+.wrapper{
+    height: 75vh;
+    aspect-ratio: 1 / 1;
+}
+
+.header{
+    height: 10%;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span{
+        color:white;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    mat-button-toggle-group{
+        height:20px;
+        align-items: center;
+        padding-bottom:3px;
+        margin-left: auto;
+        margin-right: 0;
+        border-width: 2px;
+
+        mat-button-toggle{
+            font-weight: 600;
+        }
+    }
+}
+
+.image{
+    height: 60%;    
+    margin-bottom: 10px;
+    .image-upload{
+        height:99%;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        .image-preview{
+            height:100%;
+            width:100%;
+            display:flex;
+            flex-direction: column;
+
+            button{
+                color:white;
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            img{
+                margin: auto;
+                max-height: 85%;
+                max-width: 100%;
+            }
+        }
+
+        .image-upload{
+            border: 2px dashed white;
+            border-radius: 25px;
+            height:100%;
+            width:100%;
+            margin: auto;
+            cursor: pointer;
+            
+            .image-upload-text{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 50px;
+
+                mat-icon{
+                    transform: scale(7);
+                    margin-top:40%;
+                    color:white;
+                }
+
+                p{
+                    color:white;
+                    font-size: 25px;
+                }
+            }
+        }
+    }
+}
+
+.caption{
+    height: 20%;
+    border: white solid 1px;
+    border-radius: 10px;
+    textarea{
+        height:95%;
+        width:99%;
+        resize: none;
+        background: transparent;
+        font-family: Arial, Helvetica, sans-serif;
+        color:white;
+        border: none;
+        outline:none;
+    }
+}
+
+.caption.text-only{
+    height:80%;
+}
+
+.buttons{
+    height: 10%;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    mat-slide-toggle{
+        justify-self: flex-start;
+        font-weight: 600;
+        color:white;
+    }
+
+    .buttons-end{
+        display:flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        button{
+            font-weight: 600;
+        }
+
+    }
+}

@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Posts } from 'src/app/models/posts';
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +23,15 @@ export class ProfileComponent implements OnInit {
   public canEdit: boolean = true;
   private birthday: string = "";
 
+  public posts: Posts[]
+
   constructor(
     private _auth: AngularFireAuth,
     private _accounts: AccountService,
     private _datePipe: DatePipe,
     private _router: Router,
-    private _activeRoute: ActivatedRoute
+    private _activeRoute: ActivatedRoute,
+    private _posts: PostsService
   ) {
     this._activeRoute.params.subscribe( () =>{
       if(this._router.getCurrentNavigation()?.extras.state){
@@ -54,6 +59,7 @@ export class ProfileComponent implements OnInit {
       email: new FormControl({value: this.currentUser.email, disabled: !this.editting})
     })
     this.accountFormControl = new FormControl({value:this.currentUser.accountName, disabled: !this.editting})
+    this.posts = await this._posts.getPostsByUserId(this.currentUser.userId);
 
   }
 

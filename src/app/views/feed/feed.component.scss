@@ -11,3 +11,23 @@
     align-items: center;
     justify-content: center;
 }
+
+.feed-create-post{
+    position: fixed;
+    right: calc(25vw + 20px);
+    bottom: 10px;
+}
+
+.feed-post-container{
+    width:75%;
+    height:fit-content;
+    margin: 0 auto;
+    padding: 15px 0 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    .feed-posts{
+        width: 100%;
+    }
+}

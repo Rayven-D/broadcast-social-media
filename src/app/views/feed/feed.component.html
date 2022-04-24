@@ -1,5 +1,14 @@
-<div class="feed-wrapper" *ngIf="postsLoaded else feedLoading">
-    <h1 style="color:white">FEEDS</h1>
+<div class="feed-wrapper" *ngIf="posts else feedLoading">
+    <div class="feed-post-container">
+        <div class="feed-posts" *ngFor="let post of posts">
+             <app-posts-cards [post]="post"></app-posts-cards>
+        </div>
+    </div>
+   <div class="feed-create-post">
+        <button mat-fab class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above" (click)="openAddPostDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+   </div>
 </div>
 
 <ng-template #feedLoading>
@@ -7,3 +16,4 @@
         <app-spinner [componentName]="'Feed'"></app-spinner>
     </div>
 </ng-template>
+

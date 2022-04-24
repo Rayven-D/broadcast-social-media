@@ -1,0 +1,44 @@
+<div class="wrapper">
+    <div class="header">
+        <span>Create an {{postType === 'img' ? "image" : "text"}} post</span>
+        <mat-button-toggle-group [(ngModel)]="postType">
+            <mat-button-toggle value="img">Image</mat-button-toggle>
+            <mat-button-toggle value="txt">Text</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <div class="image" *ngIf="postType === 'img'">
+        <div class="image-upload">
+            <div *ngIf="imageURL" class="image-preview" >
+                <button mat-icon-button (click)="removeImage()" matTooltip="Remove Photo">
+                    <mat-icon>delete</mat-icon>    
+                </button>
+                <img [src]="imageURL">
+            </div>
+            <div *ngIf="!imageURL" class="image-upload" (click)="fileUpload.click()">
+                <div class="image-upload-text">
+                    <mat-icon>add_photo_alternate</mat-icon>
+                    <p>Upload Image</p>
+                </div>
+                <input #fileUpload type="file" (change)="uploadImage($event)" [style.display]="'none'">
+            </div>
+        </div>
+    </div>
+    <div class="caption" [ngClass]="postType === 'txt' ? 'text-only' :''">
+        <textarea id="caption-textarea" [placeholder]="postType === 'txt' ? 'Post about it here!' : 'Caption...'"></textarea>
+    </div>
+    <div class="buttons">
+        <mat-slide-toggle [(ngModel)]="isPublic">{{isPublic ? "Public" : 'Private'}}</mat-slide-toggle>
+        <div class="buttons-end">
+            <button mat-stroked-button class="button-cancel" matDialogClose>Cancel</button>
+            <button mat-raised-button class="button-create" (click)="createPost()">Create Post</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #uploadMoreThan1>
+    <span>Only 1 Image can be uploaded per post</span>
+</ng-template>
+
+<ng-template #uploadIncorrectFileType>
+    <span>Only image types can be uploaded. (Jpeg/jpg, png, gif)</span>
+</ng-template>
