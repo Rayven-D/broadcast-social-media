@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from '@firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -39,10 +40,17 @@ export class LoginComponent implements OnInit {
     private _login: LoginService,
     private _router: Router,
     private _snackBar: MatSnackBar,
-    private _auth: AngularFireAuth
+    private _auth: AngularFireAuth,
+    private _account: AccountService
     ) { }
 
-  async ngOnInit() {    
+  async ngOnInit() {   
+    this._auth.onAuthStateChanged( async (auth) =>{
+      if(auth){
+        await this._account.getAccount(auth.uid);
+        this._router.navigate(['/feed'])
+      }
+    }) 
   }
 
 
@@ -56,11 +64,9 @@ export class LoginComponent implements OnInit {
     let password = form.value.passwordControl;
 
     let userCreds = await this._login.loginUser(username, password);
-    if(userCreds){
-      this._router.navigate(['/feed'])
-    }
-    else
+    if(!userCreds){
       this.showToast();
+    }
   }
 
   public async toggleNewUser(creating: boolean){
