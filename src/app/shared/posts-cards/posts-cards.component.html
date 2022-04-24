@@ -1,0 +1,20 @@
+<mat-card class="wrapper">
+    <mat-card-header class="account-name">
+        <div class="account-picture">
+            <img [src]="post.userAccountPic">
+        </div>
+        <div class="account-text">
+            <span class="username">{{post.userAccountName}}</span>
+            <span class="date">{{date}}</span>
+        </div>
+    </mat-card-header>
+    <div class="image" *ngIf="post.imageURL">
+        <img [src]="post.imageURL">
+    </div>
+    <mat-card-content class="caption">
+        <span class="caption-text">  
+            {{post.caption}}
+        </span>
+    </mat-card-content>
+</mat-card>
+

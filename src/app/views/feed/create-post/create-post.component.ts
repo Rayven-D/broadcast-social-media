@@ -1,15 +1,19 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Posts } from 'src/app/models/posts';
 import { AccountService } from 'src/app/services/account.service';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
   providers:[
-    MatSnackBar
+    MatSnackBar,
+    MatDialog
   ]
 })
 export class CreatePostComponent implements OnInit {
@@ -23,7 +27,10 @@ export class CreatePostComponent implements OnInit {
   constructor(
     private _sanitizer: DomSanitizer,
     private _snackbar: MatSnackBar,
-    private _account: AccountService
+    private _account: AccountService,
+    private _storage: AngularFireStorage,
+    private _posts: PostsService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -50,27 +57,35 @@ export class CreatePostComponent implements OnInit {
     this.imageFile = null;
   }
 
-  createPost(){
+  async createPost(){
     let newPost: Posts;
-    let textElem = document.getElementById('caption-textarea') as HTMLTextAreaElement
+    let textElem = document.getElementById('caption-textarea') as HTMLTextAreaElement;
     if(this.postType === 'img'){
+      if(!this.imageFile){
+        return;
+      }
+      let date = new Date();
+      let upload = await this._storage.upload(`/posts/${date.toISOString()}${this.imageFile.name}`, this.imageFile);
+      let url = await upload.ref.getDownloadURL();
      newPost = {
-        imageFile: this.imageFile as File,
+        imageURL: url,
         userAccountName: this._account.loggedInAccount.accountName,
         userID: this._account.loggedInAccount.userId,
         caption: textElem.value,
-        public: this.isPublic
+        public: this.isPublic,
+        userAccountPic: this._account.loggedInAccount.imageURL
      }
     }else{
       newPost = {
         userAccountName: this._account.loggedInAccount.accountName,
         userID: this._account.loggedInAccount.userId,
         caption: textElem.value,
-        public: this.isPublic
+        public: this.isPublic,
+        userAccountPic: this._account.loggedInAccount.imageURL
      }
     }
-
-    console.log(newPost)
+    await this._posts.createNewPost(newPost);
+    this._dialog.closeAll();
   }
 
 }

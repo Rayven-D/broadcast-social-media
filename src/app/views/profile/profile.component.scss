@@ -55,3 +55,9 @@
     }
 }
 
+.profile-posts{
+    display: grid;;
+    grid-template-columns: repeat(3, 33%);
+    gap: 10px;
+}
+

@@ -33,6 +33,11 @@
             </mat-form-field>
         </form>
     </div>
+    <div class="profile-posts">
+        <div class="post" *ngFor="let post of posts">
+            <app-posts-cards [post]="post"></app-posts-cards>
+        </div>
+    </div>
 </div>
 
 <ng-template #loading>
