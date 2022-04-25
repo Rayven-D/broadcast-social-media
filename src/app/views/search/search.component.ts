@@ -33,6 +33,7 @@ export class SearchComponent implements OnInit {
     let interval = setInterval( async () =>{
       this.currentUser = this._account.loggedInAccount;
       if(this.currentUser){
+        //await this._spotify.linkSpotifyAccount(this.currentUser.userId)
         this.init();
         clearInterval(interval)
       }

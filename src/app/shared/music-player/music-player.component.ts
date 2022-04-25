@@ -20,6 +20,7 @@ export class MusicPlayerComponent implements OnInit {
   public progress: number;
   public repeatState: 'off' | 'track' | 'context';
   public shuffleState: boolean;
+  public hidden: boolean = false;
 
   get progression(){
     return (this.progress / this.track?.duration_ms) * 100 ?? 0
@@ -57,8 +58,6 @@ export class MusicPlayerComponent implements OnInit {
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
     },200);
-
-
   }
 
   private startWebPlayer(){
@@ -85,7 +84,6 @@ export class MusicPlayerComponent implements OnInit {
 
       player.addListener('initialization_error', async ({ message }:any) => {
           console.error(message);
-          this._spotify.setSpotifyToken = await this.spotifyWebApi.getRefreshedAccessToken(this._spotify.getSpotifyToken.refresh_token as string)
       });
 
 
@@ -143,6 +141,10 @@ export class MusicPlayerComponent implements OnInit {
 
   async playNext(){
     await this.spotifyWebApi.player.skipToNext();
+  }
+
+  toggleHidden(){
+    this.hidden = !this.hidden;
   }
 
 }

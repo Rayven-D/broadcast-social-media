@@ -1,35 +1,40 @@
-<div class="wrapper" *ngIf="track">
-    <div class="player-stuff">
-        <div class="buttons">
-            <div class="shuffle-repeat">
-                <button mat-icon-button [ngClass]="shuffleState ? '' : 'off'" (click)="changeShuffle()">
-                    <mat-icon>shuffle</mat-icon>
-                </button>
-                <button mat-icon-button [ngClass]="repeatState" (click)="changeRepeat()">
-                    <mat-icon>{{repeatType ? 'repeat_one' : 'repeat'}}</mat-icon>
-                </button>
+<div class="wrapper" [ngClass]="hidden ? 'hide' : ''" *ngIf="track">
+    <div class="player-info" [ngClass]="hidden ? 'hide-player-things' : ''">
+        <div class="player-stuff">
+            <div class="buttons">
+                <div class="shuffle-repeat">
+                    <button mat-icon-button [ngClass]="shuffleState ? '' : 'off'" (click)="changeShuffle()">
+                        <mat-icon>shuffle</mat-icon>
+                    </button>
+                    <button mat-icon-button [ngClass]="repeatState" (click)="changeRepeat()">
+                        <mat-icon>{{repeatType ? 'repeat_one' : 'repeat'}}</mat-icon>
+                    </button>
+                </div>
+                <div class="playback-controls">
+                    <button mat-icon-button (click)="playPrev()">
+                        <mat-icon>skip_previous</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="startStopPlayback()">
+                        <mat-icon>{{isPlaying ? "pause" : 'play_arrow'}}</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="playNext()">
+                        <mat-icon>skip_next</mat-icon>
+                    </button>
+                </div>
             </div>
-            <div class="playback-controls">
-                <button mat-icon-button (click)="playPrev()">
-                    <mat-icon>skip_previous</mat-icon>
-                </button>
-                <button mat-icon-button (click)="startStopPlayback()">
-                    <mat-icon>{{isPlaying ? "pause" : 'play_arrow'}}</mat-icon>
-                </button>
-                <button mat-icon-button (click)="playNext()">
-                    <mat-icon>skip_next</mat-icon>
-                </button>
-            </div>
-        </div>
-        <div class="track-info">
-            <img class="track-img" [src]="track.album.images[0].url">
-            <div class="track-texts">
-                <span class="track-name">{{track.name}}</span>
-                <div class="track-artists">
-                    <span class="artist" *ngFor="let artist of track.artists">{{artist.name}}</span>
+            <div class="track-info">
+                <img class="track-img" [src]="track.album.images[0].url">
+                <div class="track-texts">
+                    <span class="track-name">{{track.name}}</span>
+                    <div class="track-artists">
+                        <span class="artist" *ngFor="let artist of track.artists">{{artist.name}}</span>
+                    </div>
                 </div>
             </div>
         </div>
+        <mat-progress-bar class="progress-bar" [ngClass]="hidden ? 'hide-player-things' : ''" color="secondary" mode="determinate" [value]="progression"></mat-progress-bar>
     </div>
-    <mat-progress-bar class="progress-bar" color="secondary" mode="determinate" [value]="progression"></mat-progress-bar>
+    <div class="hider" [ngClass]="hidden ? 'is-hidden-button' : 'to-hide-button'" (click)="toggleHidden()">
+        <mat-icon>{{hidden ? 'keyboard_arrow_right' : 'keyboard_arrow_left'}}</mat-icon>
+    </div>
 </div>
