@@ -6,6 +6,7 @@ import { LoginComponent } from './views/login/login.component';
 import { SearchComponent } from './views/search/search.component';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { ProfileComponent } from './views/profile/profile.component';
+import { SpotifyRedirectComponent } from './views/spotify-redirect/spotify-redirect.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/login'])
 
@@ -17,7 +18,8 @@ const routes: Routes = [
     children:[
       { path: ':accountName', component: ProfileComponent}
   ]},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'spotify-redirect', component: SpotifyRedirectComponent}
 ];
 
 @NgModule({

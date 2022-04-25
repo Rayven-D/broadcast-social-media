@@ -1,3 +1,19 @@
 <div class="search-wrapper">
-    <h1>SEARCH</h1>
+    <div class="searches">
+        <div class="search-list" >
+            <div class="search-list-item" *ngFor="let track of tracks" (click)="playTrack(track.uri)">
+                <div class="track-img">
+                    <img [src]="track.album.images[0].url">
+                </div>
+                <div class="track-texts">
+                    <span class="track-name">{{track.name}}</span>
+                    <div class="track-artists">
+                        <span class="artist" *ngFor="let artist of track.artists">{{artist.name}}</span>
+                    </div>
+                </div>
+                <span class="track-duration">{{getDurationInMinAndSec(track.duration_ms)}}</span>
+                <div class="track-overlay"></div>
+            </div>
+        </div>
+    </div>
 </div>  

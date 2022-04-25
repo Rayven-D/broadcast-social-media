@@ -1,0 +1,86 @@
+.search-wrapper{
+    width: 100%;
+
+}
+.searches{
+    width: 50%;
+    margin: 0 auto;
+
+    .search-list{
+        width:100%;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+        
+        .search-list-item{
+            height: 50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+
+            .track-img{
+                height:100%;
+                aspect-ratio: 1 / 1;
+                margin-left:10px;
+                img{
+                    height: 100%;
+                    aspect-ratio: 1 /1;
+                }
+            }
+            .track-texts{
+                display: flex;
+                flex-direction: column;
+
+                .track-name{
+                    font-size:15px;
+                    font-weight: 600;
+                }
+
+                .track-artists{
+                    font-size: 12px;
+                    display:flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                .track-artists > .artist:not(:last-child):after{
+                    content: ',';
+                }
+            }
+            .track-duration{
+                font-size: 12px;
+                margin-right:0;
+                margin-left: auto;
+                font-weight: 500;
+            }
+
+            .track-overlay{
+                position:absolute;
+                height: 100%;
+                width:100%;
+                background-color: white;
+                display: block;
+                transition: .5s ease;
+                opacity: 0;
+                padding: 5px;
+                border-radius: 10px;
+            }
+        }
+
+        .search-list-item:hover{
+            cursor: pointer; 
+        
+            .track-overlay{
+                opacity: .10;
+            }
+
+            .track-name{
+                text-decoration: underline;
+            }
+        }
+    }
+}
