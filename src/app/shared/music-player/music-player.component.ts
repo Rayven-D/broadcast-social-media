@@ -58,6 +58,10 @@ export class MusicPlayerComponent implements OnInit {
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
     },200);
+
+    setTimeout( () =>{
+      this.hidden = true;
+    },2500)
   }
 
   private startWebPlayer(){
