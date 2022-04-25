@@ -24,6 +24,7 @@
     background-color: #414141;
     overflow:auto;
     position: relative;
+    overflow-y: scroll;
 }
 .side{
     grid-row: 2/ 2;

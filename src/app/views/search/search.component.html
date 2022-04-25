@@ -1,4 +1,11 @@
 <div class="search-wrapper">
+    <div class="search-bar">
+        <mat-form-field appearance="fill">
+            <mat-label style="color:white">Search for songs!</mat-label>
+            <input matInput type="text" (input)="searchSong($event)">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
     <div class="searches">
         <div class="search-list" >
             <div class="search-list-item" *ngFor="let track of tracks" (click)="playTrack(track.uri)">

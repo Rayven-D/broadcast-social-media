@@ -1,9 +1,29 @@
 .search-wrapper{
-    width: 100%;
-
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 20px;
 }
+
+.search-bar{
+    width:100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 0 auto;
+    padding-top: 20px;
+    mat-form-field{
+        width: 40%;
+        color:white;
+
+        ::ng-deep .mat-form-field-flex{
+            background-color: rgba(0,0,0, .30);
+        }
+
+    }
+}
+
 .searches{
-    width: 50%;
+    width: 80%;
     margin: 0 auto;
 
     .search-list{

@@ -5,6 +5,7 @@ import { filter } from "rxjs/operators"
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { LoginService } from 'src/app/services/login.service';
+import { SpotifyService } from 'src/app/services/spotify.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit {
     private _router: Router,
     private _account: AccountService,
     private _auth: AngularFireAuth,
-    private _login: LoginService
+    private _login: LoginService,
+    private _spotify: SpotifyService
   ) {
     this._router.events.pipe(
       filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
@@ -48,6 +50,10 @@ export class NavbarComponent implements OnInit {
 
   logoutUser(){
     this._login.logoutUser();
+  }
+
+  linkSpotify(){
+    this._spotify.linkSpotifyAccount(this.currentUser.userId);
   }
 
 }

@@ -3,6 +3,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-music-player',
@@ -14,13 +15,14 @@ export class MusicPlayerComponent implements OnInit {
   private spotifyWebApi: SpotifyWebApi;
   private playingUpdates: NodeJS.Timeout;
   private deviceId: string;
+  private $trackSub: BehaviorSubject<Track | null> = new BehaviorSubject<Track | null>(null);
 
   public isPlaying: boolean;
   public track: Track;
   public progress: number;
   public repeatState: 'off' | 'track' | 'context';
   public shuffleState: boolean;
-  public hidden: boolean = false;
+  public hidden: boolean = true;
 
   get progression(){
     return (this.progress / this.track?.duration_ms) * 100 ?? 0
@@ -46,22 +48,31 @@ export class MusicPlayerComponent implements OnInit {
         clearInterval(interval);
       }
     },500)
+
+    this.$trackSub.subscribe( (track) =>{
+      if(!track)
+        return;
+      if(this.track && this.track.id !== track!.id && this.hidden)
+        this.tempHidden();
+      else if(!this.track){
+        this.tempHidden();
+      }
+      this.track = track as Track;
+    })
   }
 
   init(){
     this.startWebPlayer();
     this.playingUpdates = setInterval( async() =>{
       let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
-      this.track = currentPlaying.item as Track;
+      this.$trackSub.next(currentPlaying?.item as Track)
       this.isPlaying = currentPlaying.is_playing;
       this.shuffleState = currentPlaying.shuffle_state;
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
     },500);
 
-    setTimeout( () =>{
-      this.hidden = true;
-    },2500)
+  
   }
 
   private startWebPlayer(){
@@ -121,6 +132,7 @@ export class MusicPlayerComponent implements OnInit {
     }else{
       await this.playMusic();
     }
+    this.tempHidden();
   }
 
   async changeShuffle(){
@@ -148,6 +160,13 @@ export class MusicPlayerComponent implements OnInit {
 
   toggleHidden(){
     this.hidden = !this.hidden;
+  }
+
+  tempHidden(){
+    this.hidden = false;
+    setTimeout( () =>{
+      this.hidden = true
+    }, 2500)
   }
 
 }

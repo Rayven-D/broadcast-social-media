@@ -50,6 +50,12 @@ export class SpotifyService {
     this.spotifyWebApi = new SpotifyWebApi({accessToken: this.token.access_token});
   }
 
+  async refreshAccessToken(userId: string){
+    let request = this._http.post<SpotifyGrant>(GlobalVars.SPOTIFY_BASE_URL + "refreshAccessToken", {userId: userId} ).toPromise();
+    this.token = await request;
+    this.spotifyWebApi = new SpotifyWebApi({accessToken: this.token.access_token});
+  }
+
   async getAccessToken(userId?: string): Promise<SpotifyGrant>{
     if(this.token)
       return this.token

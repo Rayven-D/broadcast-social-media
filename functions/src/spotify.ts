@@ -29,8 +29,6 @@ export const requestAccessToken = functions.https.onRequest( (req, res) =>{
         let code = req.body.code || null;
         let state = req.body.state || null;
 
-        const client_id = functions.config().spotify.client_id;
-        console.log(client_id)
         if(state){
             const app = initializeApp(firebaseConfig);
             const db = getFirestore(app);
@@ -63,5 +61,36 @@ export const getAccessToken = functions.https.onRequest( (req,res) =>{
             functions.logger.error(error);
             res.send(error)
         }
+    })
+})
+
+export const refreshAccessToken = functions.https.onRequest( (req,res) =>{
+    cors(req, res, async() =>{
+        let userId = req.body.userId ?? null;
+
+        if(userId){
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            let docSnapshot = await getDoc(doc(db, 'Account', userId, 'Spotify', 'token'))
+            if(docSnapshot.exists()){
+                const spotifyToken: SpotifyGrant = docSnapshot.data() as SpotifyGrant;
+                try{
+                    let resp: SpotifyGrant = await spotifyApi.getRefreshedAccessToken(spotifyToken.refresh_token as string);
+                    await setDoc( doc(db, 'Account', userId, 'Spotify', "token"), resp);
+                    res.send(resp)
+                }catch(error){
+                    console.error(error);
+                    res.send(error)
+                }
+            }else{
+                console.log("Token document does not exist");
+                res.send(false)
+            }
+        }
+        else{
+            console.log("No UserId provided")
+            res.send(false)
+        }
+
     })
 })

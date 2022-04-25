@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="hidden ? 'hide' : ''" *ngIf="track">
+<div class="wrapper" [ngClass]="hidden ? 'hide' : ''">
     <div class="player-info" [ngClass]="hidden ? 'hide-player-things' : ''">
         <div class="player-stuff">
             <div class="buttons">
@@ -22,7 +22,7 @@
                     </button>
                 </div>
             </div>
-            <div class="track-info">
+            <div class="track-info" *ngIf="track">
                 <img class="track-img" [src]="track.album.images[0].url">
                 <div class="track-texts">
                     <span class="track-name">{{track.name}}</span>

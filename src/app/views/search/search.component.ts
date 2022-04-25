@@ -33,21 +33,12 @@ export class SearchComponent implements OnInit {
     let interval = setInterval( async () =>{
       this.currentUser = this._account.loggedInAccount;
       if(this.currentUser){
-        //await this._spotify.linkSpotifyAccount(this.currentUser.userId)
-        this.init();
+        await this._spotify.getAccessToken(this.currentUser.userId);
+        this.spotify = this._spotify.getSpotifyWebApi
         clearInterval(interval)
       }
     }, 500)
     
-  }
-
-  async init(){
-    this.spotify = this._spotify.getSpotifyWebApi;  
-
-    let searchResults = await this.spotify.search.search('AJR', ['track'])
-    searchResults.tracks?.items.forEach( (track) =>{
-      this.tracks.push(track as Track);
-    })
   }
 
   getDurationInMinAndSec(ms: number){
@@ -60,6 +51,19 @@ export class SearchComponent implements OnInit {
 
   playTrack(uri: string){
     this.spotify.player.play({uris: [uri], device_id: this._spotify.getDeviceId})
+  }
+
+  async searchSong(event:any){
+    let text = (event.target as HTMLInputElement).value
+    if(text.length > 0){
+      let searchResults = await this.spotify.search.search(text, ['track']);
+      this.tracks = []
+      searchResults.tracks?.items.forEach( (track) =>{
+        this.tracks.push(track as Track);
+      })
+    }else{
+      this.tracks = [];
+    }
   }
 
 }
