@@ -86,7 +86,8 @@ export class SearchComponent implements OnInit {
   }
 
   async linkSpotify(){
-    this._spotify.linkSpotifyAccount(this.currentUser.userId);
+    await this._spotify.linkSpotifyAccount(this.currentUser.userId);
+    location.reload();
   }
 
 }

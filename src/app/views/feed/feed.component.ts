@@ -26,7 +26,6 @@ export class FeedComponent implements OnInit {
   async ngOnInit() {
     let interval = setInterval( async () =>{
       this.currentUser = this._account.loggedInAccount;
-      console.log("hitting interval")
       if(this.currentUser){
         this.posts = await this._posts.getFeedPostsForUserId(this.currentUser.userId);
         clearInterval(interval);

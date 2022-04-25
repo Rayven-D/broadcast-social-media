@@ -17,7 +17,7 @@ export class SpotifyRedirectComponent implements OnInit {
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
     const state = urlParams.get('state');
-    await this._spotify.requestAccessToken(code as string, state as string);
+    this._spotify.requestAccessToken(code as string, state as string);
     window.close();
   }
 

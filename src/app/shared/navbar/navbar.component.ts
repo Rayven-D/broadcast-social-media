@@ -52,8 +52,9 @@ export class NavbarComponent implements OnInit {
     this._login.logoutUser();
   }
 
-  linkSpotify(){
-    this._spotify.linkSpotifyAccount(this.currentUser.userId);
+  async linkSpotify(){
+    await this._spotify.linkSpotifyAccount(this.currentUser.userId);
+    location.reload();
   }
 
 }
