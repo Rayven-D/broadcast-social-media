@@ -106,17 +106,17 @@ export class MusicPlayerComponent implements OnInit {
 
       player.addListener('initialization_error', async ({ message }:any) => {
           console.error(message);
-          console.log(message)
+          console.log("Initialization Error",message)
       });
 
       player.addListener('authentication_error', ({ message }:any) => {
         console.error(message);
-        console.log(message)
+        console.log("Authentication Error",message)
     });
   
     player.addListener('account_error', ({ message }:any) => {
         console.error(message);
-        console.log(message)
+        console.log("Account Error",message)
     });
 
 
