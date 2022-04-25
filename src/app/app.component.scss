@@ -24,12 +24,21 @@
     background-color: #414141;
     overflow:auto;
     position: relative;
+    overflow-y: scroll;
 }
 .side{
     grid-row: 2/ 2;
     grid-column: 2 / 2;
     background-color: #262626;
     overflow:auto;
+}
+
+.player{
+    position:fixed;
+    right: calc(50vw - 250px);
+    bottom: 50px;
+    height: fit-content;
+    width: 500px;
 }
 
 .login-screen{

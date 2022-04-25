@@ -1,3 +1,50 @@
-<div class="search-wrapper">
-    <h1>SEARCH</h1>
+<div class="search-wrapper" *ngIf="canSearch else spotifyPremiumRequired">
+    <div class="search-bar" *ngIf="isLoaded">
+        <mat-form-field appearance="fill">
+            <mat-label style="color:white">Search for songs!</mat-label>
+            <input matInput type="text" (input)="searchSong($event); $event.stopPropagation()">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="searches" *ngIf="isLoaded else loading">
+        <div class="search-list" >
+            <div class="search-list-item" *ngFor="let track of tracks" (click)="playTrack(track.uri)">
+                <div class="track-img">
+                    <img [src]="track.album.images[0].url">
+                </div>
+                <div class="track-texts">
+                    <span class="track-name">{{track.name}}</span>
+                    <div class="track-artists">
+                        <span class="artist" *ngFor="let artist of track.artists">{{artist.name}}</span>
+                    </div>
+                </div>
+                <button mat-icon-button class="track-add-queue queue-button" (click)="addToQueue(track.uri, track.name); $event.stopPropagation()">
+                    <mat-icon>playlist_add</mat-icon>
+                </button>
+                <span class="track-duration">{{getDurationInMinAndSec(track.duration_ms)}}</span>
+                <div class="track-overlay"></div>
+            </div>
+        </div>
+    </div>
 </div>  
+
+<ng-template #spotifyPremiumRequired>
+    <div class="cannot-search-wrapper">
+        <div class="text">
+            <span>You need to link your Spotify premium account to use this feature</span>
+        </div>
+        <div class="buttons">
+            <button mat-raised-button (click)="linkSpotify()">
+                Link Spotify 
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #loading>
+    <app-spinner [componentName]="'Song Search'"></app-spinner>
+</ng-template>
+
+<ng-template #queueTemplate let-data>
+    <span>You have added {{data.name}} to the queue</span>
+</ng-template>
