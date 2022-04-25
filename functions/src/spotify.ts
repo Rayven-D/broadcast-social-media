@@ -9,7 +9,7 @@ import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 var spotifyApi = new SpotifyWebApi({
     clientId: functions.config().spotify.client_id,
     clientSecret: functions.config().spotify.client_secret,
-    redirectUri: 'http://localhost:4200/spotify-redirect'
+    redirectUri: 'https://broadcast-seniorcapstone.web.app/spotify-redirect'
 })
 
 
