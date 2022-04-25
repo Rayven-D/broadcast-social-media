@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { SpotifyGrant } from 'functions/src/models/spotify';
 import { UserAccounts } from 'src/app/models/user';
@@ -6,13 +6,18 @@ import { AccountService } from 'src/app/services/account.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  providers: [
+    MatSnackBar
+  ]
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('queueTemplate') queueTemplate: TemplateRef<any>;
 
   private currentUser: UserAccounts;
   private spotify: SpotifyWebApi;
@@ -22,10 +27,13 @@ export class SearchComponent implements OnInit {
 
 
   public tracks: Track[] = [];
+  public canSearch: boolean = true;
+  public isLoaded: boolean = false;
 
   constructor(
     private _spotify: SpotifyService,
     private _account: AccountService,
+    private _snackbar: MatSnackBar
   ) { }
 
   async ngOnInit() {
@@ -33,8 +41,10 @@ export class SearchComponent implements OnInit {
     let interval = setInterval( async () =>{
       this.currentUser = this._account.loggedInAccount;
       if(this.currentUser){
-        await this._spotify.getAccessToken(this.currentUser.userId);
-        this.spotify = this._spotify.getSpotifyWebApi
+        if(! (await this._spotify.getAccessToken(this.currentUser.userId)))
+            this.canSearch = false;
+        this.spotify = this._spotify.getSpotifyWebApi;
+        this.isLoaded = true;
         clearInterval(interval)
       }
     }, 500)
@@ -64,6 +74,19 @@ export class SearchComponent implements OnInit {
     }else{
       this.tracks = [];
     }
+  }
+
+  async addToQueue(uri: string, name: string){
+    try{
+      await this.spotify.player.addToQueue(uri);
+      this._snackbar.openFromTemplate(this.queueTemplate, {data: {name: name}, duration:5000})
+    }catch{
+      this.playTrack(uri);
+    }
+  }
+
+  async linkSpotify(){
+    this._spotify.linkSpotifyAccount(this.currentUser.userId);
   }
 
 }

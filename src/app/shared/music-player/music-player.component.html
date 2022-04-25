@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="hidden ? 'hide' : ''">
+<div class="wrapper" [ngClass]="hidden ? 'hide' : ''" *ngIf="canPlay">
     <div class="player-info" [ngClass]="hidden ? 'hide-player-things' : ''">
         <div class="player-stuff">
             <div class="buttons">

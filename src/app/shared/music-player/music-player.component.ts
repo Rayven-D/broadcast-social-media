@@ -23,6 +23,7 @@ export class MusicPlayerComponent implements OnInit {
   public repeatState: 'off' | 'track' | 'context';
   public shuffleState: boolean;
   public hidden: boolean = true;
+  public canPlay: boolean = true;
 
   get progression(){
     return (this.progress / this.track?.duration_ms) * 100 ?? 0
@@ -42,12 +43,31 @@ export class MusicPlayerComponent implements OnInit {
     let interval = setInterval( async() =>{
       let user = this._account.loggedInAccount;
       if(user){
-        await this._spotify.getAccessToken(user.userId);
-        this.spotifyWebApi = this._spotify.getSpotifyWebApi
-        this.init();
+          if(! (await this._spotify.getAccessToken(user.userId)))
+            this.canPlay = false;
+          this.spotifyWebApi = this._spotify.getSpotifyWebApi
+          this.init();
         clearInterval(interval);
       }
     },500)
+
+
+  }
+
+  init(){
+    if(!this.canPlay)
+      return;
+    
+    this.spotifyWebApi = this._spotify.getSpotifyWebApi
+    this.startWebPlayer();
+    this.playingUpdates = setInterval( async() =>{
+      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
+      this.$trackSub.next(currentPlaying?.item as Track)
+      this.isPlaying = currentPlaying.is_playing;
+      this.shuffleState = currentPlaying.shuffle_state;
+      this.repeatState = currentPlaying.repeat_state;
+      this.progress = currentPlaying.progress_ms as number;
+    },500);
 
     this.$trackSub.subscribe( (track) =>{
       if(!track)
@@ -59,19 +79,6 @@ export class MusicPlayerComponent implements OnInit {
       }
       this.track = track as Track;
     })
-  }
-
-  init(){
-    this.startWebPlayer();
-    this.playingUpdates = setInterval( async() =>{
-      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
-      this.$trackSub.next(currentPlaying?.item as Track)
-      this.isPlaying = currentPlaying.is_playing;
-      this.shuffleState = currentPlaying.shuffle_state;
-      this.repeatState = currentPlaying.repeat_state;
-      this.progress = currentPlaying.progress_ms as number;
-    },500);
-
   
   }
 
@@ -85,7 +92,7 @@ export class MusicPlayerComponent implements OnInit {
       const player = new Spotify.Player({
           name: 'Broadcast Social Media',
           getOAuthToken: cb => { cb(token); },
-          volume: 0.5
+          volume: 1
       });
 
       // Ready
