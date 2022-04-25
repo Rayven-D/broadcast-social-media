@@ -27,7 +27,6 @@ export class SearchComponent implements OnInit {
   constructor(
     private _spotify: SpotifyService,
     private _account: AccountService,
-    private _firestore: AngularFirestore
   ) { }
 
   get spotifyToken(){
@@ -39,7 +38,6 @@ export class SearchComponent implements OnInit {
     let interval = setInterval( async () =>{
       this.currentUser = this._account.loggedInAccount;
       if(this.currentUser){
-        await this._spotify.linkSpotifyAccount(this._account.loggedInAccount.userId);
         this.init();
         clearInterval(interval)
       }
@@ -49,19 +47,13 @@ export class SearchComponent implements OnInit {
 
   async init(){
     let doc = await this._spotify.getAccessToken(this.currentUser.userId)
-    this.token = doc;
-    this.spotify = new SpotifyWebApi({accessToken: this.token.access_token});
-
-    if(!this.playerInitialized)
-      this.startWebPlayer();    
+    this.token = doc as SpotifyGrant;
+    this.spotify = this._spotify.getSpotifyWebApi;  
 
     let searchResults = await this.spotify.search.search('AJR', ['track'])
-    console.log(searchResults)
     searchResults.tracks?.items.forEach( (track) =>{
       this.tracks.push(track as Track);
     })
-
-    console.log(this.tracks)
   }
 
   getDurationInMinAndSec(ms: number){
@@ -73,40 +65,7 @@ export class SearchComponent implements OnInit {
   }
 
   playTrack(uri: string){
-    this.spotify.player.play({uris: [uri], device_id: this.browserDeviceId})
-  
+    this.spotify.player.play({uris: [uri], device_id: this._spotify.getDeviceId})
   }
 
-  startWebPlayer(){
-    const script = document.createElement('script')
-    script.src="https://sdk.scdn.co/spotify-player.js";
-    script.async = true;
-    document.body.appendChild(script)
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = this.token.access_token;
-      const player = new Spotify.Player({
-          name: 'Broadcast Social Media',
-          getOAuthToken: cb => { cb(token); },
-          volume: 0.5
-      });
-
-      // Ready
-      player.addListener('ready', ({ device_id}:any) => {
-          this.browserDeviceId = device_id;
-
-      });
-      player.addListener('not_ready', ({ device_id}: any) => {
-          console.log('Device ID has gone offline', device_id);
-      });
-
-      player.addListener('initialization_error', ({ message }:any) => {
-          console.error(message);
-      });
-
-
-      player.connect();
-      this.playerInitialized = true;
-  }
-
-  }
 }

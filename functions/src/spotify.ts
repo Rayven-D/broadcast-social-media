@@ -20,7 +20,7 @@ export const linkSpotifyAccount = functions.https.onRequest( (req, res) =>{
     cors( req,res, async () =>{
         let state = req.body.userId;
 
-        res.send(spotifyApi.getRefreshableAuthorizationUrl({scope: ['user-read-currently-playing','user-modify-playback-state','streaming'], state: state}));
+        res.send(spotifyApi.getRefreshableAuthorizationUrl({scope: ['user-read-currently-playing','user-modify-playback-state','streaming', 'user-read-playback-state'], state: state}));
     })
 })
 

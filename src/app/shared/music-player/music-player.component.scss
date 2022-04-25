@@ -1,0 +1,98 @@
+.wrapper{
+    height:fit-content;
+    border-radius: 15px;
+    background-color: rgba(0,0,0,.60);
+    padding:10px;
+    color:white;
+}
+
+.player-stuff{
+    display:flex;
+    align-items: center;
+    padding-bottom: 10px;
+    .track-info{
+        height: 60px;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .track-img{
+            height:100%;
+            aspect-ratio: 1 / 1;
+            img{
+                height: 100%;
+                aspect-ratio: 1 /1;
+            }
+        }
+        .track-texts{
+            display: flex;
+            flex-direction: column;
+
+            .track-name{
+                font-size:15px;
+                font-weight: 600;
+            }
+
+            .track-artists{
+                font-size: 12px;
+                display:flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .track-artists > .artist:not(:last-child):after{
+                content: ',';
+            }
+        }
+    }
+
+    .buttons{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .shuffle-repeat, .playback-controls {
+            display:flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .shuffle-repeat{
+            button{
+                mat-icon{
+                    transform: scale(.75);
+                }
+            }
+        }
+    }
+}
+
+.off{
+    color: rgba(255,255,255, .25)
+}
+
+.progress-bar{
+
+    border-radius: 10px;
+
+    ::ng-deep .mat-progress-bar-buffer{
+        background:#5f5f5f;
+        border-radius: 10px;
+    }
+
+    ::ng-deep .mat-progress-bar-background{
+        display:none;
+    }
+
+    ::ng-deep .mat-progress-bar{
+        border-radius: 10px;
+    }
+
+
+    ::ng-deep .mat-progress-bar-fill .mat-progress-bar-fill::after{
+        background-color: white;
+        border-radius: 10px;
+    }
+
+}

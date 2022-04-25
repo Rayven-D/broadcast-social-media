@@ -32,6 +32,14 @@
     overflow:auto;
 }
 
+.player{
+    position:fixed;
+    right: calc(50vw - 250px);
+    bottom: 50px;
+    height: fit-content;
+    width: 500px;
+}
+
 .login-screen{
     background-color: #414141;
     display:grid;
