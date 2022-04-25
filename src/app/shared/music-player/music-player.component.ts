@@ -57,7 +57,7 @@ export class MusicPlayerComponent implements OnInit {
       this.shuffleState = currentPlaying.shuffle_state;
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
-    },200);
+    },500);
 
     setTimeout( () =>{
       this.hidden = true;
@@ -103,7 +103,6 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   async playMusic(){
-    console.log(this.progress)
     await this.spotifyWebApi.player.play({uris: [this.track.uri], device_id: this._spotify.getDeviceId});
     await this.spotifyWebApi.player.seek(this.progress)
     this.playingUpdates = setInterval( async() =>{
