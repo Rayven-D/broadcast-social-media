@@ -14,7 +14,6 @@ import { Track } from 'src/app/models/spotify';
 })
 export class SearchComponent implements OnInit {
 
-  private token: SpotifyGrant;
   private currentUser: UserAccounts;
   private spotify: SpotifyWebApi;
 
@@ -29,10 +28,6 @@ export class SearchComponent implements OnInit {
     private _account: AccountService,
   ) { }
 
-  get spotifyToken(){
-    return this.token.access_token;
-  }
-
   async ngOnInit() {
     
     let interval = setInterval( async () =>{
@@ -46,8 +41,6 @@ export class SearchComponent implements OnInit {
   }
 
   async init(){
-    let doc = await this._spotify.getAccessToken(this.currentUser.userId)
-    this.token = doc as SpotifyGrant;
     this.spotify = this._spotify.getSpotifyWebApi;  
 
     let searchResults = await this.spotify.search.search('AJR', ['track'])

@@ -37,8 +37,10 @@ export class MusicPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     let interval = setInterval( async() =>{
-      this.spotifyWebApi = this._spotify.getSpotifyWebApi;
-      if(this.spotifyWebApi){
+      let user = this._account.loggedInAccount;
+      if(user){
+        await this._spotify.getAccessToken(user.userId);
+        this.spotifyWebApi = this._spotify.getSpotifyWebApi
         this.init();
         clearInterval(interval);
       }
@@ -60,7 +62,6 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   private startWebPlayer(){
-    console.log('starting')
     const script = document.createElement('script')
     script.src="https://sdk.scdn.co/spotify-player.js";
     script.async = true;
