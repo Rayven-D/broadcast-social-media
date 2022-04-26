@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="hidden ? 'hide' : ''" *ngIf="canPlay">
+<div class="wrapper" [ngClass]="hidden ? 'hide' : ''" *ngIf="canPlay || (playerInit && track)">
     <div class="player-info" [ngClass]="hidden ? 'hide-player-things' : ''">
         <div class="player-stuff">
             <div class="buttons">
@@ -7,7 +7,7 @@
                         <mat-icon>shuffle</mat-icon>
                     </button>
                     <button mat-icon-button [ngClass]="repeatState" (click)="changeRepeat()">
-                        <mat-icon>{{repeatType ? 'repeat_one' : 'repeat'}}</mat-icon>
+                        <mat-icon>{{repeatState === 'track' ? 'repeat_one' : 'repeat'}}</mat-icon>
                     </button>
                 </div>
                 <div class="playback-controls">
