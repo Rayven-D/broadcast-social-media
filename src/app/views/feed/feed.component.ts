@@ -5,6 +5,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { PostsService } from 'src/app/services/posts.service';
 import { AccountService } from 'src/app/services/account.service';
 import { UserAccounts } from 'src/app/models/user';
+import { GlobalVars } from 'src/app/services/global-vars';
 
 @Component({
   selector: 'app-feed',
@@ -17,6 +18,8 @@ export class FeedComponent implements OnInit {
   public postsLoaded: boolean = false;
   public imageFile: File;
   public currentUser: UserAccounts
+  public isMobile = GlobalVars.IS_MOBILE;
+
   constructor(
     private _dialog: MatDialog,
     private _posts: PostsService,

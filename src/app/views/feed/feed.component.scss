@@ -31,3 +31,17 @@
         width: 100%;
     }
 }
+
+:host-context(.mobile){
+
+    .feed-create-post{
+        position: fixed;
+        right: 50px;
+        bottom: 50px;
+    }
+
+    .feed-wrapper{
+        height: 100%;
+        padding-top: 70px;
+    }
+}

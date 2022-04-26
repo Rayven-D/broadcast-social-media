@@ -5,7 +5,10 @@
         </div>
     </div>
    <div class="feed-create-post">
-        <button mat-fab class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above" (click)="openAddPostDialog()">
+        <button mat-fab *ngIf="!isMobile" class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above" (click)="openAddPostDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab *ngIf="isMobile" class="feed-create-button button-icon" color="accent" matTooltip="Create a post" matTooltipPosition="above" (click)="openAddPostDialog()">
             <mat-icon>add</mat-icon>
         </button>
    </div>

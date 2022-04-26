@@ -55,6 +55,8 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   init(){
+    this.canPlay = false;
+    return;
     if(!this.canPlay)
       return;
     
