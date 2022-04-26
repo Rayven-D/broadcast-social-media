@@ -58,7 +58,6 @@ export class MusicPlayerComponent implements OnInit {
     if(!this.canPlay)
       return;
     
-    this.spotifyWebApi = this._spotify.getSpotifyWebApi
     this.startWebPlayer();
     this.playingUpdates = setInterval( async() =>{
       let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
@@ -67,7 +66,7 @@ export class MusicPlayerComponent implements OnInit {
       this.shuffleState = currentPlaying.shuffle_state;
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
-    },500);
+    },750);
 
     this.$trackSub.subscribe( (track) =>{
       if(!track)
@@ -92,7 +91,7 @@ export class MusicPlayerComponent implements OnInit {
       const player = new Spotify.Player({
           name: 'Broadcast Social Media',
           getOAuthToken: cb => { cb(token); },
-          volume: 1
+          volume: 1,
       });
 
       // Ready
@@ -141,7 +140,7 @@ export class MusicPlayerComponent implements OnInit {
       this.shuffleState = currentPlaying.shuffle_state;
       this.repeatState = currentPlaying.repeat_state;
       this.progress = currentPlaying.progress_ms as number;
-    },200);
+    },750);
   }
 
   async startStopPlayback(){
