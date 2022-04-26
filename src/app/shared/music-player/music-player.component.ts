@@ -248,7 +248,6 @@ export class MusicPlayerComponent implements OnInit {
   }
   
   async updateExternal(){
-    console.log('gettingupdates')
       let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
       this.$trackSub.next(currentPlaying?.item as Track)
       this.isPlaying = currentPlaying.is_playing;
