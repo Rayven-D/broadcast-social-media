@@ -1,7 +1,7 @@
 <div class="profile-wrapper" *ngIf="currentUser else loading">
     <div class="profile-account-top">
         <div class="profile-account-img">
-            <img *ngIf="currentUser.imageURL" height="100" width="100" [src]="currentUser.imageURL">
+            <img *ngIf="currentUser.imageURL" [src]="currentUser.imageURL">
         </div>
         <h3>
             {{currentUser.accountName}}
