@@ -144,3 +144,19 @@
 
     }
 }
+
+:host-context(.mobile){
+    .friends-list{
+        span{
+            font-size: 13px;
+        }
+        .friends-since{
+            .header{
+                font-size:8px;
+            }
+            .date{
+                font-size:10px;
+            }
+        }
+    }
+}

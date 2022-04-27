@@ -130,3 +130,29 @@
 
     }
 }
+
+:host-context(.mobile){
+    .wrapper{
+        width: 100%;
+    }
+
+    .header{
+        span{
+            font-size:15px;
+            max-width: 50%;
+        }
+    }
+
+    .image{
+        height:55%;
+    }
+
+    .caption.text-only{
+        height: 75%;
+    }
+
+    .buttons{
+        display:flex;
+        flex-direction: column;
+    }
+}

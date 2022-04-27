@@ -58,3 +58,11 @@ button{
     font-weight: 600;
     width: 80%;
 }
+
+:host-context(.mobile){
+    .login-wrapper{
+        width: 100vw;
+        aspect-ratio: 1 / 1;
+        height:fit-content
+    }
+}

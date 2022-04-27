@@ -2,10 +2,15 @@
   <div class="toolbar">
     <app-navbar></app-navbar>
   </div>
-  <div class="content">
+  <div class="content" [ngClass]="showFriends ? 'active' : ''">
     <router-outlet></router-outlet>
   </div>
-  <div class="side">
+  <div class="friends-tab" [ngClass]="showFriends ? 'active' : ''" *ngIf="isMobile">
+    <button mat-icon-button (click)="toggleFriendsTab()">
+       <mat-icon>{{showFriends ? "keyboard_arrow_right" : "people"}}</mat-icon>
+    </button>
+  </div>
+  <div class="side" [ngClass]="showFriends ? 'active' : ''">
     <app-friends></app-friends>
   </div>
   <div class="player">

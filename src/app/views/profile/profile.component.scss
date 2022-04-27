@@ -22,6 +22,8 @@
     .profile-account-img{
         img{
             border-radius: 100px;
+            height: 100px;
+            width: 100px;
         }
         padding-right: 15px;
     }
@@ -61,3 +63,38 @@
     gap: 10px;
 }
 
+:host-context(.mobile){
+    .profile-wrapper{
+        height:100%;
+        min-height: calc(100vh - 70px);
+        padding-top: 90px;
+    }
+
+    .profile-posts{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 20px;
+    }
+
+    .profile-loading{
+        height: calc(100vh - 70px);
+        padding-top: 70px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-account-top{
+        width: 75%;
+
+        img{
+            height:50px;
+            width: 50px;
+        }
+
+        h3{
+            font-size: 25px;
+        }
+    }
+}

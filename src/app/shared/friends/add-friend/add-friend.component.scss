@@ -1,3 +1,48 @@
-.filtered{
-    color:white
+.wrapper{
+    height: 35vw; 
+    aspect-ratio: 3 / 4; 
+    display:grid;
+    grid-template-rows: 7% 7% 84%;
+    gap:10px;
+}
+
+.header{
+    max-height:100%;
+    color:white;
+    display:flex;
+    align-items: center;
+    gap: 10px;
+
+    span{
+        font-size:30px;
+        font-weight: 600;
+    }
+}
+
+form{
+    width: 100%;
+
+    mat-form-field{
+        width: 100%;
+
+        mat-label{
+            color:white;
+        }
+    }
+}
+
+mat-list{
+    overflow: auto;
+}
+
+:host-context(.mobile){
+    .wrapper{
+        width: 70vw;
+        height:70vh;
+    }
+
+    .header{
+        width: 80%;
+    }
+    
 }

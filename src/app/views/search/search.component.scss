@@ -148,3 +148,58 @@
         }
     }
 }
+
+:host-context(.mobile){
+    .search-wrapper{
+        height:100%;
+        width: 70%;
+        min-height: calc(100vh - 70px);
+        padding-top: 70px;
+
+        .loading{
+            position: relative;
+            top: 30vh;
+        }
+    }
+
+    .search-bar{
+        width: 100%;
+
+        mat-form-field{
+            width: 100%;
+        }
+    }
+
+    .searches{
+        margin: 0;
+        width: 100%;
+
+        .search-list{
+            .search-list-item{
+
+                gap: 8px;
+                
+                .track-img{
+                    margin-left:0;
+                }
+
+                .track-texts{
+                    .track-name{
+                        font-size:12px;
+                        font-weight: 600;
+                    }
+                
+                    .track-artists{
+                        font-size: 8px;
+                        display:flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+
+                }
+            }
+        }
+    }
+
+
+}
