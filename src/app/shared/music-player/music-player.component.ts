@@ -24,7 +24,8 @@ export class MusicPlayerComponent implements OnInit {
   public playerInit: boolean = false;
   private $trackSub: BehaviorSubject<Track | null> = new BehaviorSubject<Track | null>(null);
   private isLocal: boolean;
-  private currentUser: UserAccounts
+  private currentUser: UserAccounts;
+  private isValidating: boolean = false;
 
   public isPlaying: boolean;
   public track: Track;
@@ -259,8 +260,10 @@ export class MusicPlayerComponent implements OnInit {
     this.updateExternal().then(() =>{
       this.playingUpdates = setInterval( async () => await this.updateExternal(),5000)
     })
-    .catch(() =>{
-      this._spotify.linkSpotifyAccount(this.currentUser.userId);
+    .catch(async () =>{
+      if(this.isValidating) return;
+      this.isValidating = true;
+      await this._spotify.linkSpotifyAccount(this.currentUser.userId);
       this._snackbar.open('Refresh Browser', 'Refresh',{verticalPosition: 'top'}).onAction().toPromise().then( () =>{
         location.reload();
       })
@@ -268,21 +271,28 @@ export class MusicPlayerComponent implements OnInit {
   }
   
   async updateExternal(){
-      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo().catch(error =>{})
-      if(!currentPlaying){
-        if(this.playingUpdates)
-          clearInterval(this.playingUpdates)
-        return Promise.reject();
+      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo().catch((error) =>{
+        console.log(error)
+        if(error.message.split(' ').pop() === '401'){
+          if(this.playingUpdates)
+            clearInterval(this.playingUpdates)
+          return Promise.reject();
+        }
+        else{
+          return;
+        }
+      })
+      if(currentPlaying){
+        this.$trackSub.next(currentPlaying?.item as Track)
+        this.isPlaying = currentPlaying.is_playing;
+        this.shuffleState = currentPlaying.shuffle_state;
+        this.repeatState = currentPlaying.repeat_state;
+        this.progress = currentPlaying.progress_ms as number;
+  
+        this.progressionUpdates();
+        this._ref.detectChanges();
+        return Promise.resolve();
       }
-      this.$trackSub.next(currentPlaying?.item as Track)
-      this.isPlaying = currentPlaying.is_playing;
-      this.shuffleState = currentPlaying.shuffle_state;
-      this.repeatState = currentPlaying.repeat_state;
-      this.progress = currentPlaying.progress_ms as number;
-
-      this.progressionUpdates();
-      this._ref.detectChanges();
-      return Promise.resolve();
   }
 
 }

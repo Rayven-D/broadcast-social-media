@@ -62,14 +62,12 @@ export class FriendsComponent implements OnInit {
       })
       this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async () => {
         this.friendsList = await this._friends.getFriendsList();
-        console.log(this.friendsList)
         if(!this.friendsStatus$){
           this.friendsStatus$ = [];
           this.friendsList.forEach( (friend) =>{
             
             this.friendsStatus$.push(this._presence.getPresence(friend.userId));
           })
-          console.log(this.friendsStatus$)
         }
       })
       this.friendsLoaded = true;
