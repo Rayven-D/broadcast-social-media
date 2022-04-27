@@ -31,6 +31,7 @@ export class AppComponent {
       this.showFriends = false;
     })
 
+
   }
   
   get currRoute(): string{
