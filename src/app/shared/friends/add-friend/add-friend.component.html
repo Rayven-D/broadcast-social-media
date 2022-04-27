@@ -1,34 +1,17 @@
-<div style="
-height: 35vw; 
-aspect-ratio: 3 / 4; 
-display:grid;
-grid-template-rows: 7% 7% 84%;
-gap:10px;
-">
-    <div style="
-        max-height:100%;
-        color:white;
-        display:flex;
-        align-items: center;
-        gap: 10px;
-    ">
+<div class='wrapper'>
+    <div class="header">
         <button mat-icon-button mat-dialog-close="">
             <mat-icon>close</mat-icon>
         </button>
-        <span style="
-            font-size:30px;
-            font-weight: 600;
-        ">Add a friend</span>
+        <span >Add a friend</span>
     </div>
-    <form color="accent" style="width:100%" autocomplete="off">
-        <mat-form-field style="width:100%" >
-            <mat-label style="color:white">Search for friend</mat-label>
+    <form color="accent" autocomplete="off">
+        <mat-form-field >
+            <mat-label>Search for friend</mat-label>
             <input matInput type="text" id="add-friends-search-input" (input)="searchList()">
         </mat-form-field>
     </form>
-    <mat-list style="
-        overflow: auto;
-    " *ngIf="autoList else loading">
+    <mat-list *ngIf="autoList else loading">
         <mat-list-item *ngFor="let user of filteredList" style="
             width: 100%;
             color:white;

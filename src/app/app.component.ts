@@ -10,11 +10,13 @@ import { GlobalVars } from './services/global-vars';
 })
 export class AppComponent {
   
+  public isMobile: boolean = false;
+  public showFriends: boolean = false;
+
   constructor(
     private router: Router,
     public _account:AccountService
   ){
-
     
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
       // true for mobile device
@@ -22,7 +24,12 @@ export class AppComponent {
         document.getElementsByTagName("body")[0].classList.add('mobile');
       })
       GlobalVars.IS_MOBILE = true;
+      this.isMobile = true;
     }
+
+    this.router.events.subscribe( (event) =>{
+      this.showFriends = false;
+    })
 
   }
   
@@ -30,4 +37,8 @@ export class AppComponent {
     return this.router.url;
   }
   title = 'Broadcast';
+
+  toggleFriendsTab(){
+    this.showFriends = !this.showFriends;
+  }
 }

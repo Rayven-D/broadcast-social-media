@@ -36,12 +36,20 @@
 
     .feed-create-post{
         position: fixed;
-        right: 50px;
-        bottom: 50px;
+        right: 10px;
+        bottom: 10px;
     }
 
     .feed-wrapper{
+        min-height: calc(100vh - 70px);
         height: 100%;
+        padding-top: 70px;
+    }
+    
+
+    .feed-loading{
+        height: calc(100vh - 70px);
+        position:relative;
         padding-top: 70px;
     }
 }
