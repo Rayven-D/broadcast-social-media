@@ -31,6 +31,16 @@
     grid-column: 2 / 2;
     background-color: #262626;
     overflow:auto;
+
+    mat-tab-group{
+        width:100%;
+
+        ::ng-deep .mat-tab-label-content{
+            color:white;
+            font-size:15px;
+            font-weight: 600;
+        }
+    }
 }
 
 .player{
@@ -89,7 +99,7 @@
         position:fixed;
         height: 40px;
         width: 40px;
-        top:122px;
+        top:167px;
         right:0px;
         transition: .5s ease;
         z-index: 7;

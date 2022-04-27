@@ -11,7 +11,10 @@
     </button>
   </div>
   <div class="side" [ngClass]="showFriends ? 'active' : ''">
-    <app-friends></app-friends>
+    <mat-tab-group [disablePagination]="true">
+      <mat-tab label="Friends"><app-friends></app-friends></mat-tab>
+      <mat-tab label="Chats"><app-chats></app-chats></mat-tab>
+    </mat-tab-group>
   </div>
   <div class="player">
     <app-music-player></app-music-player>

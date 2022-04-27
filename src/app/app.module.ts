@@ -18,7 +18,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabsModule } from '@angular/material/tabs'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +45,7 @@ import { CreatePostComponent } from './views/feed/create-post/create-post.compon
 import { PostsCardsComponent } from './shared/posts-cards/posts-cards.component';
 import { SpotifyRedirectComponent } from './views/spotify-redirect/spotify-redirect.component';
 import { MusicPlayerComponent } from './shared/music-player/music-player.component';
+import { ChatsComponent } from './shared/chats/chats.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { MusicPlayerComponent } from './shared/music-player/music-player.compone
     CreatePostComponent,
     PostsCardsComponent,
     SpotifyRedirectComponent,
-    MusicPlayerComponent
+    MusicPlayerComponent,
+    ChatsComponent
   ],
   imports: [
     HttpClientModule,
@@ -91,7 +94,8 @@ import { MusicPlayerComponent } from './shared/music-player/music-player.compone
     MatButtonToggleModule,
     MatSlideToggleModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTabsModule
   ],
   providers: [
     DatePipe,
