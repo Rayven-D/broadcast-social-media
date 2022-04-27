@@ -41,7 +41,7 @@ export class SpotifyService {
 
   async linkSpotifyAccount(userId: string){
     let request = await this._http.post<string>(GlobalVars.SPOTIFY_BASE_URL + "linkSpotifyAccount", {userId: userId}, {responseType: 'text' as 'json'}).toPromise();
-    window.open(request)
+    window.open(request);
   }
 
   async requestAccessToken(code: string, state: string){

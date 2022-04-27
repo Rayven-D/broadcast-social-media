@@ -7,6 +7,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { STATUS_CODES } from 'http';
 
 @Component({
   selector: 'app-search',
@@ -60,7 +61,14 @@ export class SearchComponent implements OnInit {
   }
 
   playTrack(uri: string){
-    this.spotify.player.play({uris: [uri], device_id: this._spotify.getDeviceId})
+    this.spotify.player.play({uris: [uri], device_id: this._spotify.getDeviceId}).catch( async (reason) =>{
+      let statusCode = reason.message.split(' ').pop();
+      if(statusCode === '429'){
+        console.error('Too many request, currently. Please give some time.')
+      }else if(statusCode === '401'){
+        await this._spotify.linkSpotifyAccount(this.currentUser.userId);
+      }
+    })
   }
 
   async searchSong(event:any){

@@ -4,6 +4,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
 import { BehaviorSubject } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-music-player',
@@ -14,28 +15,27 @@ export class MusicPlayerComponent implements OnInit {
 
   private spotifyWebApi: SpotifyWebApi;
   private playingUpdates: NodeJS.Timeout;
-  private deviceId: string;
+  private progressUpdates: NodeJS.Timeout;
+  public playerInit: boolean = false;
   private $trackSub: BehaviorSubject<Track | null> = new BehaviorSubject<Track | null>(null);
+  private isLocal: boolean;
 
   public isPlaying: boolean;
   public track: Track;
-  public progress: number;
+  public progress: number = 0;
   public repeatState: 'off' | 'track' | 'context';
   public shuffleState: boolean;
   public hidden: boolean = true;
   public canPlay: boolean = true;
 
   get progression(){
-    return (this.progress / this.track?.duration_ms) * 100 ?? 0
-  }
-
-  get repeatType(){
-    return this.repeatState === 'track';
+    return (this.progress / (this.track?.duration_ms)) * 100 ?? 0
   }
 
   constructor(
     private _spotify: SpotifyService,
     private _account:AccountService,
+    private _ref: ChangeDetectorRef
     
   ) { }
 
@@ -45,7 +45,6 @@ export class MusicPlayerComponent implements OnInit {
       if(user){
           if(! (await this._spotify.getAccessToken(user.userId)))
             this.canPlay = false;
-          this.spotifyWebApi = this._spotify.getSpotifyWebApi
           this.init();
         clearInterval(interval);
       }
@@ -54,36 +53,33 @@ export class MusicPlayerComponent implements OnInit {
 
   }
 
-  init(){
-    this.canPlay = false;
-    return;
+  async init(){
     if(!this.canPlay)
       return;
     
+    this.spotifyWebApi = this._spotify.getSpotifyWebApi
     this.startWebPlayer();
-    this.playingUpdates = setInterval( async() =>{
-      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
-      this.$trackSub.next(currentPlaying?.item as Track)
-      this.isPlaying = currentPlaying.is_playing;
-      this.shuffleState = currentPlaying.shuffle_state;
-      this.repeatState = currentPlaying.repeat_state;
-      this.progress = currentPlaying.progress_ms as number;
-    },750);
-
+    this.periodicallyUpdateExternal();
     this.$trackSub.subscribe( (track) =>{
       if(!track)
         return;
-      if(this.track && this.track.id !== track!.id && this.hidden)
-        this.tempHidden();
-      else if(!this.track){
-        this.tempHidden();
+      if(this.track && this.track.id !== track!.id){
+        this.track = track
+        if(this.hidden)
+          this.tempHidden();
       }
-      this.track = track as Track;
+      else if(!this.track){
+        this.track = track
+        if(this.hidden)
+          this.tempHidden();
+      }
     })
   
   }
 
   private startWebPlayer(){
+    if(this.playerInit)
+      return;
     const script = document.createElement('script')
     script.src="https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -98,7 +94,6 @@ export class MusicPlayerComponent implements OnInit {
 
       // Ready
       player.addListener('ready', ({ device_id}:any) => {
-          this.deviceId = device_id;
           this._spotify.setDeviceId = device_id;
       });
       player.addListener('not_ready', ({ device_id}: any) => {
@@ -113,36 +108,82 @@ export class MusicPlayerComponent implements OnInit {
       player.addListener('authentication_error', ({ message }:any) => {
         console.error(message);
         console.log("Authentication Error",message)
-    });
-  
-    player.addListener('account_error', ({ message }:any) => {
-        console.error(message);
-        console.log("Account Error",message)
-    });
+      });
+    
+      player.addListener('account_error', ({ message }:any) => {
+          console.error(message);
+          console.log("Account Error",message)
+      });
 
+      player.addListener('player_state_changed', async(state) =>{
+        if(!state){
+          this.isLocal = false;
+          this.periodicallyUpdateExternal();
+          return;
+        } 
+        this.isLocal = true;
+        if(this.playingUpdates)
+          clearInterval(this.playingUpdates);
+        this.shuffleState = state.shuffle ?? false;
+        this.repeatState = state.repeat_mode === 0 ? 'off' : state.repeat_mode === 2 ? "track" : 'context';
+        this.isPlaying = !state.paused;
+        this.progress = state.position;
+        this.progressionUpdates();
+        let temp = state.track_window.current_track;
+        let tempTrack: Track = {
+          id: temp.id as string,
+          name: temp.name,
+          uri: temp.uri,
+          duration_ms: state.duration,
+          artists: [],
+          album:{
+            uri: temp.album.uri,
+            name: temp.album.name,
+            id: '',
+            images: [{url: temp.album.images[0].url}],
+            release_date: "",
+            artists: []
+          }
+        };
 
+        temp.artists.forEach( (artist) =>{
+          tempTrack.artists.push({
+            uri: artist.uri,
+            name: artist.name,
+            id: ''
+          })
+        })
+        this.$trackSub.next(tempTrack);
+        this._ref.detectChanges();
+      });
       player.connect();
+
+      this.playerInit = true;
     }
 
+  }
+
+  progressionUpdates(){
+    if(this.progressUpdates)
+      clearInterval(this.progressUpdates)
+    this.progressUpdates = setInterval( () =>{
+      if(this.isPlaying){
+        this.progress +=500;
+        this._ref.detectChanges()
+      }
+    },500)
   }
 
   async pauseMusic(){
     await this.spotifyWebApi.player.pause();
     clearInterval(this.playingUpdates)
+    this.periodicallyUpdateExternal()
     this.isPlaying = false;
   }
 
   async playMusic(){
-    await this.spotifyWebApi.player.play({uris: [this.track.uri], device_id: this._spotify.getDeviceId});
-    await this.spotifyWebApi.player.seek(this.progress)
-    this.playingUpdates = setInterval( async() =>{
-      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
-      this.track = currentPlaying.item as Track;
-      this.isPlaying = currentPlaying.is_playing;
-      this.shuffleState = currentPlaying.shuffle_state;
-      this.repeatState = currentPlaying.repeat_state;
-      this.progress = currentPlaying.progress_ms as number;
-    },750);
+    this.spotifyWebApi.player.play();
+    this.periodicallyUpdateExternal()
   }
 
   async startStopPlayback(){
@@ -154,38 +195,68 @@ export class MusicPlayerComponent implements OnInit {
     this.tempHidden();
   }
 
+  async playPrev(){
+    await this.spotifyWebApi.player.skipToPrevious();
+    this.periodicallyUpdateExternal()
+  }
+
+  async playNext(){
+    await this.spotifyWebApi.player.skipToNext();
+    this.periodicallyUpdateExternal()
+  }
+
   async changeShuffle(){
     await this.spotifyWebApi.player.setShuffle(!this.shuffleState);
+    this.periodicallyUpdateExternal()
+
   }
 
   async changeRepeat(){
     let tempRepeatState = this.repeatState;
     if(this.repeatState === "off")
       tempRepeatState = 'context'
-    else if(this.repeatState === 'track')
-      tempRepeatState = 'off'
-    else
+    else if(this.repeatState === 'context')
       tempRepeatState = 'track'
+    else
+      tempRepeatState = 'off'
+    this.repeatState = tempRepeatState
     await this.spotifyWebApi.player.setRepeat(tempRepeatState);
+    this.periodicallyUpdateExternal()
   }
 
-  async playPrev(){
-    await this.spotifyWebApi.player.skipToPrevious();
-  }
-
-  async playNext(){
-    await this.spotifyWebApi.player.skipToNext();
-  }
 
   toggleHidden(){
     this.hidden = !this.hidden;
   }
 
   tempHidden(){
-    this.hidden = false;
+        this.hidden = false;
+    this._ref.detectChanges()
+
     setTimeout( () =>{
-      this.hidden = true
+      this.hidden = true;
+      this._ref.detectChanges()
     }, 2500)
+  }
+
+  async periodicallyUpdateExternal(){
+    if(this.isLocal) return;
+    if(this.playingUpdates)
+      clearInterval(this.playingUpdates)
+    this.updateExternal();
+    this.playingUpdates = setInterval( async () => await this.updateExternal(),5000)
+  }
+  
+  async updateExternal(){
+      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
+      this.$trackSub.next(currentPlaying?.item as Track)
+      this.isPlaying = currentPlaying.is_playing;
+      this.shuffleState = currentPlaying.shuffle_state;
+      this.repeatState = currentPlaying.repeat_state;
+      this.progress = currentPlaying.progress_ms as number;
+
+      this.progressionUpdates();
+      this._ref.detectChanges();
   }
 
 }
