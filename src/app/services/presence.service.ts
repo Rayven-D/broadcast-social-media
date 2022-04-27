@@ -17,8 +17,8 @@ export class PresenceService {
     private _firestore: AngularFirestore
   ) { 
 
-    window.addEventListener('beforeunload', () =>{
-      this.setPresence('offline')
+    window.addEventListener('beforeunload', async () =>{
+      await this.setPresence('offline')
     } )
 
     document.addEventListener('visibilitychange', () =>{
