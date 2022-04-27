@@ -10,15 +10,16 @@ import { UserAccounts } from '../models/user';
 })
 export class PresenceService {
 
+  private user: any;
 
   constructor(
     private _auth: AngularFireAuth,
     private _firestore: AngularFirestore
   ) { 
 
-    window.onbeforeunload = async () =>{
-      await this.setPresence('offline')
-    }
+    window.addEventListener('beforeunload', () =>{
+      this.setPresence('offline')
+    } )
 
     document.addEventListener('visibilitychange', () =>{
       this.visibilityChange()
@@ -38,11 +39,13 @@ export class PresenceService {
   }
 
   async setPresence( status: string){
-    const user = await this.getUser();
-    if(user){
-      return this._firestore.doc(`Account/${user.uid}`).update({
+    if(this.user){
+      return this._firestore.doc(`Account/${this.user.uid}`).update({
         status: status
       })
+    }else{
+      this.user = await this.getUser();
+      this.setPresence(status);
     }
   }
 
