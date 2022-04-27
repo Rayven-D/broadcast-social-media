@@ -11,6 +11,8 @@ import { AccountService } from 'src/app/services/account.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
+import { Observable } from 'rxjs';
+import { PresenceService } from 'src/app/services/presence.service';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -26,12 +28,14 @@ export class FriendsComponent implements OnInit {
   public friendsLoaded: boolean = false;
   public currentUser : UserAccounts;
   public searchingActive: boolean = false;
+  public friendsStatus$: Observable<UserAccounts>[];
   constructor(
     private _auth: AngularFireAuth,
     private _account: AccountService,
     private _friends: FriendsService,
     private _dialog: MatDialog,
-    private _firestore: AngularFirestore
+    private _firestore: AngularFirestore,
+    private _presence: PresenceService
   ) { 
     this._auth.onAuthStateChanged( async (user) =>{
       if(user){
@@ -58,6 +62,15 @@ export class FriendsComponent implements OnInit {
       })
       this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async () => {
         this.friendsList = await this._friends.getFriendsList();
+        console.log(this.friendsList)
+        if(!this.friendsStatus$){
+          this.friendsStatus$ = [];
+          this.friendsList.forEach( (friend) =>{
+            
+            this.friendsStatus$.push(this._presence.getPresence(friend.userId));
+          })
+          console.log(this.friendsStatus$)
+        }
       })
       this.friendsLoaded = true;
       setTimeout( () =>{

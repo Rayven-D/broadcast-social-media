@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from'@angular/fire/compat/storage'
 import { UserAccounts } from '../models/user';
 import { Router } from '@angular/router';
+import { PresenceService } from './presence.service';
 
 
 @Injectable({
@@ -16,11 +17,13 @@ export class LoginService {
     private http: HttpClient,
     private _auth: AngularFireAuth,
     private _router: Router,
+    private _presence: PresenceService
   ) { }
 
   async loginUser( u: string, p: string ){
     try{
-      await this._auth.signInWithEmailAndPassword(u,p)
+      await this._auth.signInWithEmailAndPassword(u,p);
+      this._presence.setPresence('online')
       return true;
     }
     catch(e){
@@ -30,6 +33,7 @@ export class LoginService {
 
   async logoutUser(){
     await this._auth.signOut();
+    this._presence.setPresence('offline')
     this._router.navigate(['/login'])
   }
 

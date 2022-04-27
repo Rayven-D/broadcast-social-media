@@ -104,6 +104,7 @@
             width: 100%;
             gap: 10px;
         }
+        
 
         img{
             height: 40px;
@@ -142,8 +143,33 @@
             }
         }
 
+        .image{
+            img{
+                height: 40px;
+                aspect-ratio: 1 / 1;
+                border-radius: 25px;
+            }
+
+            div{
+                background-color: #545454;
+                height: 12px;
+                aspect-ratio:  1 / 1;
+                border-radius: 12px;
+                position: relative;
+                top: -15px;
+            }
+            .online{
+                background-color: #30ff7b;
+            }
+            
+            .away{
+                background-color: #ffda7d;
+            }
+        }
+
     }
 }
+
 
 :host-context(.mobile){
     .friends-list{

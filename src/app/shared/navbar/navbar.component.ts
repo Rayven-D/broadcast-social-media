@@ -5,6 +5,7 @@ import { filter } from "rxjs/operators"
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { LoginService } from 'src/app/services/login.service';
+import { PresenceService } from 'src/app/services/presence.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 
 @Component({
@@ -22,7 +23,8 @@ export class NavbarComponent implements OnInit {
     private _account: AccountService,
     private _auth: AngularFireAuth,
     private _login: LoginService,
-    private _spotify: SpotifyService
+    private _spotify: SpotifyService,
+    private _presence: PresenceService
   ) {
     this._router.events.pipe(
       filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
@@ -32,6 +34,7 @@ export class NavbarComponent implements OnInit {
     this._auth.onAuthStateChanged( async (user) =>{
       if(user){
         await this._account.getAccount(user.uid)
+        this._presence.setPresence('online')
         this.currentUser = this._account.loggedInAccount
       }
     })
