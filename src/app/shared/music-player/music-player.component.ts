@@ -5,11 +5,16 @@ import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
 import { BehaviorSubject } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+import { UserAccounts } from 'src/app/models/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-music-player',
   templateUrl: './music-player.component.html',
-  styleUrls: ['./music-player.component.scss']
+  styleUrls: ['./music-player.component.scss'],
+  providers:[
+    MatSnackBar
+  ]
 })
 export class MusicPlayerComponent implements OnInit {
 
@@ -19,6 +24,8 @@ export class MusicPlayerComponent implements OnInit {
   public playerInit: boolean = false;
   private $trackSub: BehaviorSubject<Track | null> = new BehaviorSubject<Track | null>(null);
   private isLocal: boolean;
+  private currentUser: UserAccounts;
+  private isValidating: boolean = false;
 
   public isPlaying: boolean;
   public track: Track;
@@ -35,7 +42,8 @@ export class MusicPlayerComponent implements OnInit {
   constructor(
     private _spotify: SpotifyService,
     private _account:AccountService,
-    private _ref: ChangeDetectorRef
+    private _ref: ChangeDetectorRef,
+    private _snackbar: MatSnackBar
     
   ) { }
 
@@ -43,9 +51,10 @@ export class MusicPlayerComponent implements OnInit {
     let interval = setInterval( async() =>{
       let user = this._account.loggedInAccount;
       if(user){
-          if(! (await this._spotify.getAccessToken(user.userId)))
-            this.canPlay = false;
-          this.init();
+        this.currentUser = user;
+        if(! (await this._spotify.getAccessToken(user.userId)))
+          this.canPlay = false;
+        this.init();
         clearInterval(interval);
       }
     },500)
@@ -58,22 +67,27 @@ export class MusicPlayerComponent implements OnInit {
       return;
     
     this.spotifyWebApi = this._spotify.getSpotifyWebApi
-    this.startWebPlayer();
-    this.periodicallyUpdateExternal();
-    this.$trackSub.subscribe( (track) =>{
-      if(!track)
-        return;
-      if(this.track && this.track.id !== track!.id){
-        this.track = track
-        if(this.hidden)
-          this.tempHidden();
-      }
-      else if(!this.track){
-        this.track = track
-        if(this.hidden)
-          this.tempHidden();
-      }
-    })
+    try{  
+  
+      this.startWebPlayer();
+      this.periodicallyUpdateExternal();
+      this.$trackSub.subscribe( (track) =>{
+        if(!track)
+          return;
+        if(this.track && this.track.id !== track!.id){
+          this.track = track
+          if(this.hidden)
+            this.tempHidden();
+        }
+        else if(!this.track){
+          this.track = track
+          if(this.hidden)
+            this.tempHidden();
+        }
+      })
+    }catch(error){
+      console.log('error')
+    }
   
   }
 
@@ -105,7 +119,7 @@ export class MusicPlayerComponent implements OnInit {
           console.log("Initialization Error",message)
       });
 
-      player.addListener('authentication_error', ({ message }:any) => {
+      player.addListener('authentication_error', async ({ message }:any) => {
         console.error(message);
         console.log("Authentication Error",message)
       });
@@ -243,20 +257,42 @@ export class MusicPlayerComponent implements OnInit {
     if(this.isLocal) return;
     if(this.playingUpdates)
       clearInterval(this.playingUpdates)
-    this.updateExternal();
-    this.playingUpdates = setInterval( async () => await this.updateExternal(),5000)
+    this.updateExternal().then(() =>{
+      this.playingUpdates = setInterval( async () => await this.updateExternal(),5000)
+    })
+    .catch(async () =>{
+      if(this.isValidating) return;
+      this.isValidating = true;
+      await this._spotify.linkSpotifyAccount(this.currentUser.userId);
+      this._snackbar.open('Refresh Browser', 'Refresh',{verticalPosition: 'top'}).onAction().toPromise().then( () =>{
+        location.reload();
+      })
+    });
   }
   
   async updateExternal(){
-      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo();
-      this.$trackSub.next(currentPlaying?.item as Track)
-      this.isPlaying = currentPlaying.is_playing;
-      this.shuffleState = currentPlaying.shuffle_state;
-      this.repeatState = currentPlaying.repeat_state;
-      this.progress = currentPlaying.progress_ms as number;
-
-      this.progressionUpdates();
-      this._ref.detectChanges();
+      let currentPlaying = await this.spotifyWebApi.player.getPlaybackInfo().catch((error) =>{
+        console.log(error)
+        if(error.message.split(' ').pop() === '401'){
+          if(this.playingUpdates)
+            clearInterval(this.playingUpdates)
+          return Promise.reject();
+        }
+        else{
+          return;
+        }
+      })
+      if(currentPlaying){
+        this.$trackSub.next(currentPlaying?.item as Track)
+        this.isPlaying = currentPlaying.is_playing;
+        this.shuffleState = currentPlaying.shuffle_state;
+        this.repeatState = currentPlaying.repeat_state;
+        this.progress = currentPlaying.progress_ms as number;
+  
+        this.progressionUpdates();
+        this._ref.detectChanges();
+        return Promise.resolve();
+      }
   }
 
 }
