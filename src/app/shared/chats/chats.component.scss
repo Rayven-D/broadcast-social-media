@@ -23,61 +23,67 @@
         }
     }
 }
-
-.chat-box{
+.chats{
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100%;
-    
-    .chat-title{
-        cursor: pointer;
-        height: 50px;
-        width: 80%;
-        font-size: 15px;
-        font-weight: 600;
-        color: white;
+    .chat-box{
         display: flex;
-        align-content: center;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
 
-        input{
-            display:flex;
-            align-items: center;
-            z-index: 4;
-            color:rgb(255, 168, 168);
-            text-decoration: underline;
+        .chat-title{
+            cursor: pointer;
+            height: 50px;
+            width: 80%;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-content: center;
+    
+            input{
+                display:flex;
+                align-items: center;
+                z-index: 4;
+                color:rgb(255, 168, 168);
+                text-decoration: underline;
+            }
+    
+            input:disabled{
+                background-color: transparent;
+                color:white;
+                text-decoration: none;
+                z-index: 0;
+            }
+            .chat-overlay{
+                position:absolute;
+                height:50px;
+                width: 100%;
+                background-color: white;
+                display: block;
+                transition: .5s ease;
+                 opacity: 0;
+                border-radius: 10px;
+                left: 0;
+            }
+    
+            button{
+                z-index: 3;
+                margin-left: auto;
+                align-self: center;
+            }
+    
+            .chat-overlay.open{
+                border-radius: 10px 10px 0px 0px;
+            }
         }
-
-        input:disabled{
-            background-color: transparent;
-            color:white;
-            text-decoration: none;
-            z-index: 0;
-        }
-        .chat-overlay{
-            position:absolute;
-            height:50px;
-            width: 100%;
-            background-color: white;
-            display: block;
-            transition: .5s ease;
-             opacity: 0;
-            border-radius: 10px;
-            left: 0;
-        }
-
-        button{
-            z-index: 3;
-            margin-left: auto;
-            align-self: center;
-        }
-
-        .chat-overlay.open{
-            border-radius: 10px 10px 0px 0px;
-        }
+    
     }
-
 }
 
 .chat-box:hover{
@@ -161,11 +167,13 @@
 
     .chat-messages{
         padding-bottom: 0;
+        height: 0;
         .message{
             display:none
         }
     }
     .chat-create-message{
+        height: 0;
         mat-form-field{
             display:none;
         }

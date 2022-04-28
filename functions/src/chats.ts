@@ -1,6 +1,6 @@
 import * as cor from "cors";
 import { initializeApp } from "firebase/app";
-import {  addDoc, arrayUnion, collection, doc, getDoc, getFirestore, updateDoc } from "firebase/firestore"
+import {  addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, updateDoc } from "firebase/firestore"
 import * as functions from "firebase-functions"
 import { firebaseConfig } from './config'
 import { Chat, Message } from "./models/chats";
@@ -48,6 +48,30 @@ export const createChat = functions.https.onRequest( (req, res) =>{
             chat.users.forEach( async (user) =>{
                 await updateDoc( doc(db, 'Account', user),{
                     chats: arrayUnion(chatId)
+                })
+            })
+
+            res.send(true);
+        }catch(error){
+            console.log(error);
+            res.send(false)
+        }
+    })
+})
+
+export const deleteChat = functions.https.onRequest( (req, res) =>{
+    cors( req, res, async() =>{
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const chat: Chat = req.body.chat;
+
+        try{
+            await deleteDoc(doc(db, 'Chats', chat.chatId as string))
+            
+            chat.users.forEach( async userId =>{
+                await updateDoc(doc(db, 'Account', userId),{
+                    chats: arrayRemove(chat.chatId as string)
                 })
             })
 

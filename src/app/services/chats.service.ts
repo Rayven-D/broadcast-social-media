@@ -26,6 +26,11 @@ export class ChatsService {
     return response;
   }
 
+  async deleteChat(chat: Chat){
+    let response = await this._http.post<boolean>(GlobalVars.CHATS_BASE_URL + "deleteChat", {chat: chat}).toPromise();
+    return response;
+  }
+
   async getChats(userId: string){
     let response = await this._http.post<Chat[]>(GlobalVars.CHATS_BASE_URL + "getChats", {userId: userId}).toPromise();
     return response

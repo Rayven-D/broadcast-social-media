@@ -19,7 +19,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTabsModule } from '@angular/material/tabs'
+import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -95,7 +96,8 @@ import { ChatsComponent } from './shared/chats/chats.component';
     MatSlideToggleModule,
     MatCardModule,
     MatProgressBarModule,
-    MatTabsModule
+    MatTabsModule,
+    DragDropModule
   ],
   providers: [
     DatePipe,

@@ -1,22 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { UserAccounts } from 'functions/src/models/user';
 import { Observable, Subscription } from 'rxjs';
 import { Chat, Message } from 'src/app/models/chats';
+import { Friend } from 'src/app/models/friend';
 import { AccountService } from 'src/app/services/account.service';
 import { ChatsService } from 'src/app/services/chats.service';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-chats',
   templateUrl: './chats.component.html',
-  styleUrls: ['./chats.component.scss']
+  styleUrls: ['./chats.component.scss'],
+  providers: [
+    MatDialog
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChatsComponent implements OnInit {
 
   public chats: Chat[] = [];
   private currentUser: UserAccounts;
   private chatUsers: UserAccounts[] = [];
+  public friendsList: Friend[] = [];
 
 
   public messages$: Observable<DocumentChangeAction<Message>[]>[] = [];
@@ -31,7 +40,9 @@ export class ChatsComponent implements OnInit {
     private _auth: AngularFireAuth,
     private _account: AccountService,
     private _chats: ChatsService,
-    private _firestore: AngularFirestore
+    private _firestore: AngularFirestore,
+    private _friends: FriendsService,
+    private _dialog: MatDialog
   ) { 
 
     this._auth.onAuthStateChanged( async (user) =>{
@@ -68,7 +79,13 @@ export class ChatsComponent implements OnInit {
         if(!this.chatUsers.some( (user) => user.userId === userId))
           this.chatUsers.push(await this._account.getOtherAccount(userId) as UserAccounts)
       })
-    })
+    });
+
+   (this._firestore.doc(`Account/${this.currentUser.userId}`).valueChanges() as Observable<UserAccounts>).subscribe( async account =>{
+      this.chats = await this._chats.getChats(account.userId)
+   })
+
+    this.friendsList = await this._friends.getFriendsList();
 
     this.loaded = true;
   
@@ -135,5 +152,36 @@ export class ChatsComponent implements OnInit {
       elem.focus();
       elem.setSelectionRange(0, elem.value.length);
     }
+  }
+  createChat(friend: Friend){
+    console.log(friend)
+    let newChat: Chat = {
+      chatName: `${this.currentUser.accountName}, ${friend.accountName}`,
+      users: [friend.userId, this.currentUser.userId]
+    }
+    this._chats.createChat(newChat)
+  }
+
+  async deleteChat(chat: Chat){
+    await this._chats.deleteChat(chat);
+    this.edittingName === -1;
+    this.activeChatIndex = -1;
+  }
+
+  async drop(event: CdkDragDrop<Chat[]>){
+      moveItemInArray(this.chats, event.previousIndex, event.currentIndex);
+      moveItemInArray(this.messages, event.previousIndex, event.currentIndex);
+      moveItemInArray(this.messages$, event.previousIndex, event.currentIndex)
+
+      let chatIds: string[] = [];
+
+      this.chats.forEach( chat =>{
+        chatIds.push(chat.chatId as string)
+      })
+
+      await this._firestore.doc(`Account/${this.currentUser.userId}`).update({
+        chats: chatIds
+      })
+      this.activeChatIndex = -1;
   }
 }
