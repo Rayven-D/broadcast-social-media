@@ -8,9 +8,9 @@
      </div>
      <div class="chat-box" *ngFor="let chat of chats; index as i">
         <div class="chat-title" (click)="toggleChat(i)">
-            <input matInput id="title-editing" [ngClass]="edittingName ? 'editing' : ''" [disabled]="!edittingName" type="text" [value]="chat.chatName" (click)="$event.stopPropagation()">
-            <button mat-icon-button *ngIf="activeChatIndex === i" (click)="toggleChatNameEditing(chat); $event.stopPropagation()">
-                <mat-icon>{{edittingName ? "check" : 'edit'}}</mat-icon>
+            <input matInput class="title-editing" [disabled]="edittingName != i" type="text" [value]="chat.chatName" (click)="$event.stopPropagation()">
+            <button mat-icon-button *ngIf="activeChatIndex === i" (click)="toggleChatNameEditing(chat, i); $event.stopPropagation()">
+                <mat-icon>{{edittingName === i ? "check" : 'edit'}}</mat-icon>
             </button>
 
             <div class="chat-overlay" [ngClass]="activeChatIndex >= 0 ? 'open' : ''"></div>

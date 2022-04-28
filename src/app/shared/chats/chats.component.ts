@@ -24,7 +24,7 @@ export class ChatsComponent implements OnInit {
   public activeChatIndex: number = -1;
   public loaded = false;
 
-  public edittingName: boolean = false;
+  public edittingName: number = -1;
   public sendingMessage: boolean = false;
 
   constructor(
@@ -88,7 +88,7 @@ export class ChatsComponent implements OnInit {
     }else{
       this.activeChatIndex = index;
     }
-    this.edittingName = false;
+    this.edittingName = -1;
   }
 
   async sendMessage(chat: Chat, index: number){
@@ -118,9 +118,10 @@ export class ChatsComponent implements OnInit {
     return userId === this.currentUser.userId ? "this-user-sent" : ''
   }
 
-  toggleChatNameEditing(chat?: Chat){
-    let elem = document.getElementById('title-editing') as HTMLInputElement
-    if(this.edittingName){
+  toggleChatNameEditing(chat: Chat, index: number){
+    console.log(index)
+    let elem = document.getElementsByClassName('title-editing')[index] as HTMLInputElement
+    if(this.edittingName >= 0){
       if(chat && elem.value.length){
         if(elem.value !== chat.chatName){
           this._firestore.doc(`Chats/${chat.chatId}`).update({
@@ -128,9 +129,9 @@ export class ChatsComponent implements OnInit {
           })
         }
       }
-      this.edittingName = false;
+      this.edittingName = -1;
     }else{
-      this.edittingName = true;
+      this.edittingName = index;
       elem.focus();
       elem.setSelectionRange(0, elem.value.length);
     }
