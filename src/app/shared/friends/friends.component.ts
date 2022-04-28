@@ -60,7 +60,8 @@ export class FriendsComponent implements OnInit {
           this.getOutgoingRequestUser();
         }
       })
-      this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async () => {
+      this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async (data) => {
+        console.log(data)
         this.friendsList = await this._friends.getFriendsList();
         if(!this.friendsStatus$){
           this.friendsStatus$ = [];
