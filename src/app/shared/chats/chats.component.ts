@@ -154,7 +154,6 @@ export class ChatsComponent implements OnInit {
     }
   }
   createChat(friend: Friend){
-    console.log(friend)
     let newChat: Chat = {
       chatName: `${this.currentUser.accountName}, ${friend.accountName}`,
       users: [friend.userId, this.currentUser.userId]
