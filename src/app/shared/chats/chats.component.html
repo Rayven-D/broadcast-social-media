@@ -1,6 +1,41 @@
- <div class="chat-wrapper">
-     <div class="chat-box" *ngFor="let chat of chats">
-        
+ <div class="chat-wrapper" [ngClass]="activeChatIndex >= 0 ? 'no-scroll' : ''">
+     <div class="chat-create">
+         <button mat-icon-button style="visibility: hidden">
+             <mat-icon>
+                 add_comment
+             </mat-icon>
+         </button>
      </div>
- </div>
+     <div class="chat-box" *ngFor="let chat of chats; index as i">
+        <div class="chat-title" (click)="toggleChat(i)">
+            <input matInput id="title-editing" [ngClass]="edittingName ? 'editing' : ''" [disabled]="!edittingName" type="text" [value]="chat.chatName" (click)="$event.stopPropagation()">
+            <button mat-icon-button *ngIf="activeChatIndex === i" (click)="toggleChatNameEditing(chat); $event.stopPropagation()">
+                <mat-icon>{{edittingName ? "check" : 'edit'}}</mat-icon>
+            </button>
 
+            <div class="chat-overlay" [ngClass]="activeChatIndex >= 0 ? 'open' : ''"></div>
+        </div>
+        <div class="chat-area" [ngClass]="activeChatIndex === i ? '' : 'hidden'">
+            <div class="messages-area">
+                <div class="chat-messages" *ngIf="messages[i] && loaded">
+                    <div class="message" *ngFor="let message of messages[i]" [ngClass]="getIsSender(message.userId)">
+                        <div class="message-sender">
+                            <span>{{getSender(message.userId)}}</span>
+                        </div>
+                        <span>{{message.content}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class='chat-create-message'>
+                <mat-form-field floatLabel="never">
+                    <mat-label>Send message...</mat-label>
+                    <input matInput class="message-to-send" type="text" autocomplete="off" (keyup.enter)="sendMessage(chat, i)">
+                </mat-form-field>
+                <button mat-icon-button [disabled]="sendingMessage" (click)="sendMessage(chat, i)">
+                    <mat-icon *ngIf="!sendingMessage">send</mat-icon>
+                    <mat-progress-spinner diameter="20" *ngIf="sendingMessage" mode="indeterminate" ></mat-progress-spinner>
+                </button>
+            </div>
+        </div>
+    </div>
+ </div>

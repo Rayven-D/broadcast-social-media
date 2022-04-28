@@ -12,6 +12,7 @@ export class AppComponent {
   
   public isMobile: boolean = false;
   public showFriends: boolean = false;
+  public tabIndex: number = 0;
 
   constructor(
     private router: Router,

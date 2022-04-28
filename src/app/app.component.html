@@ -5,13 +5,13 @@
   <div class="content" [ngClass]="showFriends ? 'active' : ''">
     <router-outlet></router-outlet>
   </div>
-  <div class="friends-tab" [ngClass]="showFriends ? 'active' : ''" *ngIf="isMobile">
+  <div class="friends-tab" [ngClass]="showFriends ? 'active' : ''" *ngIf="isMobile" [style.top]="tabIndex === 0 ? '' : '118px'">
     <button mat-icon-button (click)="toggleFriendsTab()">
        <mat-icon>{{showFriends ? "keyboard_arrow_right" : "people"}}</mat-icon>
     </button>
   </div>
-  <div class="side" [ngClass]="showFriends ? 'active' : ''">
-    <mat-tab-group [disablePagination]="true">
+  <div class="side" [ngClass]="showFriends ? 'active' : ''" >
+    <mat-tab-group [disablePagination]="true" [(selectedIndex)]="tabIndex">
       <mat-tab label="Friends"><app-friends></app-friends></mat-tab>
       <mat-tab label="Chats"><app-chats></app-chats></mat-tab>
     </mat-tab-group>

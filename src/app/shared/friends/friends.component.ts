@@ -13,6 +13,8 @@ import { AddFriendComponent } from './add-friend/add-friend.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
 import { Observable } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
+import { ChatsService } from 'src/app/services/chats.service';
+import { Chat } from 'src/app/models/chats';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -35,7 +37,8 @@ export class FriendsComponent implements OnInit {
     private _friends: FriendsService,
     private _dialog: MatDialog,
     private _firestore: AngularFirestore,
-    private _presence: PresenceService
+    private _presence: PresenceService,
+    private _chats: ChatsService
   ) { 
     this._auth.onAuthStateChanged( async (user) =>{
       if(user){
@@ -61,7 +64,6 @@ export class FriendsComponent implements OnInit {
         }
       })
       this._firestore.collection(`Account/${this.currentUser.userId}/Friends`).stateChanges(['added', 'removed']).subscribe( async (data) => {
-        console.log(data)
         this.friendsList = await this._friends.getFriendsList();
         if(!this.friendsStatus$){
           this.friendsStatus$ = [];
@@ -130,6 +132,14 @@ export class FriendsComponent implements OnInit {
         }
       })
     }
+  }
+
+  createChat(friend: Friend){
+    let newChat: Chat = {
+      chatName: `${this.currentUser.accountName}, ${friend.accountName}`,
+      users: [friend.userId, this.currentUser.userId]
+    }
+    this._chats.createChat(newChat)
   }
 
 }
