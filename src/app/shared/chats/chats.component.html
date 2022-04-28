@@ -1,0 +1,55 @@
+ <div class="chat-wrapper" [ngClass]="activeChatIndex >= 0 ? 'no-scroll' : ''">
+     <div class="chat-create">
+         <button mat-icon-button [mat-menu-trigger-for]="createChatMenu">
+             <mat-icon>
+                 add_comment
+             </mat-icon>
+         </button>
+
+         <mat-menu #createChatMenu="matMenu">
+             <button mat-menu-item *ngFor="let friend of friendsList" (click)="createChat(friend)" style="display:flex; align-items:center; gap: 10px;"> 
+                <img style="height: 25px; aspect-ratio: 1 / 1; border-radius: 15px;"[src]="friend.imageURL"> 
+                {{friend.accountName}}
+                </button>
+         </mat-menu>
+     </div>
+     <div class="chats" cdkDropList [cdkDropListData]="chats" (cdkDropListDropped)="drop($event)" #chatlist="cdkDropList">
+         <div class="chat-box" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="activeChatIndex > -1 || edittingName > -1" *ngFor="let chat of chats; index as i">
+            <div class="chat-title" (click)="toggleChat(i)">
+                <input matInput style="font-weight: 600; color:white;"class="title-editing" [disabled]="edittingName != i" type="text" [value]="chat.chatName" (click)="$event.stopPropagation()">
+                <button mat-icon-button *ngIf="activeChatIndex === i" (click)="toggleChatNameEditing(chat, i); $event.stopPropagation()">
+                    <mat-icon>{{edittingName === i ? "check" : 'edit'}}</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="activeChatIndex === i" (click)="deleteChat(chat); $event.stopPropagation()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+    
+                <div class="chat-overlay" [ngClass]="activeChatIndex >= 0 ? 'open' : ''"></div>
+            </div>
+            <div class="chat-area" [ngClass]="activeChatIndex === i ? '' : 'hidden'">
+                <div class="messages-area">
+                    <div class="chat-messages" *ngIf="messages[i] && loaded">
+                        <div class="message" *ngFor="let message of messages[i]" [ngClass]="getIsSender(message.userId)">
+                            <div class="message-sender">
+                                <span>{{getSender(message.userId)}}</span>
+                            </div>
+                            <span>{{message.content}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class='chat-create-message'>
+                    <mat-form-field floatLabel="never">
+                        <mat-label>Send message...</mat-label>
+                        <input matInput class="message-to-send" type="text" autocomplete="off" (keyup.enter)="sendMessage(chat, i)">
+                    </mat-form-field>
+                    <button mat-icon-button [disabled]="sendingMessage" (click)="sendMessage(chat, i)">
+                        <mat-icon *ngIf="!sendingMessage">send</mat-icon>
+                        <mat-progress-spinner diameter="20" *ngIf="sendingMessage" mode="indeterminate" ></mat-progress-spinner>
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+ </div>
+

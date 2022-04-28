@@ -31,6 +31,7 @@
                     </span>
                 </div>
                 <mat-menu #friendMenu="matMenu">
+                    <button mat-menu-item (click)="createChat(friend)">Start Chat</button>
                     <button mat-menu-item [routerLink]="['/profile', friend.accountName]" [state]="{account: friend}">View Profile</button>
                     <button mat-menu-item (click)="deleteFriend(friend.userId)">Remove Friend</button>
                 </mat-menu>
@@ -43,6 +44,7 @@
                 </button>
                 <mat-menu #requestMenu="matMenu">
                     <button mat-menu-item (click)="cancelRequest(request.userId)">Cancel Friend Request</button>
+
                 </mat-menu>
             </mat-list-item>  
         </mat-list>
