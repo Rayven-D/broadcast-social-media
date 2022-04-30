@@ -11,7 +11,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { LoginComponent } from '../views/login/login.component';
 
-describe( 'Login Incorrect and Correctly and Logout User', () =>{
+describe( 'Login Incorrectly', () =>{
 
     beforeEach( async() =>{
         await TestBed.configureTestingModule({
@@ -19,6 +19,7 @@ describe( 'Login Incorrect and Correctly and Logout User', () =>{
                 Overlay,
                 AngularFireAuth,
                 PresenceService,
+                LoginService
             ],
             imports:[
                 HttpClientTestingModule,
@@ -32,21 +33,71 @@ describe( 'Login Incorrect and Correctly and Logout User', () =>{
     })
 
     it('Login with incorrect info should fail', inject([LoginService], async (_login: LoginService) =>{
-        let response = await _login.loginUser('yathartha.floyd@gmail.com', 'wrongpassword123');
-        expect(response).toBeFalse();
+        try{
+            let response = await _login.loginUser('yathartha.floyd@gmail.com', 'wrongpassword123');
+            expect(response).toBeFalse();
+        }catch(error){
+            expect(error).toBeTruthy();
+        }
     }))
+});
+
+describe( 'Login Correctly', () =>{
+
+    beforeEach( async() =>{
+        await TestBed.configureTestingModule({
+            providers:[
+                Overlay,
+                AngularFireAuth,
+                PresenceService,
+                LoginService
+            ],
+            imports:[
+                HttpClientTestingModule,
+                RouterTestingModule.withRoutes([
+                    {path: 'login', component: LoginComponent}
+                ]),
+                AngularFireModule.initializeApp(environment.firebaseConfig),
+                provideAuth( () => getAuth()),
+            ]
+        })
+    })
 
     it('Login with correct info should succeed', inject([LoginService], async (_login: LoginService) =>{
-        let response = await _login.loginUser('yathartha.floyd@gmail.com', 'hardyman96');
-        expect(response).toBeTrue();
+        try{
+            let response = await _login.loginUser('yathartha.floyd@gmail.com', 'hardyman96');
+            expect(response).toBeTrue();
+        }catch(error){
+            expect(error).toBeFalsy()
+        }
     }))
+})
+
+describe( 'Logout User', () =>{
+
+    beforeEach( async() =>{
+        await TestBed.configureTestingModule({
+            providers:[
+                Overlay,
+                AngularFireAuth,
+                PresenceService,
+                LoginService
+            ],
+            imports:[
+                HttpClientTestingModule,
+                RouterTestingModule.withRoutes([
+                    {path: 'login', component: LoginComponent}
+                ]),
+                AngularFireModule.initializeApp(environment.firebaseConfig),
+                provideAuth( () => getAuth()),
+            ]
+        })
+    })
 
     it('Logout user will return to login screen', inject([LoginService, Router, AngularFireAuth ], async (_login: LoginService, _router: Router, _auth: AngularFireAuth) =>{
         await _login.loginUser('yathartha.floyd@gmail.com', 'hardyman96');
         await _auth.currentUser;
         await _login.logoutUser()
         expect(_router.url).toEqual('/login');
-        
-        
     }))
 })
