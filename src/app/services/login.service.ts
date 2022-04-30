@@ -32,9 +32,13 @@ export class LoginService {
   }
 
   async logoutUser(){
-    await this._auth.signOut();
-    this._presence.setPresence('offline')
-    this._router.navigate(['/login'])
+    try{
+      await this._auth.signOut();
+      this._presence.setPresence('offline')
+      this._router.navigate(['/login'])
+    }catch(error){
+      console.log(error)
+    }
   }
 
   async createNewUser(newUser: UserAccounts, password:string){
