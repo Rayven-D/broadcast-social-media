@@ -22,13 +22,18 @@
                     </div>
                 </div>
                 <span>{{friend.accountName}}</span>
-                <div class="friends-since">
-                    <span class="header">
-                        Friends Since
-                    </span>
-                    <span class="date">
-                        {{friend.since}}
-                    </span>
+                <div class="friends-playing" *ngIf="friendsStatus$[i] | async as playing">
+                    <div class="currently-listening" *ngIf="playing.currentlyListening" (click)="playSong(playing.currentlyListening); $event.stopPropagation()" matTooltip="Play Song">
+                        <div class="currently-listening-info">
+                            <img *ngIf="playing.currentlyListening" [src]="playing.currentlyListening!.album.images[0].url">
+                            <div class="currently-listening-text">
+                                <span class="currently-listening-name">{{playing.currentlyListening.name}}</span>
+                                <span>
+                                    <span class="currently-listening-artist" *ngFor="let artist of playing.currentlyListening.artists">{{artist.name}}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <mat-menu #friendMenu="matMenu">
                     <button mat-menu-item (click)="createChat(friend)">Start Chat</button>
@@ -81,5 +86,9 @@
                 </div>
             </mat-list-item> 
         </mat-list>
+</ng-template>
+
+<ng-template #cantPlaySong>
+    <span>Please enable Spotify or reverify Spotify to play your friend's songs</span>
 </ng-template>
 

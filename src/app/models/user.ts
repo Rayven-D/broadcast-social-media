@@ -1,3 +1,5 @@
+import { Track } from "./spotify";
+
 export interface UserAccounts{
     userId: string,
     firstName: string,
@@ -6,5 +8,6 @@ export interface UserAccounts{
     accountName: string,
     email: string,
     imageURL?: string,
-    status?: "offline" | "online" | "away"
+    status?: "offline" | "online" | "away",
+    currentlyListening?: Track
 }
