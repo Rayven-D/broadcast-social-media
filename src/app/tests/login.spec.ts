@@ -13,6 +13,7 @@ import { LoginComponent } from '../views/login/login.component';
 
 describe( 'Login Incorrectly', () =>{
 
+    jasmine.getEnv().configure({random: false})
     beforeEach( async() =>{
         await TestBed.configureTestingModule({
             providers:[

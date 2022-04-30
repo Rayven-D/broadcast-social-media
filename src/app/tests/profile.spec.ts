@@ -25,6 +25,9 @@ describe( 'Navigate to current user profile page', () =>{
         userId: 'QFoNMUhAKmMAZHXgAMRVOsRaZ4t2',
         imageURL: 'https://firebasestorage.googleapis.com/v0/b/broadcast-seniorcapstone.appspot.com/o/default.jpeg?alt=media&token=1996ce6b-dee6-4cd4-b743-5ee4fe9b1a4c'
     }
+
+    jasmine.getEnv().configure({random: false})
+
     beforeEach( async () =>{
         await TestBed.configureTestingModule({
             declarations:[
