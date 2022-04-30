@@ -112,6 +112,41 @@
             border-radius: 25px;
         }
 
+        .friends-playing{
+
+            margin-left: auto;
+            z-index: 3;
+            .currently-listening{
+                width: 100%;
+                overflow: hidden;
+                .currently-listening-info{
+                    width: fit-content;
+                    display:flex;
+                    gap: 5px;
+                    img{
+                        height: 20px;
+                    }
+                    .currently-listening-text{
+                        width: 100px;
+                        display:flex;
+                        flex-direction: column;
+                        overflow:hidden;
+
+                        span{
+                            width: fit-content;
+                            font-size: 9px;
+                            white-space: nowrap;
+                            animation: friends-slider 10s linear infinite;
+
+                            .currently-listening-artist:not(:last-child)::after{
+                                content: ', ';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         span{
             color:white;
             font-size: 20px;
@@ -128,20 +163,6 @@
 
     .friends{
         cursor: pointer;
-        .friends-since{
-            margin-left:auto;
-            display:flex;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: center;
-
-            .header{
-                font-size:9px;
-            }
-            .date{
-                font-size:13px;
-            }
-        }
 
         .image{
             img{
@@ -175,14 +196,24 @@
     .friends-list{
         span{
             font-size: 13px;
-        }
-        .friends-since{
-            .header{
-                font-size:8px;
-            }
-            .date{
-                font-size:10px;
-            }
+            max-width: 80px;
         }
     }
 }
+
+@keyframes friends-slider{
+    0%{
+        transform: translateX(0);
+
+    }
+    50%{
+        transform: translateX(0);
+ 
+     } 
+     90%{
+        transform: translateX(min(0%, calc(-100% + 100px)));
+     }
+     100%{
+        transform: translateX(min(0%, calc(-100% + 100px)));
+     }
+ }
