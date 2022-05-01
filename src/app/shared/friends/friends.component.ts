@@ -15,12 +15,21 @@ import { Observable } from 'rxjs';
 import { PresenceService } from 'src/app/services/presence.service';
 import { ChatsService } from 'src/app/services/chats.service';
 import { Chat } from 'src/app/models/chats';
+import { Track } from 'src/app/models/spotify';
+import { SpotifyService } from 'src/app/services/spotify.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.scss']
+  styleUrls: ['./friends.component.scss'],
+  providers:[
+    MatSnackBar
+  ]
+
 })
 export class FriendsComponent implements OnInit {
+  @ViewChild('cantPlaySong') cantPlaySong: TemplateRef<any>;
+  
   public friendsList: Friend[] = [];
   public friendsListFiltered: Friend[] = [];
   public incomingFriendRequests: FriendRequest[] = [];
@@ -38,7 +47,9 @@ export class FriendsComponent implements OnInit {
     private _dialog: MatDialog,
     private _firestore: AngularFirestore,
     private _presence: PresenceService,
-    private _chats: ChatsService
+    private _chats: ChatsService,
+    private _spotify: SpotifyService,
+    private _snackbar: MatSnackBar
   ) { 
     this._auth.onAuthStateChanged( async (user) =>{
       if(user){
@@ -140,6 +151,18 @@ export class FriendsComponent implements OnInit {
       users: [friend.userId, this.currentUser.userId]
     }
     this._chats.createChat(newChat)
+  }
+
+  playSong(track: Track){
+    let webApi = this._spotify.getSpotifyWebApi
+    if(webApi){
+      let thisDevice = this._spotify.getDeviceId
+      webApi.player.play({uris: [track.uri], device_id: thisDevice});
+    }else{
+      this._snackbar.openFromTemplate(this.cantPlaySong,{
+        duration: 5000
+      })
+    }
   }
 
 }

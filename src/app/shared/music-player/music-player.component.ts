@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
-import { Track } from 'src/app/models/spotify';
+import { Artist, Track } from 'src/app/models/spotify';
 import { BehaviorSubject } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserAccounts } from 'src/app/models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-music-player',
@@ -43,8 +44,8 @@ export class MusicPlayerComponent implements OnInit {
     private _spotify: SpotifyService,
     private _account:AccountService,
     private _ref: ChangeDetectorRef,
-    private _snackbar: MatSnackBar
-    
+    private _snackbar: MatSnackBar,
+    private _firestore: AngularFirestore
   ) { }
 
   ngOnInit(): void {
@@ -76,11 +77,17 @@ export class MusicPlayerComponent implements OnInit {
           return;
         if(this.track && this.track.id !== track!.id){
           this.track = track
+          this._firestore.doc(`Account/${this.currentUser.userId}`).update({
+            currentlyListening: this.track
+          })
           if(this.hidden)
             this.tempHidden();
         }
         else if(!this.track){
           this.track = track
+          this._firestore.doc(`Account/${this.currentUser.userId}`).update({
+            currentlyListening: this.track
+          })
           if(this.hidden)
             this.tempHidden();
         }
@@ -144,12 +151,20 @@ export class MusicPlayerComponent implements OnInit {
         this.progress = state.position;
         this.progressionUpdates();
         let temp = state.track_window.current_track;
+        let tempArtists: Artist[] = [];
+        temp.artists.forEach( artist =>{
+          tempArtists.push({
+            id: "",
+            name: artist.name,
+            uri: artist.uri
+          })
+        })
         let tempTrack: Track = {
           id: temp.id as string,
           name: temp.name,
           uri: temp.uri,
           duration_ms: state.duration,
-          artists: [],
+          artists: tempArtists,
           album:{
             uri: temp.album.uri,
             name: temp.album.name,
