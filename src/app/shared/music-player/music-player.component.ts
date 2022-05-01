@@ -159,14 +159,6 @@ export class MusicPlayerComponent implements OnInit {
             artists: []
           }
         };
-
-        temp.artists.forEach( (artist) =>{
-          tempTrack.artists.push({
-            uri: artist.uri,
-            name: artist.name,
-            id: ''
-          })
-        })
         this.$trackSub.next(tempTrack);
         this._ref.detectChanges();
       });
