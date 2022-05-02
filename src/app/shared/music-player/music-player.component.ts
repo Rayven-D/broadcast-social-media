@@ -8,6 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { UserAccounts } from 'src/app/models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-music-player',
@@ -45,7 +46,8 @@ export class MusicPlayerComponent implements OnInit {
     private _account:AccountService,
     private _ref: ChangeDetectorRef,
     private _snackbar: MatSnackBar,
-    private _firestore: AngularFirestore
+    private _firestore: AngularFirestore,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -59,8 +61,6 @@ export class MusicPlayerComponent implements OnInit {
         clearInterval(interval);
       }
     },500)
-
-
   }
 
   async init(){
@@ -178,6 +178,14 @@ export class MusicPlayerComponent implements OnInit {
         this._ref.detectChanges();
       });
       player.connect();
+
+      this._router.events.subscribe( (event) =>{
+        if(event instanceof NavigationEnd){
+          if(event.url.includes('login')){
+            player.disconnect();
+          }
+        }
+      })
 
       this.playerInit = true;
     }
