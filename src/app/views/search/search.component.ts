@@ -8,6 +8,7 @@ import { SpotifyWebApi } from 'spotify-web-api-ts'
 import { Track } from 'src/app/models/spotify';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { STATUS_CODES } from 'http';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -23,8 +24,15 @@ export class SearchComponent implements OnInit {
   private currentUser: UserAccounts;
   private spotify: SpotifyWebApi;
 
-  private playerInitialized: boolean = false;
-  private browserDeviceId: string;
+  public linkSpotifyControlGroup: FormGroup = new FormGroup( {
+    spotifyEmail: new FormControl("",[
+      Validators.email,
+      Validators.required
+    ]),
+    spotifyUsername: new FormControl("",[
+      Validators.required,
+    ])
+  })
 
 
   public tracks: Track[] = [];
@@ -44,8 +52,10 @@ export class SearchComponent implements OnInit {
       if(this.currentUser){
         if(! (await this._spotify.getAccessToken(this.currentUser.userId)))
             this.canSearch = false;
-        this.spotify = this._spotify.getSpotifyWebApi;
-        this.isLoaded = true;
+        if(this.canSearch){
+          this.spotify = this._spotify.getSpotifyWebApi;
+          this.isLoaded = true;
+        }
         clearInterval(interval)
       }
     }, 500)
@@ -93,9 +103,11 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  async linkSpotify(){
-    await this._spotify.linkSpotifyAccount(this.currentUser.userId);
-    location.reload();
+  async requestSpotify(form: FormGroupDirective){
+    if(this.linkSpotifyControlGroup.invalid)
+      return;
+    
+    
   }
 
 }

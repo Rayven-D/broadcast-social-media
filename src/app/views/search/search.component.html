@@ -31,12 +31,25 @@
 <ng-template #spotifyPremiumRequired>
     <div class="cannot-search-wrapper">
         <div class="text">
-            <span>You need to link your Spotify premium account to use this feature</span>
+            <span>You need to request us to your Spotify premium account to use this feature</span>
         </div>
-        <div class="buttons">
-            <button mat-raised-button (click)="linkSpotify()">
-                Link Spotify 
-            </button>
+        <div class="spotify-info">
+            <form [formGroup]="linkSpotifyControlGroup" #spotifyForm="ngForm" (ngSubmit)="requestSpotify(spotifyForm)">
+                <mat-form-field >
+                    <mat-label>Spotify Username</mat-label>
+                    <input matInput type="text" id="spotify-username" formControlName="spotifyUsername" (submit)="requestSpotify(spotifyForm)">
+                    <mat-error *ngIf="linkSpotifyControlGroup.get('spotifyUsername')!.invalid">Please enter your spotify username</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Spotify Email</mat-label>
+                    <input matInput type="email" id="spotify-email" formControlName="spotifyEmail" (submit)="requestSpotify(spotifyForm)">
+                    <mat-error *ngIf="linkSpotifyControlGroup.get('spotifyEmail')!.invalid">Please enter your spotify email</mat-error>
+
+                </mat-form-field>
+                <button mat-raised-button (click)="requestSpotify(spotifyForm)">
+                    Request to Use Spotify
+                </button>
+            </form>
         </div>
     </div>
 </ng-template>
