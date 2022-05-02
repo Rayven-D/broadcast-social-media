@@ -10,6 +10,7 @@ import { Friend } from 'src/app/models/friend';
 import { AccountService } from 'src/app/services/account.service';
 import { ChatsService } from 'src/app/services/chats.service';
 import { FriendsService } from 'src/app/services/friends.service';
+import { GlobalVars } from 'src/app/services/global-vars';
 
 @Component({
   selector: 'app-chats',
@@ -35,6 +36,8 @@ export class ChatsComponent implements OnInit {
 
   public edittingName: number = -1;
   public sendingMessage: boolean = false;
+
+  public isMobile: boolean = GlobalVars.IS_MOBILE;
 
   constructor(
     private _auth: AngularFireAuth,

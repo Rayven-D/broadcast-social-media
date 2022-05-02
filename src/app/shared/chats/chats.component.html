@@ -14,7 +14,7 @@
          </mat-menu>
      </div>
      <div class="chats" cdkDropList [cdkDropListData]="chats" (cdkDropListDropped)="drop($event)" #chatlist="cdkDropList">
-         <div class="chat-box" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="activeChatIndex > -1 || edittingName > -1" *ngFor="let chat of chats; index as i">
+         <div class="chat-box" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="activeChatIndex > -1 || edittingName > -1 || isMobile" *ngFor="let chat of chats; index as i">
             <div class="chat-title" (click)="toggleChat(i)">
                 <input matInput style="font-weight: 600; color:white;"class="title-editing" [disabled]="edittingName != i" type="text" [value]="chat.chatName" (click)="$event.stopPropagation()">
                 <button mat-icon-button *ngIf="activeChatIndex === i" (click)="toggleChatNameEditing(chat, i); $event.stopPropagation()">

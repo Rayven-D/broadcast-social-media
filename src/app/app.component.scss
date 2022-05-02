@@ -112,6 +112,7 @@
 
     .friends-tab.active{
         transform:translateX( calc(-100vw + 40px));
+        border-radius: 0 10px 10px 0;
     }
 
     .side{
@@ -128,6 +129,7 @@
 
     .side.active{
         transform: translateX(0);
+
     }
 
     .login-screen{
