@@ -35,8 +35,8 @@ export class AppComponent {
 
   }
   
-  get currRoute(): string{
-    return this.router.url;
+  get offMainRoute(): boolean{
+    return this.router.url === '/login' || this.router.url.includes('spotify-redirect');
   }
   title = 'Broadcast';
 
