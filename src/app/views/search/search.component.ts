@@ -1,6 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { SpotifyGrant } from 'functions/src/models/spotify';
 import { UserAccounts } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
@@ -9,6 +7,7 @@ import { Track } from 'src/app/models/spotify';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { STATUS_CODES } from 'http';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Chat, Message } from 'src/app/models/chats';
 
 @Component({
   selector: 'app-search',
@@ -107,7 +106,24 @@ export class SearchComponent implements OnInit {
     if(this.linkSpotifyControlGroup.invalid)
       return;
     
+    let username = form.value.spotifyUsername;
+    let email = form.value.spotifyEmail;
+
+    console.log(username, email)
+
+    let newChat: Chat = {
+      chatName: `User ${this.currentUser.accountName} is requesting Spotify Access`,
+      users: [this.currentUser.userId]
+    }
+
+    let newMsg: Message = {
+      userId: this.currentUser.userId,
+      content:`Username: ${username} | Email: ${email}`,
+    }
+
+    let sendRequests = await this._spotify.requestSpotifyAccess(newChat, newMsg);
     
+  
   }
 
 }
