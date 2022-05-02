@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SpotifyGrant } from '../models/spotify';
 import { GlobalVars } from './global-vars';
 import { SpotifyWebApi } from 'spotify-web-api-ts'
+import { Chat, Message } from '../models/chats';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,11 @@ export class SpotifyService {
       this.spotifyWebApi = new SpotifyWebApi({accessToken: this.token.access_token})
     }
     return this.token;
+  }
+
+  async requestSpotifyAccess(chat: Chat, message: Message){
+    let request = await this._http.post(GlobalVars.SPOTIFY_BASE_URL + 'requestSpotifyAccess', {chat: chat, message: message}).toPromise();
+    return request;
   }
 
   

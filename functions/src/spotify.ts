@@ -4,7 +4,8 @@ import * as functions from "firebase-functions";
 import { firebaseConfig } from './config';
 import {SpotifyWebApi} from 'spotify-web-api-ts'
 import { SpotifyGrant } from "./models/spotify";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { Chat, Message } from "./models/chats";
 
 var spotifyApi = new SpotifyWebApi({
     clientId: functions.config().spotify.client_id,
@@ -91,6 +92,47 @@ export const refreshAccessToken = functions.https.onRequest( (req,res) =>{
             console.log("No UserId provided")
             res.send(false)
         }
+
+    })
+})
+
+export const requestSpotifyAccess = functions.https.onRequest( (req,res) =>{
+    cors(req, res, async() =>{
+        let chat = req.body.chat as Chat;
+        let message = req.body.message as Message;
+
+
+        try{
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            chat.users.push('6Ifrm1QPK7R5I9ms5SWBMlhuECP2');
+
+            const docRef = await addDoc(collection(db, 'Chats'), chat);
+            let chatId = docRef.id;
+
+            await updateDoc( docRef, {
+                chatId: chatId
+            })
+
+            chat.users.forEach( async (user) =>{
+                await updateDoc(doc(db, 'Account', user),{
+                    chats: arrayUnion(chatId)
+                })
+            })
+
+            message.timestamp = new Date();
+
+            await addDoc( collection(db, 'Chats', chatId, 'Messages'), message);
+
+            res.send(true);
+            
+        }catch(error){
+            console.log(error);
+            console.log("Failed to send Spotify Access Request")
+            res.send(false)
+        }
+            
 
     })
 })
